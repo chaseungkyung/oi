@@ -33,7 +33,7 @@
 			<div>
 				<ul class="nav justify-content-center">
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="#" id="login">로그인</a></li>
+						aria-current="page" href="${pageContext.request.contextPath}/access/login" id="login">로그인</a></li>
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="#" id="register">회원가입</a></li>
 				</ul>
@@ -44,7 +44,7 @@
 			<li class="nav-item dropdown">
 				<button class="btn dropdown-toggle" data-bs-toggle="dropdown"
 					aria-expanded="false">
-					<img alt="사진" src="#"><span>${sessionScope.member.username}
+					<img alt="사진" src="#"><span>${sessionScope.member.nickname}
 						님 반갑습니다</span>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-white">
