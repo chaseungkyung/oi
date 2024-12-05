@@ -43,9 +43,22 @@ public class LoginController {
 			return mav;
 		}
 		
+		session.setMaxInactiveInterval(60*30);
 		session.setAttribute("member", dto);
 		
 		mav = new ModelAndView("redirect:/main");
 		return mav;
 	}
+	
+	// 로그아웃 
+	@RequestMapping(value="/access/logout" , method = RequestMethod.GET)
+	public ModelAndView logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView("redirect:/main");
+		
+		HttpSession session =  req.getSession();
+		session.invalidate();
+		
+		return mav;
+	}
+
 }

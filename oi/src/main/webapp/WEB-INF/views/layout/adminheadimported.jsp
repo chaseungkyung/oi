@@ -5,6 +5,7 @@
 <!-- bootstap 이랑 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/icon/bootstrap-icons.css" type="text/css">
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/admin_layout.css">
 
 
@@ -15,3 +16,6 @@
 
 <!-- jquery -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/jquery/js/jquery.min.js"></script>
+
+<!--  bootstrap script -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap5/js/bootstrap.bundle.min.js"></script>
