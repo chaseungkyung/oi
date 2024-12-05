@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
     <div class="container-fluid mb-2 p-3 bg-dark text-white d-flex align-items-center justify-content-center">
         <h2 class="fs-4 fw-bold">관리자 페이지</h2>
-        <img src="/resources/images/logo4.svg" alt="logo SVG" class="logo"/>
+        <img src="${pageContext.request.contextPath}/resources/images/logo4.svg" alt="logo SVG" class="logo"/>
     </div>
 		
         <nav class="vertical-nav">

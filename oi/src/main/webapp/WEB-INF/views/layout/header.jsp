@@ -4,7 +4,7 @@
 <div
 	class="container-fluid d-flex align-items-center justify-content-center">
 	<div class="logo">
-		<img alt="로고" src="/resources/images/logo3.svg">
+		<img alt="로고" src="${pageContext.request.contextPath}/resources/images/logo3.svg">
 	</div>
 	<ul class="nav justify-content-center">
 		<li class="nav-item"><a class="nav-link active"
