@@ -1,0 +1,33 @@
+@charset "UTF-8";
+* {
+	padding: 0;
+	margin: 0;
+}
+
+div#login {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+div#formcover {
+	margin-top: 150px;
+	width: 800px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+div>form[name=loginForm] {
+	margin-top: 50px;
+	padding: 50px;
+	border: 1px solid black;
+}
+
+div#btncover{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top:20px; 
+}
