@@ -9,9 +9,11 @@
 <title>OI</title>
 <jsp:include page="/WEB-INF/views/layout/headimported.jsp"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/main_layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/footer_layout.css">
 </head>
 <body>
 <header><jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include></header>
+
 	<div class="container-fluid">
 		<div class="ad-container container-fluid">
 			<div class="ad-photo container "></div>
@@ -71,8 +73,11 @@
 			</div>
 		</div>
 	</div>
+	
 <footer>
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/footerimported.jsp"/>
 </footer>
+
 </body>
 </html>

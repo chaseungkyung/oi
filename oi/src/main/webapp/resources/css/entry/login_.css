@@ -1,33 +1,92 @@
-@charset "UTF-8";
 * {
-	padding: 0;
-	margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 div#login {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin-top: -60px;
 }
 
 div#formcover {
-	margin-top: 150px;
-	width: 800px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    width: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 div>form[name=loginForm] {
-	margin-top: 50px;
-	padding: 50px;
-	border: 1px solid black;
+    width: 500px;
+    padding: 50px;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-div#btncover{
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-top:20px; 
+.form-control {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+div#btncover {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+div#errormsg {
+    text-align: center;
+    color: #dc3545;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.btn-login {
+    width: 150px;
+    border-radius: 8px;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+    border-radius: 25px;
+    background-color: #4CAF50;
+    color: white !important;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-login:hover {
+    background-color: #198754;
+    color: white !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+div#signup-msg {
+    text-align: center;
+    color: #888888;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+div#signup-msg a {
+    color: #4CAF50;
+    text-decoration: none;
+    margin-left: 8px;
+    font-weight: 500;
+}
+
+div#signup-msg a:hover {
+    text-decoration: underline;
 }

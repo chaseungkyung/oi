@@ -15,20 +15,22 @@
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp"/></header>
 
 	<div id="login">
-		<div id="formcover">
-			<form name="loginForm" method="post">
-				<label for="idinput" class="form-label">Id</label> <input
-					type="text" id="idinput" name="userid" class="form-control"
-					aria-describedby="passwordHelpBlock"> <label
-					for="inputPassword" class="form-label">Password</label> <input
-					type="password" id="inputPassword" name="userpwd" class="form-control"
-					aria-describedby="passwordHelpBlock">
-				<div id="btncover">
-				<div id="errormsg">${msg}</div>
-				<button type="button" class="btn btn-outline-success" style="color: black;" onclick="submit();">Success</button>
-				</div>
-			</form>
-		</div>
-	</div>
+    <div id="formcover">
+        <form name="loginForm" method="post">
+            <label for="idinput" class="form-label">아이디</label> 
+            <input type="text" id="idinput" name="userid" class="form-control" aria-describedby="passwordHelpBlock"> 
+            <label for="inputPassword" class="form-label">비밀번호</label> 
+            <input type="password" id="inputPassword" name="userpwd" class="form-control" aria-describedby="passwordHelpBlock">
+            <div id="btncover">
+                <div id="errormsg">${msg}</div>
+                <button type="button" class="btn-login btn-outline-success" style="color: black;" onclick="submit();">Success</button>
+            </div>
+            <div id="signup-msg">
+                아직 오이 회원이 아니신가요?
+                <a href="${pageContext.request.contextPath}/">회원가입</a>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

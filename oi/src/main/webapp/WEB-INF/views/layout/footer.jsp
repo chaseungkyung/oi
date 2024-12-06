@@ -1,9 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
-
 <div class="container-fluid">
-    <ul class="nav justify-content-center p-2">  <!-- padding 축소 -->
+    <ul class="nav-footer justify-content-center p-2 display: flex;">
         <li class="nav-item"><a class="text-reset text-decoration-none" href="#">Oi 정책 및 약관</a></li>
         <li class="nav-item"><span>&nbsp;&middot;&nbsp;</span></li>
         <li class="nav-item"><a class="text-reset text-decoration-none" href="#">제휴제안</a></li>
