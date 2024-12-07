@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OI</title>
 <jsp:include page="/WEB-INF/views/layout/headimported.jsp"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/main_layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/main_layout.css"> 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/footer_layout.css">
 </head>
 <body>
@@ -73,7 +73,8 @@
 			</div>
 		</div>
 	</div>
-	
+
+
 <footer>
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/layout/footerimported.jsp"/>
