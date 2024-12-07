@@ -1,0 +1,51 @@
+@charset "UTF-8";
+* {
+	padding: 0px;
+	margin: 0px;
+	box-sizing: border-box;
+}
+body > main {
+	width: 100vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+main > div#wtdmain{
+	margin-top: 50px;
+	width: 580px;
+}
+main > div#wtdmainheader {
+	margin-right: 300px;
+}
+div#wtdheadertext {
+	margin-top: 10px;
+}
+
+
+
+div#wtdmaincontent {
+	margin-top: 10px;
+	width: 100%;
+}
+div.contentborder {
+	border: 1px solid lightgray;
+}
+div.contentpadding {
+	padding: 5px;
+}
+table.headtable , table.bodytable{
+	width: 100%;
+}
+table.headtable > thead > tr > td:nth-child(3) {
+	text-align: right;
+}
+div.contentdiv {
+	margin-top:5px;
+	width: 100%;
+	border: none;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+
