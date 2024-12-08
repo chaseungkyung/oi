@@ -28,6 +28,7 @@
 					</button>
 					<ul class="dropdown-menu dropdown-menu-white">
 						<li><a class="dropdown-item" href="#">마이페이지</a></li>
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/completerecordmeal/main">기록</a></li>
 						<c:if test="${sessionScope.member.userLevel > 50}">
 							<li><a class="dropdown-item" href="#">관리자페이지</a></li>
 						</c:if>

@@ -1,0 +1,45 @@
+@charset "UTF-8";
+* { margin: 0; padding: 0; box-sizing: border-box;}
+
+/* layout */
+.calendar { width: 280px; margin: 30px auto; }
+
+.title1{ width: 50%; margin: 30px auto;}
+.title2 { display: flex;}
+
+button {
+	display : flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	border-radius : 10px;
+	cursor: pointer;
+	font-size : 30px;
+	font-weight: bold;
+	color: green;
+	font-family: Noto Sans KR, 돋움, sans-serif;
+}
+
+button.record {
+  width: 300px;	
+  height: 400px; 
+  background-color:#EDF9D0 ; 	
+  margin: 20px; 
+  position: relative; 	/* 이미지 배치 */
+}
+
+button.record img {
+  position: absolute; 	/* 버튼 안에서 이미지 배치 */
+  top: 20px; 
+  width: 150px; 		/* 이미지 너비 */
+  height: 150px;
+}
+
+/* 캘린더 버튼 */
+button.calendar {
+  width: 620px;	
+  height: 60px;	
+  background-color: #CFDD92;
+  margin-top: 20px;
+}
