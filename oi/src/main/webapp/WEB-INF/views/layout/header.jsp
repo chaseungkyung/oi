@@ -1,81 +1,92 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
-<nav class="navbar navbar-expand-lg navbar-light">
-	<div class="container">
+<div class="container-fluid header-container">
+	<nav class="navbar navbar-expand-lg navbar-light">
+		<div class="container">
 
 
-		<a class="navbar-brand me-auto" href="#" style="padding: 15px 10px;"><img
-			alt="Brand"
-			src="${pageContext.request.contextPath}/resources/images/logo3.svg"
-			class="bi" style="height: 30px; width: auto;"></a>
+			<a class="navbar-brand me-auto" href="#" style="padding: 15px 10px;"><img
+				alt="Brand"
+				src="${pageContext.request.contextPath}/resources/images/logo3.svg"
+				class="bi" style="height: 50px; width: auto;"></a>
 
 
 
-		<ul class="navbar-nav flex-nowrap d-flex flex-row ms-auto">
-			<c:if test="${empty sessionScope.member}">
-				<li class="nav-item"><a class="nav-link" aria-current="page"
-					href="${pageContext.request.contextPath}/access/login" id="login">로그인</a></li>
-				<li class="nav-item"><a class="nav-link" aria-current="page"
-					href="#" id="register">회원가입</a></li>
-			</c:if>
-			<c:if test="${not empty sessionScope.member}">
-				<li class="nav-item dropdown">
-					<button class="btn dropdown-toggle" data-bs-toggle="dropdown"
-						aria-expanded="false">
-						<img alt="사진" src="#"><span>${sessionScope.member.nickname}
-						</span>
-					</button>
-					<ul class="dropdown-menu dropdown-menu-white">
-						<li><a class="dropdown-item" href="#">마이페이지</a></li>
-						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/completerecordmeal/main">기록</a></li>
-						<c:if test="${sessionScope.member.userLevel > 50}">
-							<li><a class="dropdown-item" href="#">관리자페이지</a></li>
-						</c:if>
-						<li><a class="dropdown-item"
-							href="${pageContext.request.contextPath}/access/logout">로그아웃</a></li>
-					</ul>
-				</li>
-			</c:if>
+			<ul class="navbar-nav flex-nowrap d-flex flex-row ms-auto">
+				<c:if test="${empty sessionScope.member}">
+					<li class="nav-item"><a class="nav-link" aria-current="page"
+						href="${pageContext.request.contextPath}/access/login" id="login">로그인</a></li>
+					<li class="nav-item ms-2"><a class="nav-link"
+						aria-current="page" href="#" id="register">회원가입</a></li>
+				</c:if>
+				<c:if test="${not empty sessionScope.member}">
+					<li class="nav-item dropdown">
+						<button class="btn dropdown-toggle" data-bs-toggle="dropdown"
+							aria-expanded="false">
+							<img alt="사진" src="#"><span>${sessionScope.member.nickname}
+							</span>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-white">
+							<li><a class="dropdown-item" href="#">마이페이지</a></li>
+							<li><a class="dropdown-item"
+								href="${pageContext.request.contextPath}/completerecordmeal/main">식단,운동기록</a></li>
+							<c:if test="${sessionScope.member.userLevel > 50}">
+								<li><a class="dropdown-item" href="#">관리자페이지</a></li>
+							</c:if>
+							<li><a class="dropdown-item"
+								href="${pageContext.request.contextPath}/access/logout">로그아웃</a></li>
+						</ul>
+					</li>
+				</c:if>
 
 
-		</ul>
+			</ul>
 
-	</div>
-</nav>
-<nav class="navbar navbar-expand-lg navbar-light">
+		</div>
+	</nav>
+	<nav class="navbar navbar-expand-lg navbar-light">
 
-	<div class="container">
-		<button class="navbar-toggler me-auto" type="button"
+		<div class="container">
+			<button class="navbar-toggler me-auto" type="button"
+				data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu"
+				aria-controls="offcanvasMenu" aria-expanded="false">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<!--button class="navbar-toggler me-auto" type="button"
 			data-bs-toggle="collapse" data-bs-target="#navbarcenter"
 			aria-controls="navbarcenter" aria-expanded="false"
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarcenter">
-			<ul class="navbar-nav justify-content-between">
-				<!-- ms-auto : 우측으로 정렬 -->
-				<li class="nav-item"><a class="nav-link " aria-current="page"
-					href="${pageContext.request.contextPath}/completeworkout/main">오운완</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" href="#">헬스장</a></li>
+		</button-->
+			<div class="offcanvas offcanvas-start" tabindex="-1"
+				id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+				<div class="offcanvas-header">
+					<h5 class="offcanvas-title" id="offcanvasMenuLabel">메뉴</h5>
+					<button type="button" class="btn-close text-reset"
+						data-bs-dismiss="offcanvas" aria-label="Close"></button>
+				</div>
+				<div class="offcanvas-body">
+					<!-- 여기 원하는 메뉴나 내비게이션 요소를 넣으면 됩니다. -->
+					<ul class="navbar-nav">
+						<li class="nav-item me-5"><a class="nav-link" href="#">오운완</a></li>
+						<li class="nav-item me-5"><a class="nav-link" href="#">헬스장</a></li>
+						<li class="nav-item me-5"><a class="nav-link" href="#">러닝코스</a></li>
+						<li class="nav-item me-5"><a class="nav-link" href="#">QnA</a></li>
+						<li class="nav-item dropdown me-5"><a
+							class="nav-link dropdown-toggle" href="#" id="dropdownMenu"
+							data-bs-toggle="dropdown" aria-expanded="false">오이거래</a>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+								<li><a class="dropdown-item" href="#">같이운동해요</a></li>
+								<li><a class="dropdown-item" href="#">중고거래</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="#">Something</a></li>
+							</ul></li>
+					</ul>
+				</div>
+			</div>
 
-				<li class="nav-item"><a class="nav-link" href="#">러닝코스</a></li>
-
-				<li class="nav-item"><a class="nav-link" href="#">QnA</a></li>
-
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-					role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						오이거래 </a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="#">같이운동해요</a></li>
-						<li><a class="dropdown-item" href="#">중고거래</a></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="#">Something</a></li>
-					</ul></li>
-			</ul>
 		</div>
-	</div>
 
-</nav>
+	</nav>
+</div>
