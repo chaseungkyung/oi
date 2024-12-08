@@ -6,7 +6,7 @@
 		<div class="container">
 
 
-			<a class="navbar-brand me-auto" href="#" style="padding: 15px 10px;"><img
+			<a class="navbar-brand me-auto" href="#" ><img
 				alt="Brand"
 				src="${pageContext.request.contextPath}/resources/images/logo3.svg"
 				class="bi" style="height: 50px; width: auto;"></a>
@@ -53,27 +53,22 @@
 				aria-controls="offcanvasMenu" aria-expanded="false">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<!--button class="navbar-toggler me-auto" type="button"
-			data-bs-toggle="collapse" data-bs-target="#navbarcenter"
-			aria-controls="navbarcenter" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button-->
 			<div class="offcanvas offcanvas-start" tabindex="-1"
 				id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-				<div class="offcanvas-header">
-					<h5 class="offcanvas-title" id="offcanvasMenuLabel">메뉴</h5>
+				<div class="offcanvas-header offcanvas-header-container">
+					<a class="offcanvas-brand me-auto" href="#"><img alt="Brand"
+						src="${pageContext.request.contextPath}/resources/images/logo3.svg"
+						class="bi" style="height: 40px; width: auto;"></a>
 					<button type="button" class="btn-close text-reset"
 						data-bs-dismiss="offcanvas" aria-label="Close"></button>
 				</div>
 				<div class="offcanvas-body">
-					<!-- 여기 원하는 메뉴나 내비게이션 요소를 넣으면 됩니다. -->
 					<ul class="navbar-nav">
-						<li class="nav-item me-5"><a class="nav-link" href="#">오운완</a></li>
-						<li class="nav-item me-5"><a class="nav-link" href="#">헬스장</a></li>
-						<li class="nav-item me-5"><a class="nav-link" href="#">러닝코스</a></li>
-						<li class="nav-item me-5"><a class="nav-link" href="#">QnA</a></li>
-						<li class="nav-item dropdown me-5"><a
+						<li class="nav-item me-5 mt-3"><a class="nav-link" href="#">오운완</a></li>
+						<li class="nav-item me-5 mt-3"><a class="nav-link" href="#">헬스장</a></li>
+						<li class="nav-item me-5 mt-3"><a class="nav-link" href="#">러닝코스</a></li>
+						<li class="nav-item me-5 mt-3"><a class="nav-link" href="#">QnA</a></li>
+						<li class="nav-item dropdown me-5 mt-3"><a
 							class="nav-link dropdown-toggle" href="#" id="dropdownMenu"
 							data-bs-toggle="dropdown" aria-expanded="false">오이거래</a>
 							<ul class="dropdown-menu" aria-labelledby="dropdownMenu">
