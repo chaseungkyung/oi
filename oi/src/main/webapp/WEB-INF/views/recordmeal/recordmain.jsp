@@ -23,7 +23,8 @@
 				<button type="button" class="record"
 					onclick="location.href='${pageContext.request.contextPath}/recordmeal/main';"><span class="text">식단기록</span>
 					<img src="${pageContext.request.contextPath}/resources/images/meal.jpg"> </button>
-				<button type="button" class="record" onclick="">운동기록
+				<button type="button" class="record" 
+					onclick="location.href='${pageContext.request.contextPath}/todayworkout/main';"><span class="text">운동기록</span>
 					<img src="${pageContext.request.contextPath}/resources/images/exercise.jpg">
 				</button>
 			</div>
