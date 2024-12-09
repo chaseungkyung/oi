@@ -5,35 +5,36 @@
 .calendar { width: 280px; margin: 30px auto; }
 
 .title1{ width: 50%; margin: 30px auto;}
-.title2 { display: flex;}
+.title2 { display: flex; justify-content: center;}
 
 button {
 	display : flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
 	border: none;
 	border-radius : 10px;
 	cursor: pointer;
 	font-size : 30px;
-	font-weight: bold;
 	color: green;
 	font-family: Noto Sans KR, 돋움, sans-serif;
 }
 
 button.record {
+  padding-bottom: 100px;
+  justify-content:flex-end;
   width: 300px;	
   height: 400px; 
   background-color:#EDF9D0 ; 	
   margin: 20px; 
   position: relative; 	/* 이미지 배치 */
+  
 }
 
 button.record img {
   position: absolute; 	/* 버튼 안에서 이미지 배치 */
   top: 20px; 
-  width: 150px; 		/* 이미지 너비 */
-  height: 150px;
+  width: 200px; 		/* 이미지 너비 */
+  height: 200px;
 }
 
 /* 캘린더 버튼 */
@@ -43,3 +44,10 @@ button.calendar {
   background-color: #CFDD92;
   margin-top: 20px;
 }
+
+
+/* 여기서부터 식단기록 세부 css*/
+
+
+
+
