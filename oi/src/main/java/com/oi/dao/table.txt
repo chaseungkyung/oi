@@ -1,0 +1,209 @@
+CREATE TABLE Question (
+    questionNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    questionDate	DATE	NOT NULL,
+    questionTitle	VARCHAR2(100)	NOT NULL,
+    questionCon	VARCHAR2(4000)	NOT NULL,
+    questionPhoto	VARCHAR2(255)	NULL
+);
+
+CREATE TABLE event (
+    eventNum	NUMBER	NOT NULL,
+    eventPhoto	VARCHAR2(255)	NOT NULL,
+    eventTitle	VARCHAR2(50)	NOT NULL,
+    eventContent	VARCHAR2(4000)	NOT NULL,
+    eventWriteDate	DATE	NOT NULL,
+    eventUpdateDate	DATE	NOT NULL,
+    eventFile	VARCHAR2(100)	NULL,
+    memberId	VARCHAR2(30)	NOT NULL
+);
+
+CREATE TABLE exerciseRecord (
+    exerciseNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    exerciseDate	DATE	NOT NULL,
+    exerciseName	VARCHAR2(50)	NOT NULL,
+    exerciseContent	VARCHAR2(4000)	NOT NULL,
+    exerciseStart	DATE	NOT NULL,
+    exerciseEnd	DATE	NOT NULL,
+    exercisecnt	NUMBER	NOT NULL,
+    exerciseunit	VARCHAR2(30)	NOT NULL
+);
+
+CREATE TABLE mealRecord (
+    dietFoodNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    dietFoodTime	DATE	NOT NULL,
+    dietFoodDate	DATE	NOT NULL,
+    dietFoodunit	VARCHAR2(30)	NOT NULL,
+    dietFoodName	VARCHAR2(30)	NOT NULL,
+    capacity	NUMBER	NOT NULL,
+    kcal	NUMBER	NOT NULL
+);
+
+CREATE TABLE wotdComment (
+    wComNum	NUMBER	NOT NULL,
+    wNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    postCateNum	NUMBER	NOT NULL,
+    wComCon	VARCHAR2(2000)	NOT NULL,
+    blindcnt	NUMBER	NOT NULL,
+    wotdParCom	NUMBER	NULL,
+    wComDate	DATE	NOT NULL,
+    wComUpDate	DATE	NOT NULL
+);
+
+CREATE TABLE wotd (
+    wNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    postCateNum	NUMBER	NOT NULL,
+    todayCon	VARCHAR2(100)	NOT NULL,
+    todayDate	DATE	NOT NULL,
+    todayUpdate	NUMBER	NOT NULL,
+    todayBlind	NUMBER	NOT NULL
+);
+
+CREATE TABLE notice (
+    noticeNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    noticeWriteDate	DATE	NOT NULL,
+    noticeUpdateDate	DATE	NOT NULL,
+    noticePhoto	VARCHAR2(255)	NULL,
+    noticeTitle	VARCHAR2(255)	NOT NULL,
+    noticeContent	VARCHAR2(4000)	NOT NULL,
+    noticeFile	VARCHAR2(255)	NULL
+);
+
+CREATE TABLE ptAd (
+    ptAdNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    ptAdText	VARCHAR2(4000)	NOT NULL
+);
+
+CREATE TABLE findexercise (
+    coordinateNum	NUMBER	NOT NULL,
+    nameGym	VARCHAR(100)	NOT NULL,
+    coordinateX	NUMBER	NOT NULL,
+    coordinateY	NUMBER	NOT NULL
+);
+
+CREATE TABLE likePost (
+    likePostNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    postCateNum	NUMBER(30)	NOT NULL,
+    listNum	NUMBER(30)	NOT NULL
+);
+
+CREATE TABLE goods (
+    goodsListNum	NUMBER	NOT NULL,
+    categoryNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    postCateNum	NUMBER	NOT NULL,
+    goodsName	VARCHAR2(30)	NOT NULL,
+    goodsPrice	NUMBER	NOT NULL,
+    goodsImage	VARCHAR2(255)	NOT NULL,
+    goodsPhoto	VARCHAR2(255)	NULL,
+    goodsExp	VARCHAR2(4000)	NOT NULL,
+    goodsLikeCnt	NUMBER	NULL,
+    goodsHitCnt	 NUMBER  DEFAULT 0 	NOT NULL
+);
+
+CREATE TABLE member (
+    memberId	VARCHAR2(30)	NOT NULL,
+    memberPw	VARCHAR2(30)	NOT NULL,
+    nickName	VARCHAR2(30)	NOT NULL,
+    memberSignUp	DATE	NOT NULL,
+    LoginOk	NUMBER(1)	NOT NULL,
+    userLevel	NUMBER(3)	NOT NULL
+);
+
+CREATE TABLE memberDetails (
+    memberId	VARCHAR2(30)	NOT NULL,
+    birth	DATE	NOT NULL,
+    email	VARCHAR2(100)	NOT NULL,
+    address	VARCHAR2(100)	NOT NULL,
+    addressNum	NUMBER	NOT NULL,
+    name	VARCHAR2(30)	NOT NULL,
+    profilePhoto	VARCHAR2(255)	NULL
+);
+
+CREATE TABLE bodyRecord (
+    memberId2	VARCHAR2(30)	NOT NULL,
+    gender	VARCHAR2(30)	NULL,
+    height	NUMBER	NOT NULL,
+    weight	NUMBER	NOT NULL,
+    bodyRecordDate	DATE	NOT NULL,
+    bodyFat	NUMBER	NOT NULL,
+    bodyMuscle	NUMBER	NOT NULL
+);
+
+CREATE TABLE category (
+    categoryNum	NUMBER	NOT NULL,
+    categoryName	VARCHAR2(30)	NOT NULL,
+    gender	VARCHAR2(30)	NULL
+);
+
+CREATE TABLE goodsComment (
+    gcNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    goodsListNum	NUMBER	NOT NULL,
+    postCateNum	NUMBER	NOT NULL,
+    gcParComNum	NUMBER	NOT NULL,
+    gcComCon	VARCHAR2(1000)	NOT NULL,
+    gcInsertNum	DATE	NOT NULL,
+    gcUpdateNum	DATE	NOT NULL
+);
+
+CREATE TABLE goodsPhoto (
+    gpNum	VARCHAR2(255)	NOT NULL,
+    gpListNum	NUMBER	NOT NULL,
+    gpName	VARCHAR2(255)	NULL
+);
+
+CREATE TABLE FAQ (
+    faqNum	NUMBER	NOT NULL,
+    faqTitle	VARCHAR2(100)	NOT NULL,
+    faqContent	VARCHAR2(4000)	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL
+);
+
+CREATE TABLE wotdphoto (
+    wpPhotoNum	VARCHAR2(255)	NOT NULL,
+    wNum	NUMBER	NOT NULL,
+    wpFile	VARCHAR2(255)	NOT NULL
+);
+
+CREATE TABLE wotdcomcnt (
+    memberId	VARCHAR2(30)	NOT NULL,
+    wComNum	NUMBER	NOT NULL
+);
+
+CREATE TABLE Answer (
+    AnsNum	NUMBER	NOT NULL,
+    questionNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    AnsDate	DATE	NOT NULL,
+    AnsTitle	VARCHAR2(100)	NOT NULL,
+    AnsContent	VARCHAR2(4000)	NOT NULL
+);
+
+CREATE TABLE report (
+    reportNum	NUMBER	NOT NULL,
+    memberId	VARCHAR2(30)	NOT NULL,
+    postCateNum	NUMBER	NOT NULL,
+    listNum	NUMBER	NOT NULL,
+    reportCon	VARCHAR(2000)	NOT NULL,
+    reportDate	Date	NOT NULL,
+    reportCategory	VARCHAR(255)	NULL
+);
+
+CREATE TABLE postCategory (
+    postCateNum	NUMBER	NOT NULL,
+    categoryName	VARCHAR2(30)	NOT NULL
+);
+
+CREATE TABLE wotdlike(
+    memberId	VARCHAR2(30)	NOT NULL,
+    wNum	NUMBER	NOT NULL
+);
+

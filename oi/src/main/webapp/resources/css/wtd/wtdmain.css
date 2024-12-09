@@ -48,4 +48,7 @@ div.contentdiv {
 	white-space: nowrap;
 }
 
+.btn:active, .btn:focus {
+	border: none;
+}
 

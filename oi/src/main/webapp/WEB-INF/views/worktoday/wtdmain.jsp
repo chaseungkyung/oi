@@ -21,8 +21,8 @@
 			<div id="wtdmainheader">
 				<jsp:include page="/WEB-INF/views/worktoday/wtdtop_layout.jsp" />
 				<div id="wtdheadertext" class="row">
-				<h6 class="col-auto">오늘운동은 어땠나요 공유해보세요</h6>
-				<button type="button" class="col-3">공유하기</button>
+				<h6 class="col-9">오늘운동은 어땠나요 공유해보세요</h6>
+				<button id="sharebtn" type="button" class="col-3 btn">공유하기</button>
 				</div>
 			</div>
 
