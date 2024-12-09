@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 public class RecordController {
 
-	@RequestMapping(value = "/completerecordmeal/main")
+	@RequestMapping(value = "/recordmeal/main")
 	public ModelAndView intomain(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		return new ModelAndView("recordmeal/recordmain");
