@@ -19,7 +19,7 @@ public class LoginDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT memberid, nickname, userlevel FROM member WHERE memberid=? AND memberpw = ? ";
+			sql = "SELECT memberid, nickname, userlevel, NVL(profilePhoto,'default')profilePhoto FROM member m JOIN memberDetails md ON m.memberId = md.memberId WHERE memberid=? AND memberpw = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, id);
@@ -32,6 +32,7 @@ public class LoginDAO {
 				dto.setUserId(rs.getString("memberid"));
 				dto.setNickname(rs.getString("nickname"));
 				dto.setUserLevel(rs.getString("userlevel"));
+				dto.setSaveprofile(rs.getString("profilePhoto"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

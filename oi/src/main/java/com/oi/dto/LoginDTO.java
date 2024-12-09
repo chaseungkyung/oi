@@ -4,6 +4,7 @@ public class LoginDTO {
 	private String userId;
 	private String nickname;
 	private String userLevel;
+	private String saveprofile;
 	
 	public String getUserId() {
 		return userId;
@@ -22,6 +23,12 @@ public class LoginDTO {
 	}
 	public void setUserLevel(String userLevel) {
 		this.userLevel = userLevel;
+	}
+	public String getSaveprofile() {
+		return saveprofile;
+	}
+	public void setSaveprofile(String saveprofile) {
+		this.saveprofile = saveprofile;
 	}
 	
 }
