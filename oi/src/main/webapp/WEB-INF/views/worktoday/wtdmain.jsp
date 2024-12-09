@@ -11,6 +11,12 @@
 <jsp:include page="/WEB-INF/views/layout/headimported.jsp" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/wtd/wtdmain.css">
+
+<script type="text/javascript">
+function intotheForm(){
+	location.href="${pageContext.request.contextPath}/completeworkout/insertwtd";
+}
+</script>
 </head>
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
@@ -22,11 +28,11 @@
 				<jsp:include page="/WEB-INF/views/worktoday/wtdtop_layout.jsp" />
 				<div id="wtdheadertext" class="row">
 				<h6 class="col-9">오늘운동은 어땠나요 공유해보세요</h6>
-				<button id="sharebtn" type="button" class="col-3 btn">공유하기</button>
+				<button id="sharebtn" type="button" class="col-3 btn" onclick="intotheForm();"> 공유하기</button>
 				</div>
 			</div>
 
-			<div id="wtdmaincontent">
+			<div id="wtdmaincontent" data-page="0" data-total="0">
 				<!--  여기서 부터 for -->
 				<div class="contentborder">
 					<div class="contentpadding">
@@ -60,6 +66,7 @@
 						<div class="contentdiv">컨텐츠</div>
 					</div>
 				</div>
+				<div id="sensor"></div>
 			</div>
 		</div>
 	</main>
