@@ -21,19 +21,19 @@ public class RecordWorkController {
 	}
 	
 	@RequestMapping(value = "/todayworkout/writedown")
-	public ModelAndView putmeal(HttpServletRequest req, HttpServletResponse resp)
+	public ModelAndView putwork(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		return new ModelAndView("todayworkout/");
 	}
 	
 	@RequestMapping(value = "/todayworkout/updatedoing")
-	public ModelAndView mealupdate(HttpServletRequest req, HttpServletResponse resp)
+	public ModelAndView workupdate(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		return new ModelAndView("todayworkout/");
 	}
 	
 	@RequestMapping(value = "/todayworkout/deletedoing")
-	public ModelAndView mealdelete(HttpServletRequest req, HttpServletResponse resp)
+	public ModelAndView	workdelete(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		return new ModelAndView("todayworkout/");
 	}
