@@ -111,14 +111,14 @@ public class NoticeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/notice/article", method = RequestMethod.GET)
 	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
 		String page = req.getParameter("page");
 		String size = req.getParameter("size");
 		String query = "page=" + page + "&size=" + size;
 		
-		NoticeDAO dao = new NoticeDAO();
+		
 		
 		try {
 			
@@ -130,7 +130,7 @@ public class NoticeController {
 		
 	}
 	
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/notice/download", method = RequestMethod.GET)
 	public ModelAndView download(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		

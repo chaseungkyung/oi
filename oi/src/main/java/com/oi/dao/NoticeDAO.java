@@ -105,7 +105,7 @@ public class NoticeDAO {
 		
 		return result;
 	}
-	
+	//공지사항 리스트
 	public List<NoticeDTO> listNotice(int offset, int size) {
 		List<NoticeDTO> list = new ArrayList<NoticeDTO>();
 		PreparedStatement pstmt = null;
@@ -113,24 +113,7 @@ public class NoticeDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.close(rs);
-			DBUtil.close(pstmt);
-		}
-		
-		return list;
-	}
-	
-	public List<NoticeDTO> listNotice(int offset, int size, String schType, String kwd) {
-		List<NoticeDTO> list = new ArrayList<NoticeDTO>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		StringBuilder sb = new StringBuilder();
-		//관리자 이름을 띄워야 할까?? 조인을 어떻게 해야할지 고민해봐야할듯
-		try {
+			//관리자 이름을 띄워야 할까?? 조인을 어떻게 해야할지 고민해봐야할듯
 			sb.append(" SELECT noticeNum, n.memberId, nickName, content, ");
 			sb.append("  noticeWriteDate FROM notice n");
 			sb.append(" JOIN member m ON n.memberId = m.memberId ");
@@ -161,6 +144,63 @@ public class NoticeDAO {
 			DBUtil.close(pstmt);
 		}
 		
+		return list;
+	}
+	
+	public List<NoticeDTO> listNotice(int offset, int size, String schType, String kwd) {
+		List<NoticeDTO> list = new ArrayList<NoticeDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append(" SELECT noticeNum, n.memberId, noticeTitle, ");
+			sb.append("  noticeWriteDate FROM notice n ");
+			sb.append(" JOIN member m ON n.memberId = m.memberId ");
+			
+			if(schType.equals("all")) {
+				sb.append("");
+			} else if(schType.equals("noticeWriteDate")){
+				kwd = kwd.replaceAll("(\\-|\\/|\\.)", "");
+				sb.append("WHERE TO_CHAR(noticeWriteDate, 'YYYYMMDD') = ?");
+			} else {
+				sb.append(" WHERE INSTR(" + schType + ", ?) >= 1 ");
+			}
+			sb.append(" ORDER BY noticeNum DESC ");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			if(schType.equals("all")) {
+				pstmt.setString(1, kwd);
+				pstmt.setString(2, kwd);
+				pstmt.setInt(3, offset);
+				pstmt.setInt(4, size);
+			} else {
+				pstmt.setString(1, kwd);
+				pstmt.setInt(2, offset);
+				pstmt.setInt(3, size);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				NoticeDTO dto = new NoticeDTO();
+				
+				dto.setNoticeNum(rs.getLong("noticeNum"));
+				dto.setMemberId(rs.getString("memberId"));
+				dto.setNoticeTitle(rs.getString("noticeTitle"));
+				dto.setNoticeWriteDate(rs.getDate("noticeWriteDate"));
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
 		return list;
 	}
 	
