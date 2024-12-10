@@ -93,7 +93,7 @@
 						&nbsp;
 					</td>			
 					<td class="text-end">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/justnotice/list?${query}';">리스트</button>
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/notice/list?${query}';">리스트</button>
 					</td>
 				</tr>
 			</table>
