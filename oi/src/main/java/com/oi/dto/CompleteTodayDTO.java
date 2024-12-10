@@ -1,21 +1,21 @@
 package com.oi.dto;
 
-import java.util.List;
-
-import com.oi.util.MyMultipartFile;
 
 public class CompleteTodayDTO {
 	private long wnum;
 	private int category;		// 10
 	private String memberId;
+	private String nickName;
 	private String content;
 	private String date;
 	private String updatedate;
 	private boolean blind;
+	private wotdfile file;
 	
-	private List<MyMultipartFile> filenames ;
-	private long photoNum;
-	
+	public CompleteTodayDTO() {
+		wotdfile file = new wotdfile();
+		this.file = file;
+	}
 	public long getWnum() {
 		return wnum;
 	}
@@ -33,6 +33,12 @@ public class CompleteTodayDTO {
 	}
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	public String getContent() {
 		return content;
@@ -64,21 +70,11 @@ public class CompleteTodayDTO {
 		}
 		this.blind = blind;
 	}
-	
-	public List<MyMultipartFile> getFilenames() {
-		return filenames;
+	public wotdfile getFile() {
+		return file;
 	}
-	public void setFilenames(List<MyMultipartFile> filenames) {
-		this.filenames = filenames;
-	}
-	public long getPhotoNum() {
-		return photoNum;
-	}
-	public void setPhotoNum(long photoNum) {
-		this.photoNum = photoNum;
-	}
-	public void setBlind(boolean blind) {
-		this.blind = blind;
+	public void setFile(wotdfile file) {
+		this.file = file;
 	}
 	
 }
