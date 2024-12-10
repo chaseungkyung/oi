@@ -21,10 +21,10 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 public class NoticeController {
 	
-	@RequestMapping(value = "/notice/list")
+	@RequestMapping(value = "/justnotice/list")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		ModelAndView mav = new ModelAndView("notice/list");
+		ModelAndView mav = new ModelAndView("justnotice/list");
 		
 		NoticeDAO dao = new NoticeDAO();
 		MyUtil util = new MyUtilBootstrap();
@@ -88,7 +88,7 @@ public class NoticeController {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8"); 
 			}
 			
-			listUrl = cp + "/notice/list?" + query;
+			listUrl = cp + "justnotice/list?" + query;
 			articleUrl = cp + "/notice/article?page=" + current_page + "&" + query;
 			
 			String paging = util.paging(current_page, total_page, listUrl);
@@ -126,7 +126,7 @@ public class NoticeController {
 			e.printStackTrace();
 		}
 		
-		return new ModelAndView("redirect:/notice/list?" + query);
+		return new ModelAndView("redirect:/justnotice/list?" + query);
 		
 	}
 	

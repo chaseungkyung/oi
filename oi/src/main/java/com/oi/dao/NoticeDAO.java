@@ -114,7 +114,7 @@ public class NoticeDAO {
 		
 		try {
 			//관리자 이름을 띄워야 할까?? 조인을 어떻게 해야할지 고민해봐야할듯
-			sb.append(" SELECT noticeNum, n.memberId, nickName, content, ");
+			sb.append(" SELECT noticeNum, n.memberId, noticeTitle, ");
 			sb.append("  noticeWriteDate FROM notice n");
 			sb.append(" JOIN member m ON n.memberId = m.memberId ");
 			sb.append(" ORDER BY noticeNum DESC ");
@@ -130,7 +130,7 @@ public class NoticeDAO {
 			while(rs.next()) {
 				NoticeDTO dto = new NoticeDTO();
 				
-				dto.setNoticeNum(rs.getLong("num"));
+				dto.setNoticeNum(rs.getLong("noticeNum"));
 				dto.setMemberId(rs.getString("memberId"));
 				dto.setNoticeTitle(rs.getString("noticeTitle"));
 				dto.setNoticeWriteDate(rs.getDate("noticeWriteDate"));
