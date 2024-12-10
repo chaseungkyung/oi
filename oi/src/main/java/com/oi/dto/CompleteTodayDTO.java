@@ -10,10 +10,18 @@ public class CompleteTodayDTO {
 	private String date;
 	private String updatedate;
 	private boolean blind;
-	private wotdfile file;
+	
+	// 게시글 쓴사람의 프로필 사진이 필요  
+	private String profilePhoto;
+	private Wotdfile file;
+	
+	
+	private int loved;
+	private int commentcount;
+	
 	
 	public CompleteTodayDTO() {
-		wotdfile file = new wotdfile();
+		Wotdfile file = new Wotdfile();
 		this.file = file;
 	}
 	public long getWnum() {
@@ -70,11 +78,31 @@ public class CompleteTodayDTO {
 		}
 		this.blind = blind;
 	}
-	public wotdfile getFile() {
+	
+	public String getProfilePhoto() {
+		return profilePhoto;
+	}
+	public void setProfilePhoto(String profilePhoto) {
+		this.profilePhoto = profilePhoto;
+	}
+	public Wotdfile getFile() {
 		return file;
 	}
-	public void setFile(wotdfile file) {
+	public void setFile(Wotdfile file) {
 		this.file = file;
 	}
+	public int getLoved() {
+		return loved;
+	}
+	public void setLoved(int loved) {
+		this.loved = loved;
+	}
+	public int getCommentcount() {
+		return commentcount;
+	}
+	public void setCommentcount(int commentcount) {
+		this.commentcount = commentcount;
+	}
+	
 	
 }

@@ -8,13 +8,15 @@ import java.util.List;
 import com.oi.dao.CompleteTodayDAO;
 import com.oi.dto.CompleteTodayDTO;
 import com.oi.dto.LoginDTO;
-import com.oi.dto.wotdfile;
+import com.oi.dto.Wotdfile;
 import com.oi.mvc.annotation.Controller;
 import com.oi.mvc.annotation.RequestMapping;
 import com.oi.mvc.annotation.RequestMethod;
 import com.oi.mvc.view.ModelAndView;
 import com.oi.util.FileManager;
 import com.oi.util.MyMultipartFile;
+import com.oi.util.MyUtil;
+import com.oi.util.MyUtilGeneral;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +28,7 @@ import jakarta.servlet.http.Part;
 public class WorkToDayController {
 	private CompleteTodayDAO dao = new CompleteTodayDAO();
 	private FileManager filemanager = new FileManager();
-	
+	private MyUtil util = new MyUtilGeneral();
 	@RequestMapping(value = "/completeworkout/main", method = RequestMethod.GET)
 	public ModelAndView intomain(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -35,16 +37,16 @@ public class WorkToDayController {
 		return new ModelAndView("worktoday/wtdmain");
 	}
 	
-
+	// AJAX - TEXT
+	// 리스트 무한 스크롤 
 	@RequestMapping(value = "/completeworkout/list", method = RequestMethod.GET)
 	public ModelAndView getListmore(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
+		System.out.println("here");
 		// 넘어오는 파라미터 : page 
 		
 		ModelAndView mav = new ModelAndView("worktoday/wtdcontent");
-		String root = req.getServletContext().getRealPath("/") + "oifiles";
-		
+		boolean state = false;
 		try {
 			int page;
 			if(req.getParameter("page") != null) {
@@ -62,16 +64,27 @@ public class WorkToDayController {
 			int offset = (page - 1)* size;
 			if(offset < 0) offset = 0;
 			
+			// 총 페이지 수 
+			int total_page = util.pageCount(dataCount, size);
+			
 			// 데이터 불러오기 
 			List<CompleteTodayDTO> list = dao.getData(offset, size);
 			
+			// 데이터 savename 받아오기 키 값 photonum : string 으로 저장 되어있음 
+			for(CompleteTodayDTO dto : list) {
+				state = true;
+				dao.getFiles(dto);
+			}
+			//확인용
+			System.out.println(state);
 			
-			// 데이터 savename 받아오기 
-			
-			
+			mav.addObject("list", list);
+			mav.addObject("dataCount", dataCount);
+			mav.addObject("total_page", total_page);
+			mav.addObject("page", page);
 			
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		return mav;
 	}
@@ -107,16 +120,19 @@ public class WorkToDayController {
 
 		try {
 			// 파일 저장
-			String pathname = req.getServletContext().getRealPath("/") + "oifiles" + File.pathSeparator;
+			String pathname = req.getServletContext().getRealPath("/") + "oifiles" +  File.separator + "photo";
 			Collection<Part> parts = req.getParts();
 
 			List<MyMultipartFile> files = filemanager.doFileUpload(parts, pathname);
 			
-			wotdfile filedto =  dto.getFile();
+			Wotdfile filedto =  dto.getFile();
+			
 			String [] names = new String [files.size()];
+			
 			for(int i = 0; i < files.size(); i ++) {
 				names[i] = files.get(i).getSaveFilename();
 			}
+			
 			filedto.setSaveFileName(names);
 			dto.setMemberId(login.getUserId());
 			dto.setContent(req.getParameter("content"));
