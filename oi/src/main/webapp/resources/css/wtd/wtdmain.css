@@ -18,7 +18,7 @@ main > div#wtdmainheader {
 	margin-right: 300px;
 }
 div#wtdheadertext {
-	margin-top: 10px;
+	margin-top: 20px;
 }
 
 
@@ -52,3 +52,17 @@ div.contentdiv {
 	border: none;
 }
 
+table > thead > tr > td {
+	font-weight: 300!important;
+	font-size: 14px!important;
+}
+
+table > tbody > tr > td {
+	font-weight: 300!important;
+	font-size: 14px!important;
+}
+
+div.contentdiv {
+	font-weight: 300;
+	font-size: 14px;
+}

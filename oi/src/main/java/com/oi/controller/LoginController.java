@@ -40,7 +40,7 @@ public class LoginController {
 		if(dto == null) {
 			mav = new ModelAndView("entry/login");
 			mav.addObject("msg", "아이디 또는 비밀번호가 일치하지않습니다");
-			return mav;
+			return mav;	
 		}
 		
 		session.setMaxInactiveInterval(60*30);

@@ -13,9 +13,9 @@
 	href="${pageContext.request.contextPath}/resources/css/wtd/wtdmain.css">
 
 <script type="text/javascript">
-function intotheForm(){
-	location.href="${pageContext.request.contextPath}/completeworkout/insertwtd";
-}
+	function intotheForm() {
+		location.href = "${pageContext.request.contextPath}/completeworkout/insertwtd";
+	}
 </script>
 </head>
 <body>
@@ -27,8 +27,9 @@ function intotheForm(){
 			<div id="wtdmainheader">
 				<jsp:include page="/WEB-INF/views/worktoday/wtdtop_layout.jsp" />
 				<div id="wtdheadertext" class="row">
-				<h6 class="col-9">오늘운동은 어땠나요 공유해보세요</h6>
-				<button id="sharebtn" type="button" class="col-3 btn" onclick="intotheForm();"> 공유하기</button>
+					<h6 class="col-9">오늘운동은 어땠나요 공유해보세요</h6>
+					<button id="sharebtn" type="button" class="col-3 btn"
+						onclick="intotheForm();">공유하기</button>
 				</div>
 			</div>
 
@@ -51,10 +52,29 @@ function intotheForm(){
 						<table class="bodytable">
 							<tbody>
 								<tr>
-									<td style="height: 400px;"><img class="object-fit-scale"
-										alt="운동인증"
-										src="${pageContext.request.contextPath}/resources/images/mango.jpg"
-										style="height: 400px; width: 578px;"></td>
+									<td style="height: 400px;">
+										<div style="margin-top: 20px;" id="slider"
+											class="carousel slide">
+											<div class="carousel-inner">
+												<div class="carousel-item active">
+													<img class="object-fit-scale d-block w-100" alt="운동인증"
+														src="${pageContext.request.contextPath}/resources/images/mango.jpg"
+														style="height: 400px; width: 570px;">
+												</div>
+												<div class="carousel-item">
+													<img class="object-fit-scale d-block w-100" alt="운동인증"
+														src="${pageContext.request.contextPath}/resources/images/mango.jpg"
+														style="height: 400px; width: 570px;">
+												</div>
+											</div>
+											<button class="carousel-control-prev" type="button"
+												data-bs-target="#slider" data-bs-slide="prev" ></button>
+											<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+											<button class="carousel-control-next" type="button"
+												data-bs-target="#slider" data-bs-slide="next" ></button>
+											<span class="carousel-control-next-icon" aria-hidden="true"></span>
+										</div>
+									</td>
 								</tr>
 								<tr>
 									<td><a style="color: black;" href="#"><i
