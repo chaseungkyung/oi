@@ -19,7 +19,7 @@ public class LoginDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT memberid, nickname, userlevel, NVL(profilePhoto,'default')profilePhoto FROM member m JOIN memberDetails md ON m.memberId = md.memberId WHERE memberid=? AND memberpw = ? ";
+			sql = "SELECT m.memberid, m.nickname, m.userlevel, NVL(profilePhoto,'default')profilePhoto FROM member m LEFT OUTER JOIN memberDetails md ON m.memberId = md.memberId WHERE m.memberid=? AND memberpw = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, id);
