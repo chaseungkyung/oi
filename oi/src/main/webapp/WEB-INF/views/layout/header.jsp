@@ -72,7 +72,7 @@
 							data-bs-toggle="dropdown" aria-expanded="false">오이거래</a>
 							<ul class="dropdown-menu" aria-labelledby="dropdownMenu">
 								<li><a class="dropdown-item" href="#">같이운동해요</a></li>
-								<li><a class="dropdown-item" href="#">중고거래</a></li>
+								<li><a class="dropdown-item" href="${pageContext.request.contextPath}/marketplace/main">중고거래</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="#">Something</a></li>
 							</ul></li>
