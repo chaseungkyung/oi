@@ -13,12 +13,16 @@
 }
 </style>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/recources/css/">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/icon/bootstrap-icons.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/header_layout.css" type="text/css">
+
 </head>
 <body>
 
 <header>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+	<jsp:include page="/WEB-INF/views/layout/headimported.jsp"/>
 </header>
 
 <main>
@@ -42,7 +46,7 @@
 				<tbody>
 					<tr>
 						<td width="50%">
-							관리자
+							${dto.memberId}
 						</td>
 						<td align="right">
 							${dto.noticeWriteDate}
@@ -58,7 +62,7 @@
 						<td colspan="2">
 							<c:forEach>
 								<p>
-									<a href="${pageCOntext.request.contextPath}/notice/download?noticeFileNum=${vo.noticeFileNum}">${vo.noticeOriFileName}</a>
+									<a href="${pageContext.request.contextPath}/notice/download?noticeFileNum=${vo.noticeFileNum}">${vo.noticeOriFileName}</a>
 								</p>
 							</c:forEach>	
 						</td>
@@ -103,6 +107,6 @@
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 </footer>
 
-<jsp:include page="/WEB-INF/views/layout/footerimported.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/layout/footerimported.jsp"/>
 </body>
 </html>

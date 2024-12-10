@@ -88,7 +88,7 @@ public class NoticeController {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8"); 
 			}
 			
-			listUrl = cp + "/notice/list?" + query;
+			listUrl = cp + "notice/list?" + query;
 			articleUrl = cp + "/notice/article?page=" + current_page + "&" + query;
 			
 			String paging = util.paging(current_page, total_page, listUrl);
