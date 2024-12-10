@@ -28,7 +28,7 @@
 									style="width: 20px; height: 20px;"
 									class="rounded-circle object-fit-scale"
 									src="${pageContext.request.contextPath}/resources/images/mango.jpg"></td>
-								<td class="col-auto"><span>imsocute</span></td>
+								<td class="col-auto"><span style="font-weight: 300; font-size: 14px;">${sessionScope.member.nickname}</span></td>
 							</tr>
 						</thead>
 						<tbody>

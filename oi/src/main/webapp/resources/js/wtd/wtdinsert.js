@@ -14,10 +14,12 @@ function sendInsert(){
 	const maxsize = 2 * 1024 * 1024;
 	
 	for( el of files){
-		if(el.size > maxsize) text.innerHTML="용량은 2MB까지만 가능합니다";
-		return;
+		if(el.size > maxsize){
+			text.innerHTML="용량은 2MB까지만 가능합니다";
+			return;
+		} 
 	}
 	
-	form.action = "${pageContext.request.contextPath}/completeworkout/insertwtd";
+	form.action = "/oi/completeworkout/insertwtd";
 	form.submit();
 };
