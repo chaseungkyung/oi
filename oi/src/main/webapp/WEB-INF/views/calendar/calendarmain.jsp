@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>기록 요약 -오이-</title>
+<title>나의 기록 간략히 보기</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/layout/footer_layout.css">
@@ -17,9 +17,8 @@
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
 	<main>
-		<h6>캘린더 메인</h6>
 
-		<div class="calendar">
+		<div class="calendar1">
 			<div class="title">
 				<a href="recordmeal.jsp?year=${year}&month=${month-1}">&lt;</a> <label>${year}년
 					${month}월</label> <a href="recordmeal.jsp?year=${year}&month=${month+1}">&gt;</a>
@@ -27,7 +26,7 @@
 
 			<table class="table">
 				<thead>
-					<tr>
+					<tr class="table1">
 						<td>Sun</td>
 						<td>Mon</td>
 						<td>Tue</td>
@@ -37,7 +36,7 @@
 						<td>Sat</td>
 					</tr>
 				</thead>
-				<!-- 날짜 -->
+
 				<tbody>
 					<tr>
 						<c:forEach var="i" begin="${preDate}" end="${preDate+week-2}">
@@ -65,9 +64,10 @@
 				</tbody>
 			</table>
 
-			<div class="footer">
-				<a href="">오늘날짜로</a>
-			</div>
+			<button type="button" class="btn btn-outline-primary">등록</button>
+			<button type="button" class="btn btn-outline-success">수정</button>
+			<button type="button" class="btn btn-outline-warning">삭제</button>
+			<button class="footer btn btn-outline-info" onclick="location.href='${pageContext.request.contextPath}/mypage/calendar/main'">오늘 날짜</button>
 		</div>
 
 	</main>

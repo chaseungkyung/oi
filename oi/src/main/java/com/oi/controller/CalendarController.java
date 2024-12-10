@@ -71,6 +71,7 @@ public class CalendarController {
 		return mav;
 	}
 
+	
 	@RequestMapping(value = "/mypage/calendar/calendarinsert")
 	public ModelAndView calendarinsert(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
