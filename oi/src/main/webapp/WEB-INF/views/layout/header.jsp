@@ -78,7 +78,7 @@
 								<li><a class="dropdown-item" href="#">Something</a></li>
 							</ul></li>
 							<c:if test="${sessionScope.member.userLevel>=0}">
-								<li class="nav-item me-5 mt-3"><a class="nav-link" href="${pageContext.request.contextPath}/record/main">나의 기록</a></li>
+								<li class="nav-item me-5 mt-3"><a class="nav-link" href="${pageContext.request.contextPath}/calendar/calendarmain">나의 기록</a></li>
 							</c:if>
 					</ul>
 				</div>

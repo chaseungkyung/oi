@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 public class CalendarController {
 
-	@RequestMapping(value = "/mypage/calendar/main")
+	@RequestMapping(value = "/calendar/calendarmain")
 	public ModelAndView intomain(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 

@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /* 반응형 디자인 (화면 크기에 따라 자동 조정) */
-@media ( min-width : 768px) {
+@media ( min-width : 992px) {
 	.calendar1 {
 		width: 95% !important;
 	}

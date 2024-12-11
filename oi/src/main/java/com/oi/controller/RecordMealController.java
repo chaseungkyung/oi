@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 public class RecordMealController {
 	
-	@RequestMapping(value = "/recordmeal/main", method = RequestMethod.GET)
+	@RequestMapping(value = "/recordmeal/mealmain", method = RequestMethod.GET)
 	public ModelAndView intomain(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		return new ModelAndView("recordmeal/recordmeal");
