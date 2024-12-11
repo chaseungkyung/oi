@@ -71,22 +71,30 @@ public class CalendarController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/calendar/putmeal")
+	public ModelAndView putmeal(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		return new ModelAndView("recordmeal/write");
+	}
 	
-	@RequestMapping(value = "/mypage/calendar/calendarinsert")
-	public ModelAndView calendarinsert(HttpServletRequest req, HttpServletResponse resp)
+	
+	/*
+	@RequestMapping(value = "")
+	public ModelAndView calinsert(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		return new ModelAndView("");
 	}
 
-	@RequestMapping(value = "/mypage/calendar/calendarupdate")
-	public ModelAndView calendarupdate(HttpServletRequest req, HttpServletResponse resp)
+	@RequestMapping(value = "")
+	public ModelAndView calupdate(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		return new ModelAndView("");
 	}
 
-	@RequestMapping(value = "/mypage/calendar/calendardelete")
-	public ModelAndView calendardelete(HttpServletRequest req, HttpServletResponse resp)
+	@RequestMapping(value = "")
+	public ModelAndView caldelete(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		return new ModelAndView("");
 	}
+	*/
+	
 }

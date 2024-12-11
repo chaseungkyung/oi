@@ -20,12 +20,7 @@ public class RecordMealController {
 		return new ModelAndView("recordmeal/recordmeal");
 	}
 	
-	@RequestMapping(value = "/recordmeal/putmeal")
-	public ModelAndView putmeal(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		return new ModelAndView("recordmeal/");
-	}
-	
+
 	@RequestMapping(value = "/recordmeal/mealupdate")
 	public ModelAndView mealupdate(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

@@ -17,7 +17,28 @@
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
 	<main>
-
+	<div class="table">
+		<div class="btn1">
+			<button type="button" class="record"
+				onclick="location.href='${pageContext.request.contextPath}/recordmeal/mealmain';">
+			식단기록
+			</button>
+			<button type="button" class="record" onclick="location.href='${pageContext.request.contextPath}/todayworkout/main';">
+			운동기록
+			</button>
+		</div>
+		
+		<div class="btn2">
+			<button type="button" class="btn btn-outline-primary"
+			onclick="location.href='${pageContext.request.contextPath}/calendar/putmeal">등록</button>
+			<button type="button" class="btn btn-outline-success"
+			onclick="">수정</button>
+			<button type="button" class="btn btn-outline-warning"
+			onclick="">삭제</button>
+			<button class="footer btn btn-outline-info" 
+			onclick="location.href='${pageContext.request.contextPath}/mypage/calendar/main'">오늘 날짜</button>
+		</div>
+		
 		<div class="calendar1">
 			<div class="title">
 				<a href="recordmeal.jsp?year=${year}&month=${month-1}">&lt;</a> <label>${year}년
@@ -63,13 +84,8 @@
 					</tr>
 				</tbody>
 			</table>
-
-			<button type="button" class="btn btn-outline-primary">등록</button>
-			<button type="button" class="btn btn-outline-success">수정</button>
-			<button type="button" class="btn btn-outline-warning">삭제</button>
-			<button class="footer btn btn-outline-info" onclick="location.href='${pageContext.request.contextPath}/mypage/calendar/main'">오늘 날짜</button>
-		</div>
-
+	</div>
+</div>
 	</main>
 
 	<footer>
