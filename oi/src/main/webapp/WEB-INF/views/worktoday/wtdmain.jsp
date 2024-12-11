@@ -127,26 +127,50 @@
 	io.observe($sensor);
 </script>
 
+
 <script type="text/javascript">
 $(function () {
 	$('#wtdmaincontent').on('click','.emotion',function(){
 		if($(this).hasClass('like')){
 			
 			// 이미 좋아요 눌른건에 대해서는 취소 필요 
-			
-			const $num = $(this).closest('table.bodytable').attr('data-num');
-			let mode = "insert";
+			const num = $(this).closest('table.bodytable').attr('data-num');
+			const $obj = $(this).find('i');
+			let mode = $(this).find('i').hasClass('bi-heart-fill') ? 'delete':'insert';
 			let url = '${pageContext.request.contextPath}/completeworkout/insertlike';
-			let query = {num : $num, mode : mode };
+			let query = {num : num, mode : mode };
 			
 			const fx = function (data) {
-							
+				if(mode == 'insert'){
+					$($obj).removeClass('bi-heart');
+					$($obj).addClass('bi-heart-fill');
+				}else {
+					$($obj).removeClass('bi-heart-fill');
+					$($obj).addClass('bi-heart');
+				}
+				$($obj).parent().next('span').html(data.count);
+				console.log($($obj).next('span'));
 			};
 			
-			$.ajax(url,'get',query,'json', fx);
+			$.ajax({
+				type : 'get',
+				url : url,
+				data : query,
+				dataType : 'json',
+				success : function (data) {
+					fx(data);
+				},
+				beforeSend : function(jqXHR) {
+					jqXHR.setRequestHeader('AJAX', true);
+				},
+				error : function (e) {
+					console.log(e.responseText);
+				}
+			});
 		}
 	});
 });
 </script>
+
 </body>
 </html>

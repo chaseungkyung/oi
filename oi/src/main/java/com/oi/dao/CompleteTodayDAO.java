@@ -48,9 +48,10 @@ public class CompleteTodayDAO {
 			result = true;
 			conn.commit();
 			
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			conn.rollback();
 			e.printStackTrace();
+			throw e;
 		} finally {
 			conn.setAutoCommit(true);
 			DBUtil.close(pstmt);
@@ -223,5 +224,47 @@ public class CompleteTodayDAO {
 		}
 		
 		return result;
+	}
+	
+	// 게시글에대한 좋아요 insert
+	public void insertLike(long num, String userId) throws SQLException{
+		PreparedStatement pstmt = null;
+		String sql;
+		try {
+			sql = "INSERT INTO wotdLike (memberId, wNum) VALUES (?,?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userId);
+			pstmt.setLong(2, num);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	// 게시글에대한 좋아요 취소 
+	public void deleteLike(long num, String userId) throws SQLException{
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "DELETE FROM wotdlike WHERE wNum = ? AND memberId = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			pstmt.setString(2, userId);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
 	}
 }

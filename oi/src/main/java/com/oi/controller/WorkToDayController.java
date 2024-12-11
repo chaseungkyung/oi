@@ -45,7 +45,8 @@ public class WorkToDayController {
 	@RequestMapping(value = "/completeworkout/list", method = RequestMethod.GET)
 	public ModelAndView getListmore(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println("here");
+		
+		
 		// 넘어오는 파라미터 : page 
 		
 		ModelAndView mav = new ModelAndView("worktoday/wtdcontent");
@@ -82,8 +83,9 @@ public class WorkToDayController {
 				
 				dao.getFiles(dto);
 				dto.setLiked(dao.likeOrNot(login.getUserId(), dto.getWnum()));
+				
 			}
-
+			
 			mav.addObject("list", list);
 			//mav.addObject("dataCount", dataCount);
 			mav.addObject("total_page", total_page);
@@ -169,12 +171,33 @@ public class WorkToDayController {
 			throws ServletException, IOException{
 		
 		// 넘어오는 파라미터 : 게시물번호 num , mode = insert 인지 delete 인지 
-		
 		// 게시물에 대해 좋아요를 인서트 할건지 좋아요를 취소 할건지 
-		// 반환값 : 좋아요 개수 
-		// 성공적으로 마쳤는지 여부 
 		
+		HttpSession session = req.getSession();
+		LoginDTO login = (LoginDTO)session.getAttribute("member");
+			
+		String mode = req.getParameter("mode");
+		int count = 0;
+		try {
+			long num = Long.parseLong(req.getParameter("num"));
+			
+			if(mode.equalsIgnoreCase("insert")) {
+				dao.insertLike(num, login.getUserId());
+			}else {
+				dao.deleteLike(num, login.getUserId());
+			}
+			
+			count =  dao.likeCount(num);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 반환값 : 좋아요 개수 
+		// 성공적 = 클래스 바꿔줘야함 채운하트로 
 		Map<String, Object> model = new HashMap<String, Object>();
+		
+		model.put("count", count);
 		
 		return model;
 	}
