@@ -198,4 +198,30 @@ public class CompleteTodayDAO {
 		return result;
 	}
 	
+	// 게시물에대한 좋아요 여부 
+	public boolean likeOrNot(String userId, long wnum) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		boolean result = false;
+		try {
+			sql = "SELECT * FROM wotdlike WHERE memberId =? AND wnum = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userId);
+			pstmt.setLong(2, wnum);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) result = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return result;
+	}
 }

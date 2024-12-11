@@ -11,49 +11,6 @@
 <jsp:include page="/WEB-INF/views/layout/headimported.jsp" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/wtd/wtdmain.css">
-
-<script type="text/javascript">
-	function intotheForm() {
-		location.href = "${pageContext.request.contextPath}/completeworkout/insertwtd";
-	}
-	
-	/*
-	const $sensor = $('div#sensor');
-
-	//컨텐츠 불러오기 
-	function loading(page) {
-
-	}
-*/
-	// 처음 로딩 
-	$(function() {
-		let url = "${pageContext.request.contextPath}/completeworkout/list";
-		
-		$.ajax({
-			type:'get',
-			url: url,
-			data: {page:1},
-			success : function (data) {
-				console.log('false');
-				document.querySelector('#wtdmaincontent').insertAdjacentHTML('beforeend',data);
-			},
-			error: function (e) {
-				console.log(e.responseText);
-			}
-		});
-	});
-
-/*
-	// 감지 콜백 함수 
-	function callback() {
-
-	}
-
-	// 감지 등록 
-	const io = new IntersectionObserver(callback);
-	io.observe($sensor);
-*/
-</script>
 </head>
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
@@ -81,5 +38,115 @@
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 		<jsp:include page="/WEB-INF/views/layout/footerimported.jsp" />
 	</footer>
+	
+	<script type="text/javascript">
+	function intotheForm() {
+		location.href = "${pageContext.request.contextPath}/completeworkout/insertwtd";
+	}
+
+	const $sensor = document.querySelector('#sensor');
+	const $contentcover = document.querySelector('#wtdmaincontent');
+	
+	
+	// AJAX 통신 성공했을때 콜백함수 
+	const successFn = function(data) {
+		
+		document.querySelector('#wtdmaincontent').insertAdjacentHTML('beforeend', data);
+		
+		total = $('#wtdmaincontent').find('input.total_page:last-child').attr('total_page');
+		page = $('#wtdmaincontent').find('input.page:last-child').attr('page');
+		
+		if(page === total){
+			$sensor.style.display = 'none';
+		}else if(page < total){
+			io.observe($sensor);
+		}
+		
+		if(total === 0 ){
+			$contentcover.innerHTML = '';
+		}
+		
+		
+		$('#wtdmaincontent').attr('data-page',page);
+		$('#wtdmaincontent').attr('data-total',total);
+		$('div#sensor').attr('data-loading','false');
+	}
+	
+	//컨텐츠 불러오기 
+	function loading($page) {
+		let url = "${pageContext.request.contextPath}/completeworkout/list";
+
+		$.ajax({
+			type : 'get',
+			url : url,
+			data : {
+				page : $page
+			},
+			success : function(data) {
+				successFn(data);
+			},
+			beforeSend : function(jqXHR) {
+				$sensor.setAttribute('data-loading', true);
+				jqXHR.setRequestHeader('AJAX', true);
+			},
+			error : function(e) {
+				console.log(e.responseText);
+			}
+		});
+	}
+
+	// 처음 로딩 
+	$(function() {
+		loading(1);
+	});
+	
+
+	// 감지 콜백 함수 
+	const callback = (entries, io) => {
+		entries.forEach((entry)=>{
+			if(entry.isIntersecting){
+				let loading = $sensor.getAttribute('data-loading');
+				if(loading !== 'false'){
+					return ;
+				}
+				io.unobserve(entry.target);
+				
+				let page = parseInt($contentcover.getAttribute('data-page'));
+				let total = parseInt($contentcover.getAttribute('data-total'));
+				
+				if(page === 0 || page < total){
+					page++;
+					loading(page);
+				}
+			}
+		});
+	};
+
+	// 감지 등록 
+	const io = new IntersectionObserver(callback);
+	io.observe($sensor);
+</script>
+
+<script type="text/javascript">
+$(function () {
+	$('#wtdmaincontent').on('click','.emotion',function(){
+		if($(this).hasClass('like')){
+			
+			// 이미 좋아요 눌른건에 대해서는 취소 필요 
+			
+			const $num = $(this).closest('table.bodytable').attr('data-num');
+			let mode = "insert";
+			let url = '${pageContext.request.contextPath}/completeworkout/insertlike';
+			let query = {num : $num, mode : mode };
+			
+			const fx = function (data) {
+							
+			};
+			
+			$.ajax(url,'get',query,'json', fx);
+		}
+	});
+});
+</script>
 </body>
 </html>

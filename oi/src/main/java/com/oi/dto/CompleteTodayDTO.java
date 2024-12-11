@@ -15,7 +15,10 @@ public class CompleteTodayDTO {
 	private String profilePhoto;
 	private Wotdfile file;
 	
+	// 게시물에대한 좋아요 여부
+	private boolean liked;
 	
+	// 게시물에대한 좋아요, 댓글 개수
 	private int loved;
 	private int commentcount;
 	
@@ -90,6 +93,12 @@ public class CompleteTodayDTO {
 	}
 	public void setFile(Wotdfile file) {
 		this.file = file;
+	}
+	public boolean isLiked() {
+		return liked;
+	}
+	public void setLiked(boolean liked) {
+		this.liked = liked;
 	}
 	public int getLoved() {
 		return loved;

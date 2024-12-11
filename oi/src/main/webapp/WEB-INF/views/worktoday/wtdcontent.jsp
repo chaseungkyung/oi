@@ -17,7 +17,7 @@
 				</tr>
 			</thead>
 		</table>
-		<table class="bodytable">
+		<table class="bodytable" data-num="${vo.wnum}">
 			<tbody>
 				<tr>
 					<td style="height: 400px;">
@@ -26,7 +26,7 @@
 								<c:forEach var="map" items="${vo.file.file}" varStatus="status">
 								<div class="carousel-item ${status.index eq 0 ? 'active':'' }" data-primary="${map.key}">
 									<img class="object-fit-scale d-block w-100" alt="운동인증"
-										src="${pageContext.request.contextPath}/oifiles/photo/${map.value}"
+										src="${pageContext.request.contextPath}/uploads/photo/${map.value}"
 										style="height: 400px; width: 570px;">
 								</div>
 								</c:forEach>
@@ -41,8 +41,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td><a style="color: black;" href="#"><i
-							class="bi bi-heart"></i></a> ${vo.loved} <a style="color: black;" href="#"><i
+					<td><a style="color: black;" href="#" class="like emotion"><i
+							class="bi ${vo.liked == true ? 'bi-heart-full': 'bi-heart'}"></i></a> ${vo.loved} <a style="color: black;" href="#" class="comment emotion"><i
 							class="bi bi-chat-dots"></i></a> ${vo.commentcount}</td>
 				</tr>
 			</tbody>
@@ -51,3 +51,5 @@
 	</div>
 </div>
 </c:forEach>
+<input type="hidden" class="total_page" value="${total_page}" style="display:none;">
+<input type="hidden" class="page" value="${page}" style="display:none;">

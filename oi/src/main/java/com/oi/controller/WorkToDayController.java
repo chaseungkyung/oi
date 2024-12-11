@@ -3,7 +3,9 @@ package com.oi.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.oi.dao.CompleteTodayDAO;
 import com.oi.dto.CompleteTodayDTO;
@@ -12,6 +14,7 @@ import com.oi.dto.Wotdfile;
 import com.oi.mvc.annotation.Controller;
 import com.oi.mvc.annotation.RequestMapping;
 import com.oi.mvc.annotation.RequestMethod;
+import com.oi.mvc.annotation.ResponseBody;
 import com.oi.mvc.view.ModelAndView;
 import com.oi.util.FileManager;
 import com.oi.util.MyMultipartFile;
@@ -46,7 +49,11 @@ public class WorkToDayController {
 		// 넘어오는 파라미터 : page 
 		
 		ModelAndView mav = new ModelAndView("worktoday/wtdcontent");
-		boolean state = false;
+		
+		HttpSession session = req.getSession();
+		
+		LoginDTO login = (LoginDTO) session.getAttribute("member");
+		
 		try {
 			int page;
 			if(req.getParameter("page") != null) {
@@ -72,14 +79,13 @@ public class WorkToDayController {
 			
 			// 데이터 savename 받아오기 키 값 photonum : string 으로 저장 되어있음 
 			for(CompleteTodayDTO dto : list) {
-				state = true;
+				
 				dao.getFiles(dto);
+				dto.setLiked(dao.likeOrNot(login.getUserId(), dto.getWnum()));
 			}
-			//확인용
-			System.out.println(state);
-			
+
 			mav.addObject("list", list);
-			mav.addObject("dataCount", dataCount);
+			//mav.addObject("dataCount", dataCount);
 			mav.addObject("total_page", total_page);
 			mav.addObject("page", page);
 			
@@ -120,7 +126,7 @@ public class WorkToDayController {
 
 		try {
 			// 파일 저장
-			String pathname = req.getServletContext().getRealPath("/") + "oifiles" +  File.separator + "photo";
+			String pathname = req.getServletContext().getRealPath("/") + "uploads" + File.separator + "photo";
 			Collection<Part> parts = req.getParts();
 
 			List<MyMultipartFile> files = filemanager.doFileUpload(parts, pathname);
@@ -155,5 +161,21 @@ public class WorkToDayController {
 			e.printStackTrace();
 		}
 		return mav;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/completeworkout/insertlike", method =RequestMethod.GET )
+	public Map<String, Object> insertLike (HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException{
+		
+		// 넘어오는 파라미터 : 게시물번호 num , mode = insert 인지 delete 인지 
+		
+		// 게시물에 대해 좋아요를 인서트 할건지 좋아요를 취소 할건지 
+		// 반환값 : 좋아요 개수 
+		// 성공적으로 마쳤는지 여부 
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		return model;
 	}
 }
