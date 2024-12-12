@@ -3,6 +3,7 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: Noto Sans KR, 돋움, sans-serif;
 }
 
 
@@ -11,29 +12,30 @@
 	.calendar1 {
 		width: 80% ;
 	}
-	.table {
+	.ctable {
 		font-size: 14px ;
 	}
 
+	.calendar1 .title {
+	justify-content: center;
+	}
 	/* layout */
 	
-	.table {
+	.calendar1 {
 		width: 800px;
 		height: 800px;
 		margin: auto;
 	}
-	.table .table1 {
-		width: 150px;
-	}
-	.title {
+
+	.ctable1 .table2 {
 		margin: auto;
-		font-size: 20px;
 		width: 200px;
 		height: 80px;
 		margin-top: 80px;
 	}
-	.table .cls {
-		height: 60px ;
+	.calendar1 .cls {
+		height: 100px ;
+		width: 100px;
 	}
 
 	
@@ -61,7 +63,8 @@
 	.btn2 {
 		display: flex;
 		flex-direction: low;
-		align-items: center;
+		align-items: flex-end;
+		justify-content: flex-end;
 		border: none;
 		border-radius: 10px;
 		font-size: 20px;

@@ -17,7 +17,7 @@
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
 	<main>
-	<div class="table">
+	<div class="ctable">
 		<div class="btn1">
 			<button type="button" class="record"
 				onclick="location.href='${pageContext.request.contextPath}/recordmeal/mealmain';">
@@ -30,36 +30,35 @@
 		
 		<div class="btn2">
 			<button type="button" class="btn btn-outline-primary"
-			onclick="location.href='${pageContext.request.contextPath}/calendar/putmeal">등록</button>
-			<button type="button" class="btn btn-outline-success"
-			onclick="">수정</button>
-			<button type="button" class="btn btn-outline-warning"
-			onclick="">삭제</button>
+			onclick="location.href= '${pageContext.request.contextPath}/calendar/putmeal' ">등록</button>
+			<button type="button" class="btn btn-outline-danger"
+			onclick="">전체 삭제</button>
 			<button class="footer btn btn-outline-info" 
-			onclick="location.href='${pageContext.request.contextPath}/mypage/calendar/main'">오늘 날짜</button>
+			onclick="location.href='${pageContext.request.contextPath}/mypage/calendar/main'">TODAY</button>
 		</div>
 		
 		<div class="calendar1">
 			<div class="title">
-				<a href="recordmeal.jsp?year=${year}&month=${month-1}">&lt;</a> <label>${year}년
-					${month}월</label> <a href="recordmeal.jsp?year=${year}&month=${month+1}">&gt;</a>
+				<a href="recordmeal.jsp?year=${year}&month=${month-1}">&lt;</a> 
+					<label>${year}년 ${month}월</label> 
+				<a href="recordmeal.jsp?year=${year}&month=${month+1}">&gt;</a>
 			</div>
 
-			<table class="table">
+			<table class="ctable1">
 				<thead>
 					<tr class="table1">
-						<td>Sun</td>
-						<td>Mon</td>
-						<td>Tue</td>
-						<td>Wed</td>
-						<td>Thu</td>
-						<td>Fri</td>
-						<td>Sat</td>
+						<td>SUN</td>
+						<td>MON</td>
+						<td>TUE</td>
+						<td>WED</td>
+						<td>THU</td>
+						<td>FRI</td>
+						<td>SAT</td>
 					</tr>
 				</thead>
 
 				<tbody>
-					<tr>
+					<tr class="table2">
 						<c:forEach var="i" begin="${preDate}" end="${preDate+week-2}">
 							<td class="gray">${i}</td>
 						</c:forEach>

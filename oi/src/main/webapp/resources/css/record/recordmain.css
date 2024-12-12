@@ -3,6 +3,7 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: Noto Sans KR, 돋움, sans-serif;
 }
 
 
@@ -11,7 +12,7 @@
 .meal-record {
 	width: 80% !important;
 }
-.table {
+.rtable {
 	font-size: 14px !important;
 }
 .memo textarea {
@@ -23,34 +24,22 @@
 .title1 {
 	width: 50vw;
 	margin: 30px auto;
-}
-
-.title2 {
 	display: flex;
 	justify-content: center;
 }
 
 	
-/* 구분 */
-	
-	* {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-	}
-
-
 	/* 여기서부터 식단기록 세부 css*/
 	
 	
 	body {
-		font-family: Arial, sans-serif;
+		font-family: Noto Sans KR, 돋움, sans-serif;
 		margin: 0;
 		padding: 0;
 	}
 	.meal-record {
-		width: 80%;
-		max-width: 1200px;
+		width: 40%;
+		max-width: 600px;
 		margin: 0 auto;
 		padding: 20px;
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -60,25 +49,28 @@
 		color: #333;
 	}
 
+	.table1 {
+		vertical-align: center;
+	}
 
 	/* 테이블 스타일 */
 	
 	
-	table {
-		width: 100%;
+	.rtable {
+		width: 50%;
 		margin-bottom: 20px;
+		margin: 0 auto;
 		border-collapse: collapse;
+		justify-content: center;
 	}
 	th, td {
 		padding: 10px;
-		text-align: left;
-		border: 1px solid #ddd;
+		text-align: center;
+		border:none;
 	}
-	th {
-		background-color: #f2f2f2;
-	}
+
 	td {
-		background-color: #fafafa;
+		background-color: white;
 	}
 
 
@@ -86,13 +78,20 @@
 	
 	.meal {
 		margin-bottom: 40px;
+		border-radius: 8px;
+		border: none;
 	}
 	.meal h2 {
-		background-color: #4CAF50;
-		color: white;
+		background-color: #5B7B57;
+		color: #EDF9D0;
 		padding: 10px;
-		border-radius: 5px;
+		border-radius: 8px;
 		margin-bottom: 10px;
+		border: none;
+	}
+	.meal th {
+	color: #587B37;
+	background: white;
 	}
 
 
@@ -105,7 +104,7 @@
 	.memo h2 {
 		color: white;
 		padding: 10px;
-		border-radius: 5px;
+		border-radius: 8px;
 		margin-bottom: 10px;
 	}
 	.memo textarea {
@@ -113,7 +112,7 @@
 		height: 150px;
 		padding: 10px;
 		border: 1px solid #ddd;
-		border-radius: 5px;
+		border-radius: 8px;
 		resize: none;
 		font-size: 16px;
 	}
