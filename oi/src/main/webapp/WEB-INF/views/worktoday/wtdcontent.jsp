@@ -43,7 +43,8 @@
 				<tr>
 					<td>
 						<a style="color: black;" class="like emotion"><i class="bi ${vo.liked ? 'bi-heart-fill': 'bi-heart'}"></i></a><span style="font-size: 14px; font-weight: 300; padding-left: 4px;">${vo.loved}</span>
-						<a style="color: black;" class="comment emotion"><i	class="bi bi-chat-dots"></i></a><span style="font-size: 14px; font-weight: 300; padding-left: 4px;">${vo.commentcount}</span>
+						<a style="color: black; align-items: center; " class="comment emotion"><button type="button" class="btn" data-bs-toggle="modal"
+		data-bs-target="#modal"><i class="bi bi-chat-dots"></i></button></a><span style="font-size: 14px; font-weight: 300; padding-left: 4px;">${vo.commentcount}</span>
 					</td>
 				</tr>
 			</tbody>

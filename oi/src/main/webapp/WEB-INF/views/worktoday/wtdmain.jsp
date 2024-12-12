@@ -34,11 +34,116 @@
 		</div>
 	</main>
 
+	<div class="modal fade" id="exampleModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div id="slider1" class="carousel slide modalcarouel">
+						<div class="carousel-inner">
+						
+								<div class="carousel-item ${status.index eq 0 ? 'active':'' }"
+									data-primary="${map.key}">
+									<img class="object-fit-scale d-block w-100" alt="운동인증" src="#"
+										style="height: 600px; width: 800px;">
+								</div>
+							
+						</div>
+						<button class="carousel-control-prev" type="button"
+							data-bs-target="#slider1" data-bs-slide="prev"></button>
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<button class="carousel-control-next" type="button"
+							data-bs-target="#slider1" data-bs-slide="next"></button>
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					</div>
+					<table>
+						<tbody>
+							<tr>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="display: flex; min-height: 600px;">
+					<!-- 캐러셀 영역 -->
+					<div id="slider1" class="carousel slide modalcarouel col-6">
+						<div class="carousel-inner">
+							<!-- 예시 슬라이드 -->
+							<div class="carousel-item active" data-primary="1">
+								<img class="object-fit-scale d-block w-100" alt="운동인증" src="${pageContext.request.contextPath}/resources/images/mango.jpg"
+									style="height: 500px; width: 100%;">
+							</div>
+							<!-- 추가 슬라이드 필요 시 반복 -->
+						</div>
+						<button class="carousel-control-prev" type="button"
+							data-bs-target="#slider1" data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+						</button>
+						<button class="carousel-control-next" type="button"
+							data-bs-target="#slider1" data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+						</button>
+					</div>
+					<!-- 콘텐츠 영역 -->
+					<div class="table-container col-6">
+						<!-- 콘텐츠 -->
+						<div class="content">
+							<img alt="사진" src="#"
+								style="width: 50px; height: 50px; border-radius: 50%;"><span
+								style="margin-left: 10px; font-weight: bold;">닉네임</span>
+							<div style="margin-top: 10px;">컨텐츠</div>
+						</div>
+						<hr>
+						<!-- 댓글 목록 -->
+						<div class="comments-section" style="min-height: 450px;">
+							<!-- 개별 댓글 -->
+							<div class="comment mb-3">
+								<div class="d-flex align-items-center">
+									<img alt="프로필" src="#"
+										style="width: 40px; height: 40px; border-radius: 50%;">
+									<span style="margin-left: 10px; font-weight: bold;">닉네임</span>
+								</div>
+								<div style="margin-left: 50px; margin-top: 5px;">
+									<span>댓글 내용이 여기에 표시됩니다.</span>
+								</div>
+								<div style="margin-left: 50px; margin-top: 5px;">
+									<button class="btn btn-sm btn-link">답글달기</button>
+								</div>
+							</div>
+							<!-- 추가 댓글은 위와 동일하게 반복 -->
+						</div>
+						<!-- 댓글 입력란 -->
+						<div class="input-container">
+							<input type="text" placeholder="댓글을 남겨보세요">
+							<button class="btn btn-primary">등록</button>
+						</div>
+					</div>
+				</div>
+				<!-- 모달 푸터 (필요 시 추가) -->
+			</div>
+		</div>
+	</div>
+
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 		<jsp:include page="/WEB-INF/views/layout/footerimported.jsp" />
 	</footer>
-	
+
 	<script type="text/javascript">
 	function intotheForm() {
 		location.href = "${pageContext.request.contextPath}/completeworkout/insertwtd";
@@ -128,7 +233,7 @@
 </script>
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 $(function () {
 	$('#wtdmaincontent').on('click','.emotion',function(){
 		if($(this).hasClass('like')){

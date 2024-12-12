@@ -66,3 +66,62 @@ div.contentdiv {
 	font-weight: 300;
 	font-size: 14px;
 }
+
+
+
+
+.modalcarouel{
+	flex: 3;
+	padding: 10px;
+}
+
+.table-container {
+	flex: 1; /* 5 부분 */
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+}
+
+/* 콘텐츠 영역 */
+.content {
+	margin-bottom: 10px;
+}
+
+/* 댓글 목록 섹션 */
+.comments-section {
+	flex: 1; /* 남은 공간을 모두 차지 */
+	overflow-y: auto; /* 스크롤 가능 */
+	margin-bottom: 10px;
+	padding-right: 10px; /* 스크롤바 공간 확보 */
+}
+
+/* 댓글 입력란 섹션 */
+.input-container {
+	display: flex;
+	align-items: center;
+	padding: 10px 0;
+	border-top: 1px solid #eee;
+}
+
+.input-container input {
+	flex: 1;
+	padding: 8px 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-right: 10px;
+}
+
+.input-container button {
+	padding: 8px 16px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.input-container button:hover {
+	background-color: #0056b3;
+}
