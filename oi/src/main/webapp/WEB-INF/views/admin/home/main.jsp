@@ -5,30 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
-
-<jsp:include page="/WEB-INF/views/admin/layout/headimported.jsp"/>
-
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<jsp:include page="/WEB-INF/views/layout/adminheadimported.jsp" />
 </head>
 <body>
-
-<jsp:include page="/WEB-INF/views/admin/layout/header.jsp"/>
-
-<main>
-	<jsp:include page="/WEB-INF/views/admin/layout/left.jsp"/>
-	<div class="wrapper">
-		<div class="body-container">
-			<div class="body-main">
-				<p>관리자 페이지</p>
-			</div>
-		</div>
-	</div>
-</main>
-
-<jsp:include page="/WEB-INF/views/admin/layout/footer.jsp"/>
-
-<jsp:include page="/WEB-INF/views/admin/layout/footerimported.jsp"/>
-
+<header><jsp:include page="/WEB-INF/views/layout/amin_layout.jsp"></jsp:include></header>
 </body>
 </html>
