@@ -56,6 +56,7 @@
 		<td>45Kg</td>
 	<tr>
 </table>
+		<button type="button" onclick="${pageContext.request.contextPath}/recordmeal/write">등록</button>
 </div>
 
 <div class="meal-record">
