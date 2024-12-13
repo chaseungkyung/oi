@@ -1,6 +1,8 @@
 package com.oi.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
@@ -11,12 +13,14 @@ import com.oi.mvc.annotation.Controller;
 import com.oi.mvc.annotation.RequestMapping;
 import com.oi.mvc.annotation.RequestMethod;
 import com.oi.mvc.view.ModelAndView;
+import com.oi.util.FileManager;
 import com.oi.util.MyUtil;
 import com.oi.util.MyUtilBootstrap;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class NoticeController {
@@ -76,7 +80,7 @@ public class NoticeController {
 			
 			List<NoticeDTO> listNotice = null;
 			if(current_page == 1) {
-				listNotice = dao.listNotice();
+				listNotice = dao.listNotice(offset, size);
 			}
 			
 			String cp = req.getContextPath();
@@ -102,7 +106,7 @@ public class NoticeController {
 			mav.addObject("total_page", total_page);
 			mav.addObject("paging", paging);
 			mav.addObject("schType", schType);
-			mav.addObject("kwds", kwd);
+			mav.addObject("kwd", kwd);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,10 +121,49 @@ public class NoticeController {
 		String page = req.getParameter("page");
 		String size = req.getParameter("size");
 		String query = "page=" + page + "&size=" + size;
-		
-		
+
+		NoticeDAO dao = new NoticeDAO();
 		
 		try {
+			long noticeNum = Long.parseLong(req.getParameter("noticeNum"));
+			
+			String schType = req.getParameter("schType");
+			String kwd = req.getParameter("kwd");
+			if(schType == null) {
+				schType = "all";
+				kwd = "";
+			}
+			
+			kwd = URLDecoder.decode(kwd, "utf-8");
+			
+			if(kwd.length() != 0) {
+				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "UTF-8");
+			}
+	
+			NoticeDTO dto = dao.findById(noticeNum);
+			
+			if(dto == null) {
+				return new ModelAndView("redirect:/notice/list?" + query);
+			}
+			
+			dto.setNoticeContent(dto.getNoticeContent().replaceAll("\n", "<br>"));
+			
+			NoticeDTO preDto = dao.findByPre(dto.getNoticeNum(), schType, kwd);
+			NoticeDTO nexDto = dao.findByNex(dto.getNoticeNum(), schType, kwd);
+			
+			List<NoticeDTO> listFile = dao.listNoticeFile(noticeNum);
+			
+			ModelAndView mav = new ModelAndView("notice/article");
+			
+			mav.addObject("dao", dao);
+			mav.addObject("preDto", preDto);
+			mav.addObject("nexDto", nexDto);
+			mav.addObject("listFile", listFile);
+			mav.addObject("query", query);
+			mav.addObject("page", page);
+			mav.addObject("size", size);
+			
+			return mav;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -131,16 +174,34 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "/notice/download", method = RequestMethod.GET)
-	public ModelAndView download(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void download(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		NoticeDAO dao = new NoticeDAO();
+		
+		HttpSession session = req.getSession();
+		
+		FileManager fileManager = new FileManager();
+		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "notice";
+		
+		boolean b = false;
 		
 		try {
+			long noticeFileNum = Long.parseLong(req.getParameter("noticeFileNum"));
 			
+			NoticeDTO dto = dao.findById(noticeFileNum);
+			if(dto != null) {
+				b = fileManager.doFiledownload(dto.getNoticeSaveFileName(), dto.getNoticeOriFileName(), pathname, resp);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		
+		if(!b) {
+			resp.setContentType("text/html;charset=utf-8");
+			PrintWriter out = resp.getWriter();
+			out.print("<script>alert('파일 다운로드 실패'); history.back();</script>");
+		}
 	}
-	
-	
 }

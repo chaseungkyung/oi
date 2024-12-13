@@ -146,7 +146,7 @@ public class NoticeDAO {
 		
 		return list;
 	}
-	
+	//검색 리스트
 	public List<NoticeDTO> listNotice(int offset, int size, String schType, String kwd) {
 		List<NoticeDTO> list = new ArrayList<NoticeDTO>();
 		PreparedStatement pstmt = null;
@@ -202,40 +202,53 @@ public class NoticeDAO {
 			DBUtil.close(pstmt);
 		}
 		return list;
-	}
+	}	
 	
-	public List<NoticeDTO> listNotice() {
-		List<NoticeDTO> list = new ArrayList<NoticeDTO>();
+	public NoticeDTO findById(long noticeNum) {
+		NoticeDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		StringBuilder sb = new StringBuilder();
+		String sql;
 		
 		try {
+			sql = "SELECT noticeNum, n.memberId, noticeTitle, noticeContent, noticeWriteDate, noticeUpdateDate FROM notice n JOIN member m ON n.memberId=m.memberId WHERE noticeNum = ?";
+			pstmt = conn.prepareStatement(sql);
 			
-		} catch (Exception e) {
+			pstmt.setLong(1, noticeNum);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new NoticeDTO();
+				
+				dto.setNoticeNum(rs.getLong("noticeNum"));
+				dto.setMemberId(rs.getString("memberId"));
+				dto.setNoticeTitle(rs.getString("noticeTitle"));
+				dto.setNoticeContent(rs.getString("noticeContent"));
+				dto.setNoticeWriteDate(rs.getDate("noticeWriteDate"));
+				dto.setNoticeUpdateDate(rs.getDate("noticeUpdateDate"));
+			}
+			
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DBUtil.close(rs);
 			DBUtil.close(pstmt);
 		}
-		return list;
+		
+		
+		return dto;
+		
 	}
 	
-	public NoticeDTO findById(long num) {
+	public NoticeDTO findByPre(long noticeNum, String schType, String kwd) {
 		NoticeDTO dto = null;
 		
 		return dto;
 		
 	}
 	
-	public NoticeDTO findByPre(long num, String schType, String kwd) {
-		NoticeDTO dto = null;
-		
-		return dto;
-		
-	}
-	
-	public NoticeDTO findByNex(long num, String schType, String kwd) {
+	public NoticeDTO findByNex(long noticeNum, String schType, String kwd) {
 		NoticeDTO dto = null;
 		
 		return dto;
@@ -243,32 +256,173 @@ public class NoticeDAO {
 	}
 	
 	public void updateNotice(NoticeDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE notice SET noticeTitle=?, noticeContent=?, noticeUpdateDate=SYSDATE WHERE noticeNum=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getNoticeTitle());
+			pstmt.setString(1, dto.getNoticeContent());
+			pstmt.setLong(3, dto.getNoticeNum());
+			
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			pstmt = null;
+			
+			if(dto.getListFile() != null  && dto.getListFile().size() != 0) {
+				sql = "INSERT INTO noticeFile(noticeFileNum, noticeNum, noticeSaveFileName, noticeOriFileName) VALUES (noticeFile_seq.NEXTVAL, ?, ?, ?)";
+				pstmt = conn.prepareStatement(sql);
+				
+				for(MyMultipartFile mf : dto.getListFile()) {
+					pstmt.setLong(1, dto.getNoticeNum());
+					pstmt.setString(2, dto.getNoticeSaveFileName());
+					pstmt.setString(3, dto.getNoticeOriFileName());
+					
+					pstmt.executeUpdate();
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	public void deleteNotice(long noticeNum) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "DELETE FROM notice WEHRE noticeNum = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, noticeNum);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
 		
 	}
 	
-	public void deleteNotice(long num) throws SQLException {
+	public void deleteNotice(long[] noticeNums) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
 		
-	}
-	
-	public void deleteNotice(long[] num) throws SQLException {
-		
+		try {
+			sql = "DELETE FROM notice WEHRE noticeNum = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			for(long noticeNum : noticeNums) {
+				pstmt.setLong(1, noticeNum);
+				pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
 	}
 
-	public List<NoticeDTO> listNoticeFile(long num) {
+	public List<NoticeDTO> listNoticeFile(long noticeNum) {
 		List<NoticeDTO> list = new ArrayList<NoticeDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT noticeFileNum, noticeNum, noticeSaveFileName, noticeOriFileName FROM noticeFile WHERE noticeNum = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, noticeNum);		
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				NoticeDTO dto = new NoticeDTO();
+				
+				dto.setNoticeFileNum(rs.getLong("noticeFileNum"));
+				dto.setNoticeNum(rs.getLong("noticeNum"));
+				dto.setNoticeSaveFileName(rs.getString("noticeSaveFileName"));
+				dto.setNoticeOriFileName(rs.getString("noticeOriFileName"));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
 		
 		return list;
 	}
 	
 	public NoticeDTO findByNoticeFileId(long noticeFileNum) {
 		NoticeDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT noticeFileNum, noticeNum, noticeSaveFileName, noticeOriFileName FROM noticeFile WHERE noticeFileNum = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, noticeFileNum);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new NoticeDTO();
+				
+				dto.setNoticeFileNum(rs.getLong("noticeFileNum"));
+				dto.setNoticeNum(rs.getLong("noticeNum"));
+				dto.setNoticeSaveFileName(rs.getString("noticeSaveFileName"));
+				dto.setNoticeOriFileName(rs.getString("noticeOriFileName"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
 		
 		return dto;
 	}
 	
-	public NoticeDTO deleteNoticeFileId(long noticeFileNum) {
-		NoticeDTO dto = null;
+	public void deleteNoticeFile(String mode, long noticeFileNum) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
 		
-		return dto;
+		try {
+			if(mode.equals("all")) {
+				sql = "DELETE FROM noticeFile WHERE noticeNum = ?";
+			} else {
+				sql = "DELETE FROM noticeFile WHERE noticeFileNum = ?";
+			}
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, noticeFileNum);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
 	}
 }
