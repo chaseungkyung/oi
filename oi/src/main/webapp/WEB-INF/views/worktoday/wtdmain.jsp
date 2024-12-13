@@ -130,7 +130,7 @@
 						<!-- 댓글 입력란 -->
 						<div class="input-container">
 							<input type="text" placeholder="댓글을 남겨보세요">
-							<button class="btn btn-primary">등록</button>
+							<button class="btn btn-primary" data-answer="num">등록</button>
 						</div>
 					</div>
 				</div>
@@ -273,6 +273,12 @@ $(function () {
 				}
 			});
 		}
+	});
+});
+
+$(function () {
+	$('#wtdmaincontent').on('click','.btnmodalshow',function(){
+		let url
 	});
 });
 </script>

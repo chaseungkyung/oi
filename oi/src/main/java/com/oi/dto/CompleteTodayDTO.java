@@ -1,7 +1,11 @@
 package com.oi.dto;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompleteTodayDTO {
+	
+	// 게시글에 관련한 멤버 
 	private long wnum;
 	private int category;		// 10
 	private String memberId;
@@ -23,9 +27,14 @@ public class CompleteTodayDTO {
 	private int commentcount;
 	
 	
+	// 댓글에 관련된 필드
+	private List<WotdCommentDTO> comments;
+	
 	public CompleteTodayDTO() {
 		Wotdfile file = new Wotdfile();
+		List<WotdCommentDTO> list = new ArrayList<WotdCommentDTO>();
 		this.file = file;
+		this.comments = list;
 	}
 	public long getWnum() {
 		return wnum;
@@ -112,6 +121,11 @@ public class CompleteTodayDTO {
 	public void setCommentcount(int commentcount) {
 		this.commentcount = commentcount;
 	}
-	
+	public List<WotdCommentDTO> getComments() {
+		return comments;
+	}
+	public void setComments(WotdCommentDTO dto) {
+		this.comments.add(dto);
+	}
 	
 }

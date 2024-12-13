@@ -32,6 +32,7 @@ public class WorkToDayController {
 	private CompleteTodayDAO dao = new CompleteTodayDAO();
 	private FileManager filemanager = new FileManager();
 	private MyUtil util = new MyUtilGeneral();
+	
 	@RequestMapping(value = "/completeworkout/main", method = RequestMethod.GET)
 	public ModelAndView intomain(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -39,6 +40,33 @@ public class WorkToDayController {
 		
 		return new ModelAndView("worktoday/wtdmain");
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/completeworkout/main", method = RequestMethod.POST)
+	public Map<String, Object> getComment(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		
+		// 넘어오는 파라미터 : wnum 
+		Map<String, Object> model = new HashMap<String, Object>();
+		try {
+
+			long wnum = Long.parseLong(req.getParameter("wnum"));
+			
+			// 해당하는 게시물 가져오기		// 내용 , 닉네임, 프로필사진, 컨텐츠 / 날짜 필요없을듯 
+			CompleteTodayDTO dto = dao.findByNum(wnum);
+			
+			// 댓글 목록 가져오기 
+			dao.getComments(dto);
+			
+			model.put("dto", dto);
+			model.put("list", dto.getComments());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
 	
 	// AJAX - TEXT
 	// 리스트 무한 스크롤 
@@ -201,4 +229,6 @@ public class WorkToDayController {
 		
 		return model;
 	}
+	
+	
 }

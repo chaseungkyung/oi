@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.oi.dto.CompleteTodayDTO;
+import com.oi.dto.WotdCommentDTO;
 import com.oi.dto.Wotdfile;
 import com.oi.util.DBConn;
 import com.oi.util.DBUtil;
@@ -267,4 +268,74 @@ public class CompleteTodayDAO {
 			DBUtil.close(pstmt);
 		}
 	}
+	
+	// 게시물 알아내기
+	public CompleteTodayDTO findByNum(long wnum) {
+		CompleteTodayDTO dto = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+			sql = "SELECT w.wNum, wpfile, todaycon,nickname,profilephoto FROM wotd w JOIN wotdphoto ph ON ph.wnum = w.wnum JOIN member m ON m.memberid= w.memberid JOIN memberdetails md ON md.memberid = w.memberid  WHERE w.wnum = ? ";
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setLong(1, wnum);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				dto = new CompleteTodayDTO();
+				
+				dto.setWnum(rs.getLong("wNum"));
+				dto.setContent(rs.getString("todaycon"));
+				dto.setNickName(rs.getString("nickname"));
+				dto.setProfilePhoto(rs.getString("profilephoto"));
+				getFiles(dto);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(ps);
+			DBUtil.close(rs);
+		}
+		return dto;
+	}
+	
+	// 해당게시물에 대한 댓글 목록 
+	// wotdparcom = 0 인애들이 부모 
+	public void getComments(CompleteTodayDTO dto) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT wcomnum, profilephoto,md.memberid, wcomcon, wotdparcom, TO_CHAR(wcomupdate,'YYYY-MM-DD')wcomupdate FROM wotdcomment c JOIN memberdetails md ON md.memberid = c.memberid WHERE wnum = ? AND wotdparcom = 0 ";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setLong(1, dto.getWnum());
+			
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				WotdCommentDTO com = new WotdCommentDTO();
+				
+				com.setCommentseq(rs.getInt("wcomnum"));
+				com.setMemberId(rs.getString("memberid"));
+				com.setMemberPhoto(rs.getString("profilephoto"));
+				com.setParent(rs.getLong("wotdparcom"));
+				com.setWrittenDate(rs.getString("wcomupdate"));
+				com.setInnercontent(rs.getString("wcomcon"));
+				
+				dto.setComments(com);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(ps);
+		}
+	}
+	
 }
