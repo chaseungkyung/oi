@@ -31,7 +31,7 @@
 							<li><a class="dropdown-item" 
 							href="${pageContext.request.contextPath}/mypage/mypage">마이페이지</a></li>
 							<c:if test="${sessionScope.member.userLevel > 50}">
-								<li><a class="dropdown-item" href="${pageContext.request.contextPath}/cp/admin/main">관리자페이지</a></li>
+								<li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/main">관리자페이지</a></li>
 							</c:if>
 							<li><a class="dropdown-item"
 								href="${pageContext.request.contextPath}/access/logout">로그아웃</a></li>

@@ -1,8 +1,6 @@
 package com.oi.controller.admin;
 
 import java.io.IOException;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.rmi.ServerException;
 
 import com.oi.mvc.annotation.Controller;
@@ -15,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 public class AdminController {
 	
-	@RequestMapping(value = "/cp/admin/main")
+	@RequestMapping(value = "/admin/main")
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse resp) throws ServerException, IOException {
 		
 		ModelAndView mav = new ModelAndView("admin/home/main");
