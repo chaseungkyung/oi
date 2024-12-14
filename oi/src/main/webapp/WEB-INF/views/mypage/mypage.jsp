@@ -16,7 +16,91 @@
 <body>
 <header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
 <main>
-	<div>${nickname}님 오이에 오신 걸 환영합니다!</div>
+		<div class="personal-info">
+			<span>${nickname}님 오이에 오신 걸 환영합니다!</span>
+			<h2>개인정보 등록</h2>
+			<div>
+        	<button type="button" onclick="editPersonal()">수정하기</button>
+    		</div>
+			<div>
+				<label for="userId">아이디</label> <input type="text" id="userId"
+					readonly value="user123">
+			</div>
+			<div>
+				<label for="birthDate">생년월일</label> <input type="date"
+					id="birthDate" readonly value="1998-07-11">
+			</div>
+			<div>
+				<label for="email">이메일</label> <input type="email" id="email"
+					readonly value="hong@email.com">
+			</div>
+			<div>
+				<label for="address">주소</label> <input type="text" id="address"
+					readonly value="이태원2동 221-1 3층">
+			</div>
+			<div>
+				<label for="zipCode">우편번호</label> <input type="text" id="zipCode"
+					readonly value="04598" maxlength="5">
+			</div>
+			<div>
+				<label for="name">이름</label> <input type="text" id="name" readonly
+					value="이승범">
+			</div>
+			<div>
+				<label for="profileImage">프로필 사진</label> <input type="file"
+					id="profileImage" readonly accept="image/*">
+			</div>
+		</div>
+
+		<div class="physical-info">
+			<h2>신체정보 등록</h2>
+			<div>
+        	<button type="button" onclick="editPhysical()">수정하기</button>
+    		</div>
+			<div>
+				<label>성별</label>
+				<div>
+					<input type="radio" id="male" name="gender" value="male" readonly>
+					<label for="male">남성</label> <input type="radio" id="female"
+						name="gender" value="female" readonly> <label for="female">여성</label>
+				</div>
+			</div>
+			<div>
+				<label for="registerDate">등록날짜</label> <input type="date"
+					id="registerDate" readonly value="2024-03-17">
+			</div>
+			<div>
+				<label for="height">키</label> <input type="number" id="height"
+					readonly value="170">
+			</div>
+			<div>
+				<label for="weight">몸무게</label> <input type="number" id="weight"
+					readonly value="65">
+			</div>
+			<div>
+				<label for="bmr">기초대사량</label> <input type="number" id="bmr"
+					readonly value="1500">
+			</div>
+
+			<div>
+				<label for="bmi">체지방률</label> <input type="number" id="bmi"
+					readonly value="30">
+			</div>
+			
+			<div>
+				<label for="muscle">근육량</label> <input type="number" id="muscle"
+					readonly value="30">
+			</div>
+		</div>
+
+		<p><span>나의 내역</span></p>
+		<nav>
+			<a href="#"><span>판매 내역</span></a>
+			<a href="#"><span>댓글 내역</span></a>
+			<a href="#"><span>내가 쓴 글 내역</span></a>
+			<a href="#"><span>게시글 찜 내역</span></a>
+			<a href="#"><span>오운완 좋아요 내역</span></a>
+		</nav>
 </main>
 <footer><jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include></footer>
 </body>

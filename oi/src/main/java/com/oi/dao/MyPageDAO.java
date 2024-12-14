@@ -37,4 +37,23 @@ public class MyPageDAO {
 		}
         	return dto;
 	}
+}	
+	/*
+	public MemberDTO getDetails(String id) {
+		MemberDTO dto = null;
+		PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql;
+        
+        try {
+        	sql = 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+            DBUtil.close(pstmt);
+		}
+        	return null;
+	}
 }
+	*/
