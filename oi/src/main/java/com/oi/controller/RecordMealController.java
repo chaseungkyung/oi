@@ -1,6 +1,7 @@
 package com.oi.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.Calendar;
 
 import com.oi.dao.RecordMealDAO;
@@ -34,66 +35,16 @@ public class RecordMealController {
 		return mav;
 	}
 	
+	
 	//AJAX-TEXT
 	@RequestMapping(value = "/recordmeal/mealmonth", method = RequestMethod.GET)
 	public ModelAndView mealmonth(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RecordMealDAO dao = new RecordMealDAO();
+		ModelAndView mav = new ModelAndView("/recordmeal/recordmeal");
 		
-		HttpSession session = req.getSession();
-		LoginDTO dto = (LoginDTO)session.getAttribute("member");
-		
-		ModelAndView mav = new ModelAndView("recordmeal/month");
-
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH) + 1; // 0 ~ 11
-		int todayYear = year;
-		int todayMonth = month;
-		int todayDate = cal.get(Calendar.DATE);
-		
-		try {
-			String y = req.getParameter("year");
-			String m = req.getParameter("month");
-			
-			if( y != null) {
-				year = Integer.parseInt(y);
-			}
-			if( m != null) {
-				month = Integer.parseInt(m);
-			}
-			
-			// year년 month월의 1일은 무슨 요일인지 구하기
-			cal.set(year, month -1, 1);
-			year = cal.get(Calendar.YEAR);
-			month = cal.get(Calendar.MONTH) +1;
-			int week = cal.get(Calendar.DAY_OF_WEEK	);
-			
-			// 첫 주의 1일 이전 날짜
-			Calendar scal = (Calendar) cal.clone();
-			int syear = scal.get(Calendar.YEAR);
-			int smonth = scal.get(Calendar.MONTH) + 1;
-			int sdate = scal.get(Calendar.DATE);
-			
-			// 마지막 주의.. year 년도. month월 . 마지막 주의 마지막 요일 (일-토) 날짜
-			Calendar ecal = (Calendar) cal.clone();
-			int eyear = ecal.get(Calendar.YEAR);
-			int emonth = ecal.get(Calendar.MONTH) + 1;
-			int edate = ecal.get(Calendar.DATE);
-			
-			
-			
-			
-			
-			
-			
-		
-			
-		} catch (Exception e) {
-			
-		}
-		
-		return new ModelAndView("recordmeal/recordmeal");
+		return mav;
 	}
+
+	
 	
 	@RequestMapping(value = "/recordmeal/mealinsert")
 	public ModelAndView mealinsert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
