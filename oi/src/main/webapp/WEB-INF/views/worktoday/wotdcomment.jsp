@@ -61,7 +61,7 @@
 							<span>${commentdto.innercontent}</span>
 						</div>
 						<div style="margin-left: 50px; margin-top: 5px;">
-							<input type="checkbox" data-parentComment="${commentdto.commentseq }" class="btn btn-sm btn-link" id="inputs"><label for="inputs">답글달기</label>
+							<input type="checkbox" data-parentComment="${commentdto.commentseq }" class="btn btn-sm btn-link" id="inputs" value="${commentdto.commentseq }"><label for="inputs">답글달기</label>
 						</div>
 					</div>
 				</c:forEach>

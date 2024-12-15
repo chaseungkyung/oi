@@ -306,7 +306,26 @@ public class CompleteTodayDAO {
 	}
 	
 	// 댓글 등록 
-	
+	public void insertComment (CompleteTodayDTO dto) {
+		PreparedStatement ps = null;
+		String sql;
+		try {
+			sql = " INSERT INTO wotdcomment (wcomnum,wnum,memberid,postcatenum,wcomcon,blindcnt,wotdparcom,wcomdate,wcomupdate) VALUES (seq_wotdComment.NEXTVAL,?,?,11,?,1,0,SYSDATE,SYSDATE)";
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setLong(1, dto.getWnum());
+			ps.setString(2, dto.getMemberId());
+			ps.setString(3, dto.getContent());
+			
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(ps);
+		}
+	}
 	
 	
 	// 해당게시물에 대한 댓글 목록 

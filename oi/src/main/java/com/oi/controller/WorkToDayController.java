@@ -231,6 +231,7 @@ public class WorkToDayController {
 		
 		String content = req.getParameter("commentcontents");
 		
+		// 부모댓글이 있는지 없는지 확인해야함 
 		// insert 하고 redirect 를 submit 으로 매핑해서
 		// 다시 modal-body 를 띄우는 걸로 
 		
