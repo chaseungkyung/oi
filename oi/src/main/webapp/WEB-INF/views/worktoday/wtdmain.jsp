@@ -79,60 +79,6 @@
 				</div>
 				<div class="modal-body" style="display: flex; min-height: 600px;">
 					<!-- 캐러셀 영역 -->
-					<div id="slider1" class="carousel slide modalcarouel col-6">
-						<div class="carousel-inner">
-							<!-- 예시 슬라이드 -->
-							<div class="carousel-item active" data-primary="1">
-								<img class="object-fit-scale d-block w-100" alt="운동인증" src="${pageContext.request.contextPath}/resources/images/mango.jpg"
-									style="height: 500px; width: 100%;">
-							</div>
-							<!-- 추가 슬라이드 필요 시 반복 -->
-						</div>
-						<button class="carousel-control-prev" type="button"
-							data-bs-target="#slider1" data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-						</button>
-						<button class="carousel-control-next" type="button"
-							data-bs-target="#slider1" data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-						</button>
-					</div>
-					<!-- 콘텐츠 영역 -->
-					<div class="table-container col-6">
-						<!-- 콘텐츠 -->
-						<div class="content">
-							<img alt="사진" src="#"
-								style="width: 50px; height: 50px; border-radius: 50%;"><span
-								style="margin-left: 10px; font-weight: bold;">닉네임</span>
-							<div style="margin-top: 10px;">컨텐츠</div>
-						</div>
-						<hr>
-						<!-- 댓글 목록 -->
-						<div class="comments-section" style="min-height: 450px;">
-							<!-- 개별 댓글 -->
-							<div class="comment mb-3">
-								<div class="d-flex align-items-center">
-									<img alt="프로필" src="#"
-										style="width: 40px; height: 40px; border-radius: 50%;">
-									<span style="margin-left: 10px; font-weight: bold;">닉네임</span>
-								</div>
-								<div style="margin-left: 50px; margin-top: 5px;">
-									<span>댓글 내용이 여기에 표시됩니다.</span>
-								</div>
-								<div style="margin-left: 50px; margin-top: 5px;">
-									<button class="btn btn-sm btn-link">답글달기</button>
-								</div>
-							</div>
-							<!-- 추가 댓글은 위와 동일하게 반복 -->
-						</div>
-						<!-- 댓글 입력란 -->
-						<div class="input-container">
-							<input type="text" placeholder="댓글을 남겨보세요">
-							<button class="btn btn-primary" data-answer="num">등록</button>
-						</div>
-					</div>
 				</div>
 				<!-- 모달 푸터 (필요 시 추가) -->
 			</div>
@@ -238,7 +184,7 @@ $(function () {
 	$('#wtdmaincontent').on('click','.emotion',function(){
 		if($(this).hasClass('like')){
 			
-			// 이미 좋아요 눌른건에 대해서는 취소 필요 
+			
 			const num = $(this).closest('table.bodytable').attr('data-num');
 			const $obj = $(this).find('i');
 			let mode = $(this).find('i').hasClass('bi-heart-fill') ? 'delete':'insert';
@@ -254,7 +200,6 @@ $(function () {
 					$($obj).addClass('bi-heart');
 				}
 				$($obj).parent().next('span').html(data.count);
-				console.log($($obj).next('span'));
 			};
 			
 			$.ajax({
@@ -276,9 +221,57 @@ $(function () {
 	});
 });
 
+// 게시글 및 댓글 답글 띄우기 
 $(function () {
 	$('#wtdmaincontent').on('click','.btnmodalshow',function(){
-		let url
+		let url = "${pageContext.request.contextPath}/completeworkout/modalbody";
+		let wnum = $(this).attr('data-article');
+		console.log(wnum);
+		const query = {wnum:wnum};
+		
+		$.ajax({
+			type : 'get',
+			url : url,
+			data : query,
+			dataType : 'text',
+			success : function (data) {
+				$('.modal-body').html(data);
+			},
+			beforeSend: function (jqXHR) {
+				jqXHR.setRequestHeader('AJAX',true);
+			},
+			error : function (e) {
+				console.log(e.responseText);
+			}
+		});
+	});
+	
+	
+	// 댓글 입력 란 
+	$('#wtdmaincontent').on('click', '.btn-answer', function(){
+		let url = "${pageContext.request.contextPath}/completeworkout/insertcomment";
+		let wnum = $(this).attr('data-answer');
+		
+		if(! $(this).prev('input').val()){
+			return false;
+		}
+		
+		$.ajax({
+			type: 'post',
+			url : url,
+			data : {wnum : wnum},
+			dataType : 'text',
+			success : function (data) {
+				$('.modal-body').html(data);
+			},
+			beforeSend : function (jqXHR) {
+				$(this).prev('input').val("");
+				jqXHR.setRequestHeader('AJAX',true);
+			},
+			error : function (e) {
+				console.log(e.responseText);
+			}
+		});
 	});
 });
 </script>

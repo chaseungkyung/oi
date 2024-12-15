@@ -24,7 +24,9 @@
 					<li class="nav-item dropdown">
 						<button class="btn dropdown-toggle" data-bs-toggle="dropdown"
 							aria-expanded="false">
-							<img alt="사진" src="#"><span>${sessionScope.member.nickname}
+							<c:set var="defaultfile" value="${pageContext.request.contextPath}/resources/images/blank-profile.png"/>
+							<c:set var="fileroot" value="${pageContext.request.contextPath}/uploads/photo/${sessionScope.member.saveprofile}" />
+							<img style="width: 20px; height: 20px; margin-right: 3px;" class="rounded-circle object-fit-scale" alt="사진" src="${sessionScope.member.saveprofile == 'default' ? defaultfile: fileroot }"><span>${sessionScope.member.nickname}
 							</span>
 						</button>
 						<ul class="dropdown-menu dropdown-menu-white">

@@ -41,30 +41,29 @@ public class WorkToDayController {
 		return new ModelAndView("worktoday/wtdmain");
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/completeworkout/main", method = RequestMethod.POST)
-	public Map<String, Object> getComment(HttpServletRequest req, HttpServletResponse resp)
+	@RequestMapping(value = "/completeworkout/modalbody", method = RequestMethod.GET)
+	public ModelAndView getComment(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
 		// 넘어오는 파라미터 : wnum 
-		Map<String, Object> model = new HashMap<String, Object>();
+		ModelAndView mav = new ModelAndView("worktoday/wotdcomment");
 		try {
 
 			long wnum = Long.parseLong(req.getParameter("wnum"));
-			
+
 			// 해당하는 게시물 가져오기		// 내용 , 닉네임, 프로필사진, 컨텐츠 / 날짜 필요없을듯 
 			CompleteTodayDTO dto = dao.findByNum(wnum);
 			
 			// 댓글 목록 가져오기 
 			dao.getComments(dto);
 			
-			model.put("dto", dto);
-			model.put("list", dto.getComments());
+			mav.addObject("article", dto);
+			mav.addObject("commentlist", dto.getComments());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return model;
+		return mav;
 	}
 	
 	
@@ -173,12 +172,9 @@ public class WorkToDayController {
 			dto.setMemberId(login.getUserId());
 			dto.setContent(req.getParameter("content"));
 			
-			// 인서트 성공시 true 실패시 false 
-			boolean result = dao.insertCompleteWork(dto);
-			
-			// 테스트용
-			System.out.println(result);
-			
+			// 인서트 성공시 true 실패시 false // boolean result = 
+			dao.insertCompleteWork(dto);
+		
 			// 실패시 insertform 에서 alert 창 띄우기 = 실패 ! 
 			/*
 			if(! result) {
@@ -229,6 +225,17 @@ public class WorkToDayController {
 		
 		return model;
 	}
-	
+	@RequestMapping(value = "/completeworkout/insertcomment", method = RequestMethod.POST)
+	public ModelAndView insertComment(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		
+		String content = req.getParameter("commentcontents");
+		
+		// insert 하고 redirect 를 submit 으로 매핑해서
+		// 다시 modal-body 를 띄우는 걸로 
+		
+		ModelAndView mav = new ModelAndView("redirect:/");
+		return mav;
+	}
 	
 }
