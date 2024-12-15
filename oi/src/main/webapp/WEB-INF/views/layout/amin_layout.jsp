@@ -63,7 +63,7 @@ $(function () {
                 </li>
                 
                 <li class="menu--item">
-                    <a href="#" class="menu--link" title="공지사항">
+                    <a href="${pageContext.request.contextPath}/notice/list" class="menu--link" title="공지사항">
                         <span class="menu--label">공지사항</span>
                     </a>
                 </li>

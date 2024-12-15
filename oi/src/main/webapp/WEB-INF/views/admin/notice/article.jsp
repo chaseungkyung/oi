@@ -8,33 +8,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 
-<jsp:include page="/WEB-INF/views/admin/layout/headimported.jsp"/>
-
 <style type="text/css">
 .body-main {
 	max-width: 800px;
 }
 </style>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
-
-<script type="text/javascript">
-	function deleteBoard() {
-		if(confirm('게시글을 삭제하겠습니까?')) {
-			let query = 'num=${dto.noticeNum}&${query}';
-			let url = '${pageContext.request.contextPath}/admin/notice/delete?' + query;
-			location.href = url;
-		}
-	}
-</script>
 
 </head>
 <body>
 
-<jsp:include page="/WEB-INF/views/admin/layout/header.jsp"/>
 
 <main>
-	<jsp:include page="/WEB-INF/views/admin/layout/left.jsp"/>
-	
+
 	<div class="wrapper">
 		<div class="body-container">
 			<div class="body-title">
@@ -104,7 +89,7 @@
 				<tr>
 					<td width="50%">
 						<c:choose>
-							<c:when test="">
+							<c:when test="${sesssinScope.member.memberId == dto.memberId }">
 								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/notice/update?noticeNum=${dto.noticeNum}&page=${page}&size=${size}';">수정</button>
 							</c:when>
 							<c:otherwise>

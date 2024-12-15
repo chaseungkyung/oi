@@ -334,8 +334,6 @@ public class NoticeManageController {
 	public ModelAndView deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
 		HttpSession session = req.getSession();
-		MemberDTO meto = (MemberDTO)session.getAttribute("member");
-		
 		FileManager fileManager = new FileManager();
 		
 		String root = session.getServletContext().getRealPath("/");
@@ -370,8 +368,6 @@ public class NoticeManageController {
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
 	HttpSession session = req.getSession();
-	MemberDTO meto = (MemberDTO)session.getAttribute("member");
-	
 	FileManager fileManager = new FileManager();
 		
 	String root = session.getServletContext().getRealPath("/");
@@ -398,6 +394,15 @@ public class NoticeManageController {
 			query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "UTF-8");
 		}
 		
+		List<NoticeDTO> listFile = dao.listNoticeFile(noticeNum);
+		for(NoticeDTO vo : listFile) {
+			fileManager.doFiledelete(pathname, vo.getNoticeSaveFileName());
+		}
+		
+		dao.deleteNoticeFile("all", noticeNum);
+		
+		dao.deleteNotice(noticeNum);
+		
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
@@ -409,8 +414,6 @@ public class NoticeManageController {
 	public ModelAndView deleteList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		HttpSession session = req.getSession();
-		MemberDTO meto = (MemberDTO)session.getAttribute("member");
-		
 		FileManager fileManager = new FileManager();
 			
 		String root = session.getServletContext().getRealPath("/");

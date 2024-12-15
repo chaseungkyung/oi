@@ -1,0 +1,100 @@
+@charset "UTF-8";
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Noto Sans KR, 돋움, sans-serif;
+}
+
+
+/* 반응형 디자인 (화면 크기에 따라 자동 조정) */
+@media ( min-width : 992px) {
+	.calendar1 {
+		width: 80% ;
+	}
+
+	.calendar1 .title {
+	justify-content: center;}
+	
+	.calendar1 {
+		width: 800px;
+		height: 700px;
+		margin: auto;
+	}
+
+	.ctable1 .table2 {
+		margin: auto;
+		width: 200px;
+		height: 80px;
+		margin-top: 80px;
+	}
+	.calendar1 .cls {
+		height: 100px ;
+		width: 100px;
+	}
+
+div .title {
+	margin-top: 50px;
+	justify-content: center;
+}
+
+
+/*버튼 */
+	
+.btn {justify-content: center;}
+
+.btn .btn-record {
+	display: flex;
+	flex-direction: low;
+	align-items: center;
+	border: none;
+	border-radius: 10px;
+	font-family: Noto Sans KR, 돋움, sans-serif;
+}
+.btn-other .btn2 {
+	background-color: white;
+	justify-content: center;
+}
+.btn .btn2 {
+	font-size: 20px;
+	justify-content: center;
+	flex-direction: low;
+	align-items: center;
+	border: none;
+	border-radius: 10px;
+	font-family: Noto Sans KR, 돋움, sans-serif;
+}
+
+.btn .btn2:hover {
+	color: #66B10B;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transform: scale(1.03);
+}
+
+.btn .btn2:active {
+	transform: scale(1);
+	box-shadow: none;
+}
+
+.btn .btn-record .record{
+	font-size: 30px;
+	color: #6A8E66; 
+	background-color: white;
+	border: none; 
+	border-radius: 8px;
+	padding: 5px 10px; /* 버튼 내부 여백 */
+	cursor: pointer; /* 클릭 가능한 포인터 */
+	transition: all 0.3s ease; /* 부드러운 효과 */
+}
+
+.btn .btn-record .record:hover {
+  color: #496769; /* 호버 시 색 변경 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 약간의 그림자 */
+  transform: scale(1.03); /* 살짝 커지는 효과 */
+}
+
+.btn .btn-record .record:active {
+  transform: scale(1); /* 클릭 시 원래 크기로 */
+  box-shadow: none; /* 클릭 시 그림자 제거 */
+}
+}

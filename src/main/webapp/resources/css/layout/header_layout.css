@@ -1,0 +1,14 @@
+@charset "UTF-8";
+* {
+	font-family: "Noto Sans KR";
+	font-weight: 900;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+.header-container{
+	border-bottom: 1px solid #eeeeee;
+}
+.offcanvas-header-container{
+	border-bottom: 1px solid #eeeeee;
+}
