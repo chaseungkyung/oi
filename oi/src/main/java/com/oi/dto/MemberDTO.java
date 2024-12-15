@@ -10,6 +10,22 @@ public class MemberDTO {
 	private Date memberSignUp;
 	private int longinOk; 
 	private int userLevel;
+	private MemberDetailsDTO memberDetails;
+	private BodyRecordDTO bodyRecord;
+	
+	// 의존성 주입
+	public MemberDetailsDTO getMemberDetails() {
+		return memberDetails;
+	}
+	public void setMemberDetails(MemberDetailsDTO memberDetails) {
+		this.memberDetails = memberDetails;
+	}
+	public BodyRecordDTO getBodyRecord() {
+		return bodyRecord;
+	}
+	public void setBodyRecord(BodyRecordDTO bodyRecord) {
+		this.bodyRecord = bodyRecord;
+	}
 	
 	public String getMemberId() {
 		return memberId;
@@ -47,5 +63,7 @@ public class MemberDTO {
 	public void setUserLevel(int userLevel) {
 		this.userLevel = userLevel;
 	}
+	
+	
 	
 }
