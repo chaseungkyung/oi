@@ -19,43 +19,22 @@ public class NoticeDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
-		long seq;
 		
 		try {
-			sql = "SELECT notice_seq.NEXTVAL FROM dual";
+			sql = "INSERT INTO notice(noticeNum, notice, memberId, noticeWriteDate, noticeUpdateDate, noticePhoto, noticeTitle, noticeContent) VALUES (seq_notice.NEXTVAL, ?, ?, SYSDATE, SYSDATE, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			
-			rs = pstmt.executeQuery();
-			
-			seq = 0;
-			
-			if(rs.next()) {
-				seq = rs.getLong(1);
-			}
-			dto.setNoticeNum(seq);
-			
-			rs.close();
-			pstmt.close();
-			rs = null;
-			pstmt = null;
-			
-			sql = "INSERT INTO notice(noticeNum, notice, memberId, noticeWriteDate, noticeUpdateDate, noticePhoto, noticeTitle, noticeContent) VALUES (?, ?, ?, SYSDATE, SYSDATE, ?, ?, ?)";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setLong(1, dto.getNoticeNum());
-			pstmt.setInt(2, dto.getNotice());
-			pstmt.setString(3, dto.getMemberId());
-			pstmt.setString(4, dto.getNoticePhoto());
-			pstmt.setString(5, dto.getNoticeTitle());
-			pstmt.setString(6, dto.getNoticeContent());
+			pstmt.setInt(1, dto.getNotice());
+			pstmt.setString(2, dto.getMemberId());
+			pstmt.setString(3, dto.getNoticePhoto());
+			pstmt.setString(4, dto.getNoticeTitle());
+			pstmt.setString(5, dto.getNoticeContent());
 			
 			pstmt.executeUpdate();
 			
-			pstmt.close();
-			pstmt = null;
 			
 			if(dto.getListFile().size() != 0) {
-				sql = "INSERT INTO noticeFile(noticeFileNum, noticeNum, noticeSaveFileName, noticeOriFileName) VALUES (noticeFile_seq.NEXTVAL, ?, ?, ?)";
+				sql = "INSERT INTO noticeFile(noticeFileNum, noticeNum, noticeSaveFileName, noticeOriFileName) VALUES (seq_noticeFile.NEXTVAL, ?, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 				
 				for(MyMultipartFile mf: dto.getListFile()) {
@@ -70,6 +49,7 @@ public class NoticeDAO {
 			e.printStackTrace();
 			throw e;
 		} finally {
+			DBUtil.close(rs);
 			DBUtil.close(pstmt);
 		}
 	}
