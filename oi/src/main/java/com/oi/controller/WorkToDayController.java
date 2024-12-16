@@ -48,7 +48,11 @@ public class WorkToDayController {
 		HttpSession session = req.getSession();
 		LoginDTO login = (LoginDTO) session.getAttribute("member");
 		
-		
+		try {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return new ModelAndView("worktoday/mine");
 		
@@ -272,6 +276,6 @@ public class WorkToDayController {
 		
 		return model;
 	}
-
+	
 	
 }
