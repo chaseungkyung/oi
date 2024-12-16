@@ -101,6 +101,6 @@ public class MyPageController {
             return mav;
         }
 
-        return new ModelAndView("redirect:/oi/mypage/mypage");
+        return new ModelAndView("redirect:/mypage/mypage");
     }
 }

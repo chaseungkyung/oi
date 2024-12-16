@@ -49,7 +49,7 @@ $(document).ready(function () {
   }
 
   // 신체 정보 검증
-  // 키(3자리), 몸무게(2~3자리), 체지방률(2자리), 근육량(2~3자리)
+  // 키(3자리), 몸무게(2~3자리), 체지방률(2~3자리), 근육량(2~3자리)
   function validateHeight() {
     const height = $('#height').val().trim();
     const heightPattern = /^\d{3}$/; 
@@ -76,9 +76,9 @@ $(document).ready(function () {
 
   function validateBmi() {
     const bmi = $('#bmi').val().trim();
-    const bmiPattern = /^\d{2}$/; 
+    const bmiPattern = /^\d{2,3}$/; 
     if (!bmiPattern.test(bmi)) {
-      showError('#bmi', '체지방률은 2자리 숫자여야 합니다. 예: 15');
+      showError('#bmi', '체지방률은 2~3자리 숫자여야 합니다. 예: 15, 100');
       return false;
     } else {
       hideError('#bmi');
