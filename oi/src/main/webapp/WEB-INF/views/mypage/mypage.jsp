@@ -16,13 +16,13 @@
     href="${pageContext.request.contextPath}/resources/css/mypage/mypage.css">
 </head>
 <body>
-    <header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
+    <header><jsp:include page="/WEB-INF/views/layout/header.jsp"/></header>
     <!-- 왼쪽 사이드 바 -->
     <div class="mypage-container">
         <nav class="my-history-nav">
-            <div></div>
+            <div><img src="${pageContext.request.contextPath}/resources/images/blank-profile.png" alt="프로필 사진" class="mypage-profile" style="height: 40px; width: auto;"></div>
             <p>
-                <span>${memberDetails.name}님</span>
+                <span>${member.nickName}님</span>
             </p>
             <button id="toggleButton" class="btn btn-light btn-sm">&lt;</button>
             <p>

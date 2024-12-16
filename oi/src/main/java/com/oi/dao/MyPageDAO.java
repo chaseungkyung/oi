@@ -40,9 +40,9 @@ import com.oi.util.DBUtil;
 		                "br.bodyMuscle " +
 		                "FROM " +
 		                "Member m " +
-		                "INNER JOIN " +
+		                "LEFT JOIN " +
 		                "MemberDetails md ON m.memberId = md.memberId " +
-		                "INNER JOIN " +
+		                "LEFT JOIN " +
 		                "BodyRecord br ON m.memberId = br.memberId " +
 		                "WHERE " +
 		                "m.memberId = ?";
@@ -60,11 +60,11 @@ import com.oi.util.DBUtil;
 
 		            // MemberDetailsDTO 값 설정
 		            MemberDetailsDTO memberDetails = new MemberDetailsDTO();
+		            memberDetails.setName(rs.getString("name"));
 		            memberDetails.setBirth(rs.getString("birth"));
 		            memberDetails.setEmail(rs.getString("email"));
 		            memberDetails.setAddress(rs.getString("address"));
 		            memberDetails.setAddressNum(rs.getString("addressNum"));
-		            memberDetails.setName(rs.getString("name"));
 		            memberDetails.setProfilePhoto(rs.getString("profilePhoto"));
 
 		            dto.setMemberDetails(memberDetails);
