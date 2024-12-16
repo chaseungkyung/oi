@@ -43,26 +43,20 @@
 				<!-- 주 단위로 날짜가 여기에 출력됨 -->
 			</tbody>
 		</table>
-
-		<div class="meal">
-			<table class="rtable meal-record">
-				<tr class="table1">
-					<th>체중</th>
-					<td>45Kg</td>
-				</tr>
-			</table>
-		</div>
-
+		<br>
 		<div class="meal-record" id="mealRecord">
 			<div class="meal">
 				<h2>아침</h2>
 				<table id="breakfastTable">
 					<tr>
 						<th>시간</th>
-						<th>식단</th>
+						<th>메뉴</th>
+						<th>(인분)</th>
+						<th>(g)</th>
+						<th>(Kcal)</th>
 					</tr>
 				</table>
-				<button class="btn mealinsertbtn" onclick="openModal('breakfast')">➕</button>
+				<button class="btn mealinsertbtn" onclick="openModal('breakfast')">➕ 추가</button>
 			</div>
 
 			<div class="meal">
@@ -70,10 +64,13 @@
 				<table id="lunchTable">
 					<tr>
 						<th>시간</th>
-						<th>식단</th>
+						<th>메뉴</th>
+						<th>(인분)</th>
+						<th>(g)</th>
+						<th>(Kcal)</th>
 					</tr>
 				</table>
-				<button class="btn mealinsertbtn" onclick="openModal('lunch')">➕</button>
+				<button class="btn mealinsertbtn" onclick="openModal('lunch')">➕ 추가</button>
 
 			</div>
 
@@ -82,10 +79,13 @@
 				<table id="dinnerTable">
 					<tr>
 						<th>시간</th>
-						<th>식단</th>
+						<th>메뉴</th>
+						<th>(인분)</th>
+						<th>(g)</th>
+						<th>(Kcal)</th>
 					</tr>
 				</table>
-				<button class="btn mealinsertbtn" onclick="openModal('dinner')">+</button>
+				<button class="btn mealinsertbtn" onclick="openModal('dinner')">➕ 추가</button>
 			</div>
 
 			<div class="memo">
@@ -105,7 +105,7 @@
 				<input type="text" name="content" id="mealUnit" placeholder="ex) 2 (인분)">
 				<input type="text" name="content" id="mealCapacity" placeholder="용량(g)">
 				<input type="text" name="content" id="mealKcal" placeholder="칼로리(Kcal)">
-				<button class="mealinsertbtn" id="mealinsertbtn" onclick="addMeal()">등록</button>
+				<button class="mealinsertbtn" id="mealinsertbtn" onclick="saveMeal()">등록</button>
 				<button class="mealinsertbtn" onclick="closeModal()">취소</button>
 			</div>
 		</div>

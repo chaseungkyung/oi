@@ -97,32 +97,67 @@ let currentMealType = ""; // 현재 추가할 식사 타입
 
  function closeModal() {
    document.getElementById('mealModal').style.display = 'none';
-   /*
    document.getElementById('mealTime').value = "";
    document.getElementById('mealName').value = "";
-   */
  }
 
- function addMeal() {
-   let mealTime = document.getElementById('mealTime').value;
-   let mealName = document.getElementById('mealName').value;
-   let mealUnit = document.getElementById('mealUnit').value;
-   let mealCapacity = document.getElementById('mealCapacity').value;
-   let mealKcal = document.getElementById('mealKcal').value;
+ 
+ function saveMeal() {
+     const dietFoodTime = document.getElementById('dietFoodTime').value;
+     const dietFoodDate = document.getElementById('dietFoodDate').value;
+     const dietFoodName = document.getElementById('dietFoodName').value;
+     const dietFoodUnit = document.getElementById('dietFoodUnit').value;
+     const dietFoodCapacity = document.getElementById('dietFoodCapacity').value;
+	 const Kcal = document.getElementById('kcal').value;
 
-   if (mealTime && mealName) {
-     let table = document.getElementById(`${currentMealType}Table`);
-     let row = table.insertRow();
-     row.insertCell(0).textContent = mealTime;
-     row.insertCell(1).textContent = mealName;
-	 row.insertCell(2).textContent = mealUnit;
-	 row.insertCell(3).textContent = mealCapacity;
-	 row.insertCell(4).textContent = mealKcal;
-     closeModal();
-   } else {
-     alert("모든 필드를 입력해주세요.");
+     $.ajax({
+         url: '/recordmeal/mealinsert',
+         method: 'GET',
+         data: {
+             dietFoodTime: dietFoodTime,
+             dietFoodName: dietFoodName,
+             dietFoodUnit: dietFoodUnit,
+             dietFoodCapacity: dietFoodCapacity,
+			 Kcal: Kcal
+         },
+         success: function (data) {
+             if (response.state === "true") {
+                 alert("식단 기록이 저장되었습니다.");
+				 $('#mealModal').modal('hide');
+				 document.getElementById('dietFoodTime').value = '';
+				 document.getElementById('dietFoodDate').value = '';
+				 document.getElementById('dietFoodName').value = '';
+				 document.getElementById('dietFoodUnit').value = '';
+				 document.getElementById('dietFoodCapacity').value = '';
+				 document.getElementById('Kcal').value = '';
+								 
+             } else {
+                 alert("저장에 실패했습니다.");
+             }
+         },
+         error: function () {
+             alert("오류가 발생했습니다.");
+         },
+     });
+ }
+ 
+   
+   
+   window.onload = function () {
+	adBanner();
    }
    
-   
-   
+   function adBanner() {
+	const adbn = new XMLHttpRequest();
+	adbn.open("GET", "calendarmain.jsp", true);
+	adbn.onreadystatechange = function() {
+		if (adbn.readyState === 4 && adbn.status === 200) {
+		   const adBanner = document.getElementById('adBanner');
+		   adBanner.style.display = "block";
+	}
+   };
+   adbn.send();
  }
+   window.onload = function () {
+       adBanner();
+   }; 

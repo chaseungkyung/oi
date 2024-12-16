@@ -44,9 +44,7 @@
 		text-align: center;
 		color: #333;
 	}
-	.table1 {
-		vertical-align: center;
-	}
+
 
 	/* 테이블 스타일 */
 	.rtable {
@@ -115,5 +113,9 @@
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 약간의 그림자 */
 		transform: scale(1.03); /* 살짝 커지는 효과 */
 	}
+
+
 }
+
+
 

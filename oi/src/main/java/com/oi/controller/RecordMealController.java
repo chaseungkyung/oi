@@ -39,7 +39,7 @@ public class RecordMealController {
 	}
 	
 	
-	//AJAX-TEXT	
+
 	@ResponseBody
 	@RequestMapping(value = "/recordmeal/mealinsert" , method =  RequestMethod.GET)
 	public Map<String, Object> mealinsert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -63,7 +63,9 @@ public class RecordMealController {
 			dto.setDietFoodName(req.getParameter("dietFoodName"));
 			dto.setDietFoodDate(req.getParameter("dietFoodDate"));
 			dto.setDietFoodUnit(req.getParameter("dietFoodUnit"));
+			dto.setCapacity(req.getParameter("capacity"));
 			
+			dto.setKcal(Integer.parseInt(req.getParameter("kcal")));
 			
 			dao.insertRecord(dto);
 			

@@ -10,17 +10,16 @@
 /* 반응형 디자인 (화면 크기에 따라 자동 조정) */
 @media ( min-width : 992px) {
 	.calendar1 {
-		width: 80% ;
+		width: 60%;
+		height: 700px;
+		margin: 0 auto;
 	}
 
 	.calendar1 .title {
-	justify-content: center;}
-	
-	.calendar1 {
-		width: 800px;
-		height: 700px;
-		margin: auto;
+	display: flex;
+	justify-content: center;
 	}
+
 
 	.ctable1 .table2 {
 		margin: auto;
@@ -32,6 +31,12 @@
 		height: 100px ;
 		width: 100px;
 	}
+	
+	.gray {
+	color : lightgray;
+	}
+	
+
 
 div .title {
 	margin-top: 50px;
@@ -41,11 +46,11 @@ div .title {
 
 /*버튼 */
 	
-.btn {justify-content: center;}
+.btn {display: flex; flex-direction: column; justify-content: center; border: none;}
 
 .btn .btn-record {
 	display: flex;
-	flex-direction: low;
+	justify-content: center;
 	align-items: center;
 	border: none;
 	border-radius: 10px;
@@ -96,5 +101,31 @@ div .title {
 .btn .btn-record .record:active {
   transform: scale(1); /* 클릭 시 원래 크기로 */
   box-shadow: none; /* 클릭 시 그림자 제거 */
+}
+
+
+
+/* 광고배ㅓㄴ */
+
+#adBanner {
+	position: fixed;
+	top: 100px; /* 창에서 떨어지는 거리 */
+	right: 20px; 
+	width: 200px;
+	height: 300px;
+	border: 1px solid #ccc;
+	background-color: #f9f9f9;
+	box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+	padding: 10px;
+	display: none;
+}
+#adBanner img {
+	width: 100%;
+	height: auto;
+}
+        
+.ad-right   {
+	display: flex;
+	justify-content: end;
 }
 }

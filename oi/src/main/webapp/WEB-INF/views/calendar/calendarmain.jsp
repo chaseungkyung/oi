@@ -2,6 +2,11 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
+<%
+    // 광고 이미지를 동적으로 로드하거나 DB에서 가져올 수 있음
+    String adImage = "ad1.jpg"; // 예제용 광고 이미지
+    String adLink = "https://www.example.com"; // 광고 링크
+%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -26,20 +31,25 @@
 					onclick="location.href='${pageContext.request.contextPath}/todayworkout/main';">운동기록</button>
 			</div>
 
-			<div class="btn-other">
+			<div class="btn-other"><br>
 				<button type="button" class="btn2"
-					onclick="location.href= '${pageContext.request.contextPath}/calendar/putmeal' ">➕</button>
+					onclick="location.href= '${pageContext.request.contextPath}/calendar/putmeal' ">등록 모르겠다~</button>
 				<button type="button" class="btn2"
 					onclick="location.href='${pageContext.request.contextPath}/mypage/calendar/main'">TODAY</button>
 			</div>
 		</div>
-
+		
 		<div class="calendar1">
+			<div class= "ad-right" id="adbanner">
+				<a href="<%= adLink %>" target="_blank">
+   				 	<img src="${pageContext.request.contextPath}/resources/images/ad6.png" alt="광고 배너">
+				</a>
+			</div>
 			<div class="title">
 				<a href="recordmeal.jsp?year=${year}&month=${month-1}">&lt;</a> <label>${year}년
 					${month}월</label> <a href="recordmeal.jsp?year=${year}&month=${month+1}">&gt;</a>
 			</div>
-
+			<br><br>
 			<table class="ctable1">
 				<thead>
 					<tr class="table1">

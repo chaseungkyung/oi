@@ -20,7 +20,7 @@ public class RecordMealDAO {
 
 		try {
 			sql = "INSERT INTO mealrecord(dietFoodNum, memberId, dietFoodTime, dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal) "
-					+ " VALUES(SEQ_MEALRECORD.NEXTVAL, ?, TO_DATE(?, 'YYYY-MM-DD'), TO_DATE(SYSDATE, 'YYYY-MM-DD'), ?, ?, ?, ?)";
+					+ " VALUES(SEQ_MEALRECORD.NEXTVAL, ?, TO_DATE(?, 'YYYY-MM-DD'), SYSDATE, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, dto.getMemberId());
