@@ -22,8 +22,8 @@ public class FindExerciseDAO {
 		try {
 			sql = "select nameGym, coordinateX, coordinateY "
 					+ " from findExercise"
-					+ " where coordinateX > ? - 0.1 and coordinateX < ? + 0.1"
-					+ " and coordinateY > ? - 0.1 and coordinateY < ? + 0.1 ";
+					+ " where coordinateX > ? - 0.02 and coordinateX < ? + 0.02"
+					+ " and coordinateY > ? - 0.013 and coordinateY < ? + 0.013 ";
 			
 			pstmt = conn.prepareStatement(sql);
 			

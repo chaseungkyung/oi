@@ -13,12 +13,20 @@
 <jsp:include page="/WEB-INF/views/layout/footerimported.jsp" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/calendar/calendarmain.css">
+	<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/findgym/findGym.css">
 </head>
 <body>
-
+	
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
-
-	<div id="map" style="width: 400px; height: 400px;"></div>
+	<div class = "container d-flex justify-content-evenly">
+		<div class = "info my-5">
+		</div>
+		<div class = "mapContainer my-5">
+		<div id="map" style="width: 400px; height: 400px;"></div>
+		</div>
+	
+	</div>
 	<script type="text/javascript"
 		src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=7vmwl6ghhv&submodules=geocoder"></script>
 	<script type="text/javascript">
@@ -61,7 +69,14 @@
 			
 			var map = new naver.maps.Map('map', {
 				center : new naver.maps.LatLng(37.5565452, 126.9195189),
-				zoom : 14
+				zoom : 14,
+				draggable: false,            // 드래그 비활성화
+			    pinchZoom: false,            // 핀치줌 비활성화 (모바일 환경)
+			    scrollWheel: false,          // 스크롤 휠 줌 비활성화
+			    keyboardShortcuts: false,    // 키보드 단축키 이동 비활성화
+			    disableDoubleTapZoom: true,  // 더블탭 줌 비활성화 (모바일 환경)
+			    disableDoubleClickZoom: true,// 더블클릭 줌 비활성화
+			    disableTwoFingerTapZoom: true// 두 손가락 탭줌 비활성화 (모바일 환경)
 			});
 			
 			const fn = function(data) {
@@ -80,27 +95,55 @@
 						return;
 					}
 
-					// 첫 번째 결과 사용 (coordinates: x=경도, y=위도)
+					
 					var item = response.v2.addresses[0];
-					var lng = item.x; // 경도
-					var lat = item.y; // 위도
+					var lng = item.x;
+					var lat = item.y;
 
-					// 지도의 중심을 해당 좌표로 이동
 					map.setCenter(new naver.maps.LatLng(lat, lng));
 					
 					let innerUrl = '${pageContext.request.contextPath}/findGymController/list';
 					let innerQuery = 'lng=' + lng + '&lat=' + lat;
 					
+					let htmltext = '';
+					const marker = {};
+					
 					const innerFn = function(data){
 						console.log(data.gymList);
-						for(const [name, coords] of Object.entries(data.gymList)) {
-							new naver.maps.Marker({
+						Object.entries(data.gymList).forEach(([name, coords], idx) => {
+							htmltext += '<div class = "infoData" id="infoData' + idx + '"  >' + name + '</div>';
+							
+							marker["marker"+idx] = new naver.maps.Marker({
 							      position: new naver.maps.LatLng(coords[1], coords[0]),
 							      map: map
 							    });
-						}
+							
+							marker["marker"+idx].setIcon({
+
+					            url: '${pageContext.request.contextPath}/resources/images/marker.svg' // 다른 아이콘 URL
+
+							});
+							
+							$('.info').on('mouseenter', '#infoData'+idx , function() {
+						        marker["marker"+idx].setIcon({
+						            url: '${pageContext.request.contextPath}/resources/images/marker_spot.svg' // 다른 아이콘 URL
+
+						        });
+						    });
+
+						    $('.info').on('mouseleave', '#infoData'+idx, function() {
+						    	marker["marker"+idx].setIcon({
+						            url: '${pageContext.request.contextPath}/resources/images/marker.svg' // 다른 아이콘 URL
+
+						        });
+						    });
+							
+							
+						});
 						
-					}
+						$('div.info').html(htmltext);
+						
+					};
 					
 					ajaxFun(innerUrl, 'get', innerQuery, 'json', innerFn);
 				});
