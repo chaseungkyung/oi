@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Insert title here</title>
+<title>OI</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/layout/footer_layout.css">
@@ -226,7 +226,7 @@ $(function () {
 	$('#wtdmaincontent').on('click','.btnmodalshow',function(){
 		let url = "${pageContext.request.contextPath}/completeworkout/modalbody";
 		let wnum = $(this).attr('data-article');
-		console.log(wnum);
+		
 		const query = {wnum:wnum};
 		
 		$.ajax({
@@ -245,27 +245,55 @@ $(function () {
 			}
 		});
 	});
-	
-	
+
+});
+
+function getComments(wnum) {
+	let url = "${pageContext.request.contextPath}/completeworkout/modalbody";
+
+	$.ajax({
+		type : 'get',
+		url : url,
+		data : {wnum:wnum},
+		dataType : 'text',
+		success : function (data) {
+			$('.modal-body').html(data);
+		},
+		beforeSend: function (jqXHR) {
+			$('.modal-body').html("");
+			jqXHR.setRequestHeader('AJAX',true);
+		},
+		error : function (e) {
+			console.log(e.responseText);
+		}
+	});
+}
+
+$(function () {
 	// 댓글 입력 란 
-	$('#wtdmaincontent').on('click', '.btn-answer', function(){
-		let url = "${pageContext.request.contextPath}/completeworkout/insertcomment";
-		let wnum = $(this).attr('data-answer');
+	$('.modal-body').on('click', '.btn-answer', function(){
 		
-		if(! $(this).prev('input').val()){
+		let $content =$(this).prev('.contents');
+		let content = $(this).prev('.contents').val();
+		let wnum = $(this).next('.getwnum').val();
+		
+		if( ! content){
+			$(this).prev('.contents').focus();
 			return false;
 		}
 		
+		let url = "${pageContext.request.contextPath}/completeworkout/insertcomment";
+		
 		$.ajax({
-			type: 'post',
+			type: 'get',
 			url : url,
-			data : {wnum : wnum},
-			dataType : 'text',
+			data : {content : content , wnum : wnum},
+			dataType : 'json',
 			success : function (data) {
-				$('.modal-body').html(data);
+				getComments(data.wnum);
 			},
 			beforeSend : function (jqXHR) {
-				$(this).prev('input').val("");
+				$content.val("");
 				jqXHR.setRequestHeader('AJAX',true);
 			},
 			error : function (e) {

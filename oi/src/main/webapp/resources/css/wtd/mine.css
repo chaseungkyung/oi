@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+.profile-header {
+	margin-top: 50px;
+}
+
+.profile-img {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-right: 30px;
+}
+
+.profile-info h2 {
+	font-size: 28px;
+	margin: 0;
+}
+
+.profile-stats {
+	display: flex;
+	gap: 20px;
+	margin: 15px 0;
+}
+
+.profile-stats div {
+	font-size: 16px;
+}
+
+.profile-stats div span {
+	font-weight: bold;
+}
+
+.profile-bio {
+	font-size: 14px;
+}
+
+.profile-posts {
+	margin-top: 50px;
+}
+
+.profile-posts .post {
+	width: 100%;
+	height: 0;
+	padding-bottom: 100%;
+	position: relative;
+	background-size: cover;
+	background-position: center;
+}
+@media ( min-width : 576px) {
+	.profile-posts .col-4 {
+		margin-bottom: 30px;
+	}
+}

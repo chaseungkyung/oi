@@ -41,6 +41,12 @@ public class WorkToDayController {
 		return new ModelAndView("worktoday/wtdmain");
 	}
 	
+	@RequestMapping(value = "/completeworkout/personal", method = RequestMethod.GET)
+	public ModelAndView mine(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		return new ModelAndView("worktoday/mine");
+	}
+	
 	@RequestMapping(value = "/completeworkout/modalbody", method = RequestMethod.GET)
 	public ModelAndView getComment(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -225,18 +231,39 @@ public class WorkToDayController {
 		
 		return model;
 	}
-	@RequestMapping(value = "/completeworkout/insertcomment", method = RequestMethod.POST)
-	public ModelAndView insertComment(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	
+	@ResponseBody
+	@RequestMapping(value="/completeworkout/insertcomment", method =RequestMethod.GET )
+	public Map<String, Object> insertComment (HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException{
 		
-		String content = req.getParameter("commentcontents");
+		Map<String,Object> model = new HashMap<String, Object>();
 		
-		// 부모댓글이 있는지 없는지 확인해야함 
-		// insert 하고 redirect 를 submit 으로 매핑해서
-		// 다시 modal-body 를 띄우는 걸로 
+		String content =  req.getParameter("content");
+		HttpSession session = req.getSession();
+		LoginDTO login = (LoginDTO) session.getAttribute("member");
 		
-		ModelAndView mav = new ModelAndView("redirect:/");
-		return mav;
+		try {
+			long wnum = Long.parseLong(req.getParameter("wnum"));
+			
+			CompleteTodayDTO dto  = new CompleteTodayDTO();
+			
+			dto.setWnum(wnum);
+			dto.setMemberId(login.getUserId());
+			dto.setContent(content);
+			
+			dao.insertComment(dto);
+			
+			dao.getComments(dto);
+			
+			model.put("wnum", wnum);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return model;
 	}
+
 	
 }

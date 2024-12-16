@@ -6,7 +6,7 @@
 		<div class="container">
 
 
-			<a class="navbar-brand me-auto" href="#" ><img
+			<a class="navbar-brand me-auto" href="${pageContext.request.contextPath}/main" ><img
 				alt="Brand"
 				src="${pageContext.request.contextPath}/resources/images/logo3.svg"
 				class="bi" style="height: 50px; width: auto;"></a>

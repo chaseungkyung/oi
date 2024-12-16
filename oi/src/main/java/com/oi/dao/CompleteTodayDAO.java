@@ -187,7 +187,7 @@ public class CompleteTodayDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT NVL(COUNT(*),0) FROM wotdlike WHERE wNum = ? " ;
+			sql = "SELECT NVL(COUNT(*),0) FROM wotdcomment WHERE wNum = ?  AND wotdParCom = 0 " ;
 			ps = conn.prepareStatement(sql);
 			ps.setLong(1, wnum);
 			rs = ps.executeQuery();
@@ -326,7 +326,6 @@ public class CompleteTodayDAO {
 			DBUtil.close(ps);
 		}
 	}
-	
 	
 	// 해당게시물에 대한 댓글 목록 
 	// wotdparcom = 0 인애들이 부모 

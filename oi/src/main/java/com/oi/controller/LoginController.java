@@ -46,6 +46,13 @@ public class LoginController {
 		session.setMaxInactiveInterval(60*30);
 		session.setAttribute("member", dto);
 		
+		String preuri = (String)session.getAttribute("preLoginURI");
+		session.removeAttribute("preLoginURI");
+		
+		if(preuri != null) {
+			return new ModelAndView(preuri);
+		}
+		
 		mav = new ModelAndView("redirect:/main");
 		return mav;
 	}
