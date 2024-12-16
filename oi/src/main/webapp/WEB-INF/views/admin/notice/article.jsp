@@ -8,6 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 
+<jsp:include page="/WEB-INF/views/layout/adminheadimported.jsp"></jsp:include>
+
 <style type="text/css">
 .body-main {
 	max-width: 800px;

@@ -8,17 +8,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 
+<jsp:include page="/WEB-INF/views/layout/adminheadimported.jsp"></jsp:include>
 
 <style type="text/css">
 .body-main {
 	max-width: 800px;
 }
 </style>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/boot-board.css"
-	type="text/css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/bootstrap5/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
 <script type="text/javascript">
 	function sendOk() {
@@ -67,9 +64,7 @@
 		<div class="wrapper">
 			<div class="body-container">
 				<div class="body-title">
-					<h3>
-						<i class="bi bi-clipboard"></i> 공지사항
-					</h3>
+					<h3><i class="bi bi-clipboard"></i> 공지사항 </h3>
 				</div>
 
 				<div class="body-main">
@@ -112,8 +107,7 @@
 										<td class="bg-light col-sm-2">첨부된 파일</td>
 										<td>
 											<p class="form-control-plaintext">
-												<a href="javascript:deleteFile('${vo.noticeFileNum}')"><i
-													class="bi bi-trash"></i></a> ${vo.noticeOriFileName}
+												<a href="javascript:deleteFile('${vo.noticeFileNum}')"><i class="bi bi-trash"></i></a> ${vo.noticeOriFileName}
 											</p>
 										</td>
 									</tr>
@@ -128,11 +122,9 @@
 											class="bi bi-check2"></i>
 									</button>
 									<button type="reset" class="btn btn-light">다시입력</button>
-									<button type="button" class="btn btn-light"
-										onclick="location.href='${pageContext.request.contextPath}/admin/notice/list?size=${size}';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i
-											class="bi bi-x"></i>
-									</button> <input type="hidden" name="size" value="${size}"> <c:if
-										test="${mode=='update'}">
+									<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/notice/list?size=${size}';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button> 
+									<input type="hidden" name="size" value="${size}"> 
+									<c:if test="${mode=='update'}">
 										<input type="hidden" name="num" value="${dto.noticeNum}">
 										<input type="hidden" name="page" value="${page}">
 									</c:if>
@@ -146,6 +138,7 @@
 	</main>
 
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/views/layout/footerimported.jsp" />
+	
+	<jsp:include page="/WEB-INF/views/layout/footerimported.jsp"/>
 </body>
 </html>
