@@ -14,6 +14,7 @@ public class NoticeDTO {
 	private String noticePhoto;
 	private String noticeTitle;
 	private String noticeContent;
+	private int notice;
 	
 	private long noticeFileNum;
 	private String noticeSaveFileName;
@@ -107,6 +108,14 @@ public class NoticeDTO {
 
 	public void setListFile(List<MyMultipartFile> listFile) {
 		this.listFile = listFile;
+	}
+
+	public int getNotice() {
+		return notice;
+	}
+
+	public void setNotice(int notice) {
+		this.notice = notice;
 	}
 
 }

@@ -39,14 +39,15 @@ public class NoticeDAO {
 			rs = null;
 			pstmt = null;
 			
-			sql = "INSERT INTO notice(noticeNum, memberId, noticeWriteDate, noticeUpdateDate, noticePhoto, noticeTitle, noticeContent) VALUES (?, ?, SYSDATE, SYSDATE, ?, ?, ?)";
+			sql = "INSERT INTO notice(noticeNum, notice, memberId, noticeWriteDate, noticeUpdateDate, noticePhoto, noticeTitle, noticeContent) VALUES (?, ?, ?, SYSDATE, SYSDATE, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, dto.getNoticeNum());
-			pstmt.setString(2, dto.getMemberId());
-			pstmt.setString(3, dto.getNoticePhoto());
-			pstmt.setString(4, dto.getNoticeTitle());
-			pstmt.setString(5, dto.getNoticeContent());
+			pstmt.setInt(2, dto.getNotice());
+			pstmt.setString(3, dto.getMemberId());
+			pstmt.setString(4, dto.getNoticePhoto());
+			pstmt.setString(5, dto.getNoticeTitle());
+			pstmt.setString(6, dto.getNoticeContent());
 			
 			pstmt.executeUpdate();
 			
@@ -57,10 +58,10 @@ public class NoticeDAO {
 				sql = "INSERT INTO noticeFile(noticeFileNum, noticeNum, noticeSaveFileName, noticeOriFileName) VALUES (noticeFile_seq.NEXTVAL, ?, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 				
-				for(MyMultipartFile mm : dto.getListFile()) {
+				for(MyMultipartFile mf: dto.getListFile()) {
 					pstmt.setLong(1, dto.getNoticeNum());
-					pstmt.setString(2, mm.getSaveFilename());
-					pstmt.setString(3, mm.getOriginalFilename());
+					pstmt.setString(2, mf.getSaveFilename());
+					pstmt.setString(3, mf.getOriginalFilename());
 					
 					pstmt.executeUpdate();
 				}
@@ -80,11 +81,20 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
+			sql = "SELECT NVL(COUNT(*), 0) FROM notice";
+			pstmt = conn.prepareStatement(sql);
 			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
 		}
-		
 		return result;
 	}
 	
@@ -95,6 +105,28 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
+			sql = "SELECT NVL(COUNT(*), 0) FROM notice n JOIN member m ON n.memberId=m.memberId";
+			if(schType.equals("all")) {
+				sql += " WHERE INSTR(noticeTitle, ?) >= 1 or INSTR(noticeContent, ?) >= 1";
+			} else if(schType.equals("noticeWriteDate")) {
+				kwd = kwd.replaceAll("\\-|\\/|\\.)", "");
+				sql += " WHERE TO_CHAR(noticeWriteDate, 'YYYYMMDD') = ? "; 
+			} else {
+				sql += " WHERE INSTR(" + schType + ", ?) >= 1 ";
+			}
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, kwd);
+			if(schType.equals("all")) {
+				pstmt.setString(2, kwd);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -159,7 +191,7 @@ public class NoticeDAO {
 			sb.append(" JOIN member m ON n.memberId = m.memberId ");
 			
 			if(schType.equals("all")) {
-				sb.append("");
+				sb.append("WHERE INSTR(noticeTitle, ?) >= 1 OR INSTR(noticeContent, ?) >= 1");
 			} else if(schType.equals("noticeWriteDate")){
 				kwd = kwd.replaceAll("(\\-|\\/|\\.)", "");
 				sb.append("WHERE TO_CHAR(noticeWriteDate, 'YYYYMMDD') = ?");
@@ -204,6 +236,44 @@ public class NoticeDAO {
 		return list;
 	}	
 	
+	public List<NoticeDTO> listNotice() {
+		List<NoticeDTO> list = new ArrayList<NoticeDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append(" SELECT noticeNum, n.memberId, noticeTitle, ");
+			sb.append("		TO_CHAR(noticeWriteDate, 'YYYY-MM-DD') noticeWriteDate  ");
+			sb.append(" FROM notice n ");
+			sb.append(" JOIN member m ON n.memberId=m.memberId ");
+			sb.append(" WHERE notice=1 ");
+			sb.append(" ORDER BY noticeNum DESC ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				NoticeDTO dto = new NoticeDTO();
+				
+				dto.setNoticeNum(rs.getLong("noticeNum"));
+				dto.setMemberId(rs.getString("memberId"));
+				dto.setNoticeTitle(rs.getString("noticeTitle"));
+				dto.setNoticeWriteDate(rs.getDate("noticeWriteDate"));
+				
+				list.add(dto);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		return list;
+	}
+	
 	public NoticeDTO findById(long noticeNum) {
 		NoticeDTO dto = null;
 		PreparedStatement pstmt = null;
@@ -211,7 +281,7 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT noticeNum, n.memberId, noticeTitle, noticeContent, noticeWriteDate, noticeUpdateDate FROM notice n JOIN member m ON n.memberId=m.memberId WHERE noticeNum = ?";
+			sql = "SELECT noticeNum, notice, n.memberId, noticeTitle, noticeContent, noticeWriteDate, noticeUpdateDate FROM notice n JOIN member m ON n.memberId=m.memberId WHERE noticeNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, noticeNum);
@@ -222,6 +292,7 @@ public class NoticeDAO {
 				dto = new NoticeDTO();
 				
 				dto.setNoticeNum(rs.getLong("noticeNum"));
+				dto.setNotice(rs.getInt("notice"));
 				dto.setMemberId(rs.getString("memberId"));
 				dto.setNoticeTitle(rs.getString("noticeTitle"));
 				dto.setNoticeContent(rs.getString("noticeContent"));
@@ -236,23 +307,127 @@ public class NoticeDAO {
 			DBUtil.close(pstmt);
 		}
 		
-		
 		return dto;
-		
 	}
 	
 	public NoticeDTO findByPre(long noticeNum, String schType, String kwd) {
 		NoticeDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			if(kwd != null && kwd.length() != 0) {
+				sb.append(" SELECT noticeNum, noticeTitle ");
+				sb.append(" FROM notice n");
+				sb.append(" JOIN member m ON n.memberId = m.memberId ");
+				sb.append(" WHERE (noticeNum > ?) ");
+				if(schType.equals("all")) {
+					sb.append("  AND (INSTR(noticeTitle, ?) >= 1 OR INSTR(noticeContent, ?) >= 1) ");
+			} else if(schType.equals("noticeWriteDate")) {
+				kwd = kwd.replaceAll("\\-|\\/|\\.)", "");
+				sb.append("  AND ( TO_CHAR(noticeWriteDate, 'YYYYMMDD') = ?) ");
+			} else {
+				sb.append("  AND ( INSTR(" + schType + ", ?) >= 1 ) ");
+			}
+			sb.append(" ORDER BY noticeNum ASC ");
+			sb.append(" FETCH FIRST 1 ROWS ONLY ");
+				
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			pstmt.setLong(1, noticeNum);
+			pstmt.setString(2, kwd);
+			if(schType.equals("all")) {
+				pstmt.setString(3, kwd);
+			}	
+		} else {
+			sb.append(" SELECT noticeNum, noticeTitle FROM notice ");
+			sb.append(" WEHRE noticeNum > ? ");
+			sb.append(" ORDER BY noticeNum ASC ");
+			sb.append(" FETCH FIRST 1 ROWS ONLY ");
+				
+			pstmt = conn.prepareStatement(sb.toString());
+				
+			pstmt.setLong(1, noticeNum);
+			}
+			
+		rs = pstmt.executeQuery();
+			
+		if(rs.next()) {
+			dto = new NoticeDTO();
+				
+			dto.setNoticeNum(rs.getLong("noticeNum"));
+			dto.setNoticeTitle(rs.getString("noticeTitle"));
+		}
+			
+ 		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
 		
 		return dto;
-		
 	}
 	
 	public NoticeDTO findByNex(long noticeNum, String schType, String kwd) {
 		NoticeDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
 		
+		try {
+			if(kwd != null && kwd.length() != 0) {
+				sb.append(" SELECT noticeNum, noticeTitle ");
+				sb.append(" FROM notice n ");
+				sb.append(" JOIN member m ON n.memberId = m.memberId ");
+				sb.append(" WHERE (noticeNum < ? ) ");
+				if(schType.equals("all")) {
+					sb.append("  AND ( INSTR(noticeTitle, ?) >= ? OR INSTR(noticeContent, ?) >= 1) ");
+			} else if(schType.equals("noticeWriteDate")) {
+				kwd = kwd.replaceAll("\\-|\\/|\\.)", "");
+				sb.append("  AND ( TO_CHAR(noticeWriteDate, 'YYYYMMDD') = ? ) ");
+			} else {
+				sb.append("  AND ( INSTR(" + schType + ", ?) >= 1 ) ");
+			}
+			sb.append(" ORDER BY noticeNum DESC ");
+			sb.append(" FETCH FIRST 1 ROWS ONLY ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			pstmt.setLong(1, noticeNum);
+			pstmt.setString(2, kwd);
+			
+			if(schType.equals("all")) {
+				pstmt.setString(3, kwd);
+			}
+		} else {
+			sb.append(" SELECT noticeNum, noticeTitle FROM notice ");
+			sb.append(" WHERE noticeNum < ? ");
+			sb.append(" ORDER BY noticeNum DESC ");
+			sb.append(" FETCH FIRST 1 ROWS ONLY ");
+				
+			pstmt = conn.prepareStatement(sb.toString());
+				
+			pstmt.setLong(1, noticeNum);
+		}
+			
+		rs = pstmt.executeQuery();
+			
+		if(rs.next()) {
+			dto = new NoticeDTO();
+				
+			dto.setNoticeNum(rs.getLong("noticeNum"));
+			dto.setNoticeTitle(rs.getString("noticeTitle"));			
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}  finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
 		return dto;
-		
 	}
 	
 	public void updateNotice(NoticeDTO dto) throws SQLException {
@@ -260,13 +435,14 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
-			sql = "UPDATE notice SET noticeTitle=?, noticeContent=?, noticeUpdateDate=SYSDATE WHERE noticeNum=?";
+			sql = "UPDATE notice SET notice=?, noticeTitle=?, noticeContent=?, noticeUpdateDate=SYSDATE WHERE noticeNum=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getNoticeTitle());
-			pstmt.setString(1, dto.getNoticeContent());
-			pstmt.setLong(3, dto.getNoticeNum());
+			pstmt.setInt(1, dto.getNotice());
+			pstmt.setString(2, dto.getNoticeTitle());
+			pstmt.setString(3, dto.getNoticeContent());
+			pstmt.setLong(4, dto.getNoticeNum());
 			
 			pstmt.executeUpdate();
 			
@@ -279,8 +455,8 @@ public class NoticeDAO {
 				
 				for(MyMultipartFile mf : dto.getListFile()) {
 					pstmt.setLong(1, dto.getNoticeNum());
-					pstmt.setString(2, dto.getNoticeSaveFileName());
-					pstmt.setString(3, dto.getNoticeOriFileName());
+					pstmt.setString(2, mf.getSaveFilename());
+					pstmt.setString(3, mf.getOriginalFilename());
 					
 					pstmt.executeUpdate();
 				}
@@ -336,7 +512,7 @@ public class NoticeDAO {
 	}
 
 	public List<NoticeDTO> listNoticeFile(long noticeNum) {
-		List<NoticeDTO> list = new ArrayList<NoticeDTO>();
+		List<NoticeDTO> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;

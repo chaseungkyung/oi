@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<jsp:include page="/WEB-INF/views/layout/adminheadimported.jsp" />
+
 <style type="text/css">
 .body-main {
 	max-width: 800px;
@@ -56,6 +58,7 @@ $(function () {
 <body>
 
 <main>
+	<header><jsp:include page="/WEB-INF/views/layout/amin_layout.jsp"></jsp:include></header>
 	
 	<div class="wrapper">
 		<div class="body-container">
@@ -112,6 +115,7 @@ $(function () {
 										</td>		<!-- 글이 길면 ...으로 간추리기 위해 span 태그로 감싼 것 / width는 span태그라 준 것-->
 										<td>관리자</td>
 										<td>${dto.noticeWriteDate}</td>
+										<td></td>
 									</tr>
 								</c:forEach>
 								<c:forEach var="dto" items="${list}" varStatus="status">
@@ -124,6 +128,7 @@ $(function () {
 									</td>
 									<td>관리자</td>
 									<td>${dto.noticeWriteDate}</td>
+									<td></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -155,6 +160,7 @@ $(function () {
 								<div class="col-auto p-1">
 									<input type="hidden" name="size" value="${size}"> 
 									<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
+									
 								</div>
 							</form>
 						</div>
@@ -167,5 +173,9 @@ $(function () {
 		</div>
 	</div>
 </main>
+<footer>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+</footer>
+<jsp:include page="/WEB-INF/views/layout/footerimported.jsp"/>
 </body>
 </html>

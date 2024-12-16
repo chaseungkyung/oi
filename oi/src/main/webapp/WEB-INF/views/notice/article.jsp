@@ -12,18 +12,12 @@
 	max-width: 800px;
 }
 </style>
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/icon/bootstrap-icons.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/header_layout.css" type="text/css">
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 </head>
 <body>
 
-<header>
-	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
-	<jsp:include page="/WEB-INF/views/layout/headimported.jsp"/>
-</header>
+<jsp:include page="/WEB-INF/views/layout/amin_layout.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/layout/adminheadimported.jsp"></jsp:include>
 
 <main>
 	<div class="container">

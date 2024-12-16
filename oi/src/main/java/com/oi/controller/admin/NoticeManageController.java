@@ -30,8 +30,8 @@ public class NoticeManageController {
 	@RequestMapping(value = "/admin/notice/list")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		ModelAndView mav = new ModelAndView("/admin/notice/list");
-		
+		ModelAndView mav = new ModelAndView("admin/notice/list");
+
 		NoticeDAO dao = new NoticeDAO();
 		MyUtil util = new MyUtilBootstrap();
 		
@@ -113,7 +113,7 @@ public class NoticeManageController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return mav;
 	}
 	
@@ -122,7 +122,7 @@ public class NoticeManageController {
 		
 		String size = req.getParameter("size");
 		
-		ModelAndView mav = new ModelAndView("/admin/notice/write");
+		ModelAndView mav = new ModelAndView("admin/notice/write");
 		
 		mav.addObject("size", size);
 		mav.addObject("mode", "write");
@@ -201,7 +201,7 @@ public class NoticeManageController {
 			
 			List<NoticeDTO> listFile = dao.listNoticeFile(noticeNum);
 			
-			ModelAndView mav = new ModelAndView("/admin/notice/article");
+			ModelAndView mav = new ModelAndView("admin/notice/article");
 			
 			mav.addObject("dao", dao);
 			mav.addObject("preDto", preDto);
@@ -410,7 +410,7 @@ public class NoticeManageController {
 	return new ModelAndView("redirect:/admin/notice/list?" + query);
 	}	
 	
-	@RequestMapping(value = "/admin/notice/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/notice/deleteList", method = RequestMethod.POST)
 	public ModelAndView deleteList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		HttpSession session = req.getSession();

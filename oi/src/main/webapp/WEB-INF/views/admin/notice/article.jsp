@@ -13,10 +13,22 @@
 	max-width: 800px;
 }
 </style>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap5/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+	function deleteBoard() {
+		if(confirm('게시글을 삭제하겠습니까?')) {
+			let query = 'num=${dto.noticeNum}&${query}';
+			let url = '${pageContext.request.contextPath}/admin/notice/delete?' + query;
+			location.href = url;
+		}
+	}
+</script>
 </head>
 <body>
 
+<jsp:include page="/WEB-INF/views/layout/amin_layout.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/layout/adminheadimported.jsp"></jsp:include>
 
 <main>
 
@@ -109,6 +121,10 @@
 	</div>
 	
 </main>
+<footer>
+	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+</footer>
 
+<jsp:include page="/WEB-INF/views/layout/footerimported.jsp"/>
 </body>
 </html>
