@@ -16,9 +16,6 @@
 </head>
 <body>
 
-<jsp:include page="/WEB-INF/views/layout/amin_layout.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/layout/adminheadimported.jsp"></jsp:include>
-
 <main>
 	<div class="container">
 		<div class="body-container">

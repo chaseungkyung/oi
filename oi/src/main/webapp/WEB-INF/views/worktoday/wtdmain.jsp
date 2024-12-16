@@ -34,39 +34,6 @@
 		</div>
 	</main>
 
-	<div class="modal fade" id="exampleModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-xl">
-			<div class="modal-content">
-				<div class="modal-header">
-					<div id="slider1" class="carousel slide modalcarouel">
-						<div class="carousel-inner">
-						
-								<div class="carousel-item ${status.index eq 0 ? 'active':'' }"
-									data-primary="${map.key}">
-									<img class="object-fit-scale d-block w-100" alt="운동인증" src="#"
-										style="height: 600px; width: 800px;">
-								</div>
-							
-						</div>
-						<button class="carousel-control-prev" type="button"
-							data-bs-target="#slider1" data-bs-slide="prev"></button>
-						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-						<button class="carousel-control-next" type="button"
-							data-bs-target="#slider1" data-bs-slide="next"></button>
-						<span class="carousel-control-next-icon" aria-hidden="true"></span>
-					</div>
-					<table>
-						<tbody>
-							<tr>
-
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
 	
 	<div class="modal fade" id="modal" data-bs-backdrop="static"
 		data-bs-keyboard="false" tabindex="-1"

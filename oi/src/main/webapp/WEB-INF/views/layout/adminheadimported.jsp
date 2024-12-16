@@ -19,3 +19,12 @@
 
 <!--  bootstrap script -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap5/js/bootstrap.bundle.min.js"></script>
+
+<!--  쌤꺼 복붙 -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/core2.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/menu2.css" type="text/css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css">
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/entry/menu2.js"></script>

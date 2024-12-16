@@ -44,7 +44,15 @@ public class WorkToDayController {
 	@RequestMapping(value = "/completeworkout/personal", method = RequestMethod.GET)
 	public ModelAndView mine(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		HttpSession session = req.getSession();
+		LoginDTO login = (LoginDTO) session.getAttribute("member");
+		
+		
+		
 		return new ModelAndView("worktoday/mine");
+		
+		
 	}
 	
 	@RequestMapping(value = "/completeworkout/modalbody", method = RequestMethod.GET)
