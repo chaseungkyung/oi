@@ -23,9 +23,8 @@
 	<main>
 
 		<div class="title1">
-			<a href="javascript:void(0);" onclick="moveWeek(-1)">&lt;</a> <label
-				id="currentWeekLabel"></label> <a href="javascript:void(0);"
-				onclick="moveWeek(1)">&gt;</a>
+			<a href="javascript:void(0);" onclick="moveWeek(-1)">&lt;</a> 
+			<label id="currentWeekLabel"></label> <a href="javascript:void(0);" onclick="moveWeek(1)">&gt;</a>
 		</div>
 
 		<table class="rtable">
@@ -75,7 +74,7 @@
 					</tr>
 				</table>
 				<button class="btn mealinsertbtn" onclick="openModal('lunch')">➕</button>
-				
+
 			</div>
 
 			<div class="meal">
@@ -99,18 +98,73 @@
 		<div id="mealModal" class="modal">
 			<div class="modal-content">
 				<h3>식사 추가</h3>
-				<input type="text" id="mealTime" placeholder="식사 시간 (예: 7:00)">
-				<input type="text" id="mealMenu" placeholder="식단 입력">
-				<button class="mealinsertbtn " onclick="addMeal()">등록</button>
+				<input type="hidden" name="content" id="mealNum"> 
+				<input type="text" name="content" id="mealTime" placeholder="식사 시간 (예: 7:00)"> 
+				<input type="text" name="content" id="mealName" placeholder="식단 입력">
+				<input type="text" name="content" id="mealDate" placeholder="식단 일자">
+				<input type="text" name="content" id="mealUnit" placeholder="ex) 2 (인분)">
+				<input type="text" name="content" id="mealCapacity" placeholder="용량(g)">
+				<input type="text" name="content" id="mealKcal" placeholder="칼로리(Kcal)">
+				<button class="mealinsertbtn" id="mealinsertbtn" onclick="addMeal()">등록</button>
 				<button class="mealinsertbtn" onclick="closeModal()">취소</button>
 			</div>
 		</div>
-		
-		
+
+
 	</main>
 
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 	</footer>
+
+	<script type="text/javascript">
+	
+	function ajaxFun(url, method, formData, dataType, fn, file=false) {
+		
+		const settings = {
+			type: method,
+			data: formData,
+			dataType: dataType,
+			success: function(data) {
+				fn(data);
+			},
+			beforeSend: function(jqXHR) {
+				jqXHR.setRequestHeader('AJAX', true);		// 헤더한테 AJAX라고 넘김
+			}
+		};
+
+		$.ajax(url, settings);
+	}
+	
+	
+		$(function() {
+			$('#mealinsertbtn').click(function() {
+				let mealTime = $('#mealTime').val();
+				let mealName = $('#mealName').val();
+				let mealDate = $('#mealDate').val();
+				let mealUnit = $('#mealUnit').val();
+				let mealCapacity = $('#mealCapacity').val();
+				let mealKcal = $('#mealKcal').val();
+				
+				let formData = {
+					dietFoodTime : mealTime,
+					dietFoodName : mealName,
+					dietFoodDate : mealDate, 
+					dietFoodUnit: mealUnit,
+					capacity: mealCapacity,
+					kcal: mealKcal
+				}
+				//이건 내가 필요한 데이터를 모으는 거야		
+
+				// url 이 서버에 요청보내는 거
+				let url = '${pageContext.request.contextPath}/recordmeal/mealinsert';
+				const fn = function(data) {
+					alert(data.state);
+				};
+			ajaxFun(url, 'get', formData, 'json', fn);
+			});
+		});
+	</script>
+
 </body>
 </html>

@@ -14,13 +14,13 @@ import com.oi.util.DBUtil;
 public class RecordMealDAO {
 	private Connection conn = DBConn.getConnection();
 
-	public void insertSchedule(RecordMealDTO dto) throws SQLException {
+	public void insertRecord(RecordMealDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 
 		try {
-			sql = "INSERT INTO mealrecord( dietFoodNum, memberId, dietFoodTime, dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal "
-					+ " VALUES(schedule_seq.NEXTVAL, ?, ?, SYSDATE, ?, ?, ?, ?)";
+			sql = "INSERT INTO mealrecord(dietFoodNum, memberId, dietFoodTime, dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal) "
+					+ " VALUES(SEQ_MEALRECORD.NEXTVAL, ?, TO_DATE(?, 'YYYY-MM-DD'), TO_DATE(SYSDATE, 'YYYY-MM-DD'), ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, dto.getMemberId());
@@ -52,9 +52,9 @@ public class RecordMealDAO {
 		
 		try {
 			sb.append("SELECT memberId, dietFoodTime, dietFoodDate, dietFoodUnit, capacity, kcal ");
-			sb.append(" FROM mealrecord");
+			sb.append(" FROM mealrecord ");
 			sb.append(" WHERE memberId = ? AND dietFoodDate =? ");
-			sb.append(" ORDER BY dietFoodDate,  DESC ");
+			sb.append(" ORDER BY dietFoodDate DESC");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			

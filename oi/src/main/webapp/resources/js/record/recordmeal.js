@@ -94,23 +94,35 @@ let currentMealType = ""; // 현재 추가할 식사 타입
    document.getElementById('mealModal').style.display = 'flex';
  }
 
+
  function closeModal() {
    document.getElementById('mealModal').style.display = 'none';
+   /*
    document.getElementById('mealTime').value = "";
-   document.getElementById('mealMenu').value = "";
+   document.getElementById('mealName').value = "";
+   */
  }
 
  function addMeal() {
    let mealTime = document.getElementById('mealTime').value;
-   let mealMenu = document.getElementById('mealMenu').value;
+   let mealName = document.getElementById('mealName').value;
+   let mealUnit = document.getElementById('mealUnit').value;
+   let mealCapacity = document.getElementById('mealCapacity').value;
+   let mealKcal = document.getElementById('mealKcal').value;
 
-   if (mealTime && mealMenu) {
+   if (mealTime && mealName) {
      let table = document.getElementById(`${currentMealType}Table`);
      let row = table.insertRow();
      row.insertCell(0).textContent = mealTime;
-     row.insertCell(1).textContent = mealMenu;
+     row.insertCell(1).textContent = mealName;
+	 row.insertCell(2).textContent = mealUnit;
+	 row.insertCell(3).textContent = mealCapacity;
+	 row.insertCell(4).textContent = mealKcal;
      closeModal();
    } else {
      alert("모든 필드를 입력해주세요.");
    }
+   
+   
+   
  }

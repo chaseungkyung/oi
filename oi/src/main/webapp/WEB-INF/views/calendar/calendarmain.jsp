@@ -21,7 +21,7 @@
 		<div class="btn">
 			<div class="btn-record">
 				<button type="button" class="record"
-					onclick="location.href='${pageContext.request.contextPath}/recordmeal/mealmonth';">식단기록</button>
+					onclick="location.href='${pageContext.request.contextPath}/recordmeal/mealmain';">식단기록</button>
 				<button type="button" class="record"
 					onclick="location.href='${pageContext.request.contextPath}/todayworkout/main';">운동기록</button>
 			</div>
@@ -81,8 +81,7 @@
 			</table>
 		</div>
 		<div class="btn-right">
-			<button type="button" class="btn" onclick="">전체
-				삭제</button>
+			<button type="button" class="btn" onclick="">전체 삭제</button>
 		</div>
 	</main>
 

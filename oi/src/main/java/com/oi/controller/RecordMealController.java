@@ -1,8 +1,9 @@
 package com.oi.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.oi.dao.RecordMealDAO;
 import com.oi.dto.LoginDTO;
@@ -10,6 +11,7 @@ import com.oi.dto.RecordMealDTO;
 import com.oi.mvc.annotation.Controller;
 import com.oi.mvc.annotation.RequestMapping;
 import com.oi.mvc.annotation.RequestMethod;
+import com.oi.mvc.annotation.ResponseBody;
 import com.oi.mvc.view.ModelAndView;
 
 import jakarta.servlet.ServletException;
@@ -33,32 +35,48 @@ public class RecordMealController {
 		ModelAndView mav = new ModelAndView("recordmeal/recordmeal");
 		mav.addObject("today", today);
 		return mav;
+	
 	}
 	
 	
-	//AJAX-TEXT
-	@RequestMapping(value = "/recordmeal/mealmonth", method = RequestMethod.GET)
-	public ModelAndView mealmonth(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("/recordmeal/recordmeal");
+	//AJAX-TEXT	
+	@ResponseBody
+	@RequestMapping(value = "/recordmeal/mealinsert" , method =  RequestMethod.GET)
+	public Map<String, Object> mealinsert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		return mav;
-	}
-
-	
-	
-	@RequestMapping(value = "/recordmeal/mealinsert")
-	public ModelAndView mealinsert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 식단 저장
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		RecordMealDAO dao = new RecordMealDAO();
 		
 		HttpSession session = req.getSession();
-		LoginDTO login = (LoginDTO)session.getAttribute("member");
-		RecordMealDTO dto = new RecordMealDTO();
-		dto.setMemberId(login.getUserId());
+		LoginDTO log = (LoginDTO)session.getAttribute("member");
+		String state = "false";
 		
+		try {
+			RecordMealDTO dto = new RecordMealDTO();
+			
+			System.out.println("식단시간"+req.getParameter("dietFoodTime"));
+			System.out.println("식단이름"+req.getParameter("dietFoodName"));
+			dto.setMemberId(log.getUserId());
+			dto.setDietFoodTime(req.getParameter("dietFoodTime"));
+			dto.setDietFoodName(req.getParameter("dietFoodName"));
+			dto.setDietFoodDate(req.getParameter("dietFoodDate"));
+			dto.setDietFoodUnit(req.getParameter("dietFoodUnit"));
+			
+			
+			dao.insertRecord(dto);
+			
+			state = "true";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.put("state", state);
 		
-		
-		
-		return new ModelAndView("recordmeal/");
+		return model;
 	}
+	
 	
 	@RequestMapping(value = "/recordmeal/mealupdate")
 	public ModelAndView mealupdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
