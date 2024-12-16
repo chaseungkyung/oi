@@ -11,17 +11,30 @@
 <jsp:include page="/WEB-INF/views/layout/headimported.jsp" />
 <jsp:include page="/WEB-INF/views/layout/footerimported.jsp" />
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/record/recordmain.css">
+	href="${pageContext.request.contextPath}/resources/css/mypage/mypage.css">
 </head>
 <body>
 <header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
 <main>
+		
+		<!-- 왼쪽 사이드 바 -->
+		<nav>
+			<p><span>나의 내역</span></p>
+			<a href="#"><span>판매 내역</span></a>
+			<a href="#"><span>댓글 내역</span></a>
+			<a href="#"><span>내가 쓴 글 내역</span></a>
+			<a href="#"><span>게시글 찜 내역</span></a>
+			<a href="#"><span>오운완 좋아요 내역</span></a>
+		</nav>
+		
+		<!-- 메인 화면 -->
+	<div class="content">
 		<div class="personal-info">
 			<span>${member.nickName}님 오이에 오신 걸 환영합니다!</span>
 			<h2>개인정보 등록</h2>
 			<div>
         	<button class="btn btn-editps" type="button" onclick="editPersonal()">수정하기</button>
-    		</div>
+    		</div>	
 			<div>
 				<label for="userId">아이디</label> <input type="text" id="userId"
 					readonly value="${member.memberId}">
@@ -103,15 +116,7 @@
 					readonly value="${bodyRecord.bodyMuscle}">
 			</div>
 		</div>
-
-		<p><span>나의 내역</span></p>
-		<nav>
-			<a href="#"><span>판매 내역</span></a>
-			<a href="#"><span>댓글 내역</span></a>
-			<a href="#"><span>내가 쓴 글 내역</span></a>
-			<a href="#"><span>게시글 찜 내역</span></a>
-			<a href="#"><span>오운완 좋아요 내역</span></a>
-		</nav>
+		</div>
 </main>
 <footer><jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include></footer>
 </body>

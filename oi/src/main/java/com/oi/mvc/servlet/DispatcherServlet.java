@@ -72,6 +72,7 @@ public class DispatcherServlet extends HttpServlet {
         	final HandlerAdapter handlerAdapter = handlerAdapters.getHandlerAdapter(handler.get());
             handlerAdapter.handle(req, resp, handler.get());
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ServletException(e.getMessage());
         }
 	}
