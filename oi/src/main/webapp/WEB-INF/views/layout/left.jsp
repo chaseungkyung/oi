@@ -56,7 +56,7 @@ $(function(){
 <nav class="vertical_nav">
 	<ul id="js-menu" class="menu">
 		<li class="menu--item">
-			<a href="${pageContext.request.contextPath}/admin" class="menu--link" title="Home">
+			<a href="${pageContext.request.contextPath}/main" class="menu--link" title="Home">
 				<i class="menu--icon bi bi-h-square"></i>
 				<span class="menu--label">Home</span>
 			</a>
@@ -69,80 +69,51 @@ $(function(){
 			</a>
 		</li>
 	
-		<li class="menu--item menu--item__has_sub_menu">
-			<label class="menu--link" title="고객센터관리">
+		<li class="menu--item">
+			<a href="#" class="menu--link" title="QnA">
 				<i class="menu--icon bi bi-question-square"></i>
-				<span class="menu--label">고객센터관리</span>
-			</label>
-	
-			<ul class="sub_menu">
-				<li class="sub_menu--item">
-					<a href="${pageContext.request.contextPath}/admin/faq/main" class="sub_menu--link">자주하는 질문</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="${pageContext.request.contextPath}/admin/notice/list" class="sub_menu--link">공지사항</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="${pageContext.request.contextPath}/admin/qna/list" class="sub_menu--link">문의</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">이벤트</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">신고</a>
-				</li>
-			</ul>
+				<span class="menu--label">QnA</span>
+			</a>
 		</li>
 	
-		<li class="menu--item menu--item__has_sub_menu">
-			<label class="menu--link" title="강좌관리">
+		<li class="menu--item">
+			<a href="#" class="menu--link" title="FAQ">
 				<i class="menu--icon bi bi-book-half"></i>
-				<span class="menu--label">강좌관리</span>
-			</label>
-		
-			<ul class="sub_menu">
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">카테고리</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">강좌</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">강사</a>
-				</li>
-			</ul>
-		</li>
-	
-		<li class="menu--item">
-	        <a href="#" class="menu--link" title="일정관리">
-				<i class="menu--icon bi bi-calendar"></i>
-				<span class="menu--label">일정관리</span>
-			</a>
-		</li>
-		
-		<li class="menu--item">
-	        <a href="#" class="menu--link" title="지역명소관리">
-				<i class="menu--icon bi bi-geo"></i>
-				<span class="menu--label">지역명소관리</span>
+				<span class="menu--label">FAQ</span>
 			</a>
 		</li>
 	
+	
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="메인화면 설정">
+	        <a href="${pageContext.request.contextPath}/admin/notice/list" class="menu--link" title="공지사항">
 				<i class="menu--icon bi bi-gear-fill"></i>
-				<span class="menu--label">메인화면 설정</span>
+				<span class="menu--label">공지사항</span>
+			</a>
+		</li>
+		
+		<li class="menu--item">
+	        <a href="#" class="menu--link" title="이벤트관리">
+				<i class="menu--icon bi bi-calendar"></i>
+				<span class="menu--label">이벤트관리</span>
 			</a>
 		</li>
 	
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="GroupWare">
+	        <a href="#" class="menu--link" title="게시글관리">
 				<i class="menu--icon bi bi-c-square"></i>
-				<span class="menu--label">GroupWare</span>
+				<span class="menu--label">게시글관리</span>
 			</a>
 		</li>
-	
+		
 		<li class="menu--item">
-	        <a href="${pageContext.request.contextPath}/member/logout" class="menu--link" title="Logout">
+	        <a href="#" class="menu--link" title="댓글관리">
+				<i class="menu--icon bi bi-c-square"></i>
+				<span class="menu--label">댓글관리</span>
+			</a>
+		</li>
+
+		<li class="menu--item">
+	        <a href="${pageContext.request.contextPath}/access/logout" class="menu--link" title="Logout">
 				<i class="menu--icon bi bi-unlock"></i>
 				<span class="menu--label">Logout</span>
 			</a>
