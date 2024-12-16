@@ -68,7 +68,7 @@
 						<li class="nav-item me-5 mt-3"><a class="nav-link" href="${pageContext.request.contextPath}/completeworkout/main">오운완</a></li>
 						<li class="nav-item me-5 mt-3"><a class="nav-link" href="${pageContext.request.contextPath}/findGymController/view">헬스장</a></li>
 						<li class="nav-item me-5 mt-3"><a class="nav-link" href="#">러닝코스</a></li>
-						<li class="nav-item me-5 mt-3"><a class="nav-link" href="#">QnA</a></li>
+						<li class="nav-item me-5 mt-3"><a class="nav-link" href="${pageContext.request.contextPath}/QnA/main">QnA</a></li>
 						<li class="nav-item me-5 mt-3"><a class="nav-link" href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
 						<li class="nav-item dropdown me-5 mt-3"><a
 							class="nav-link dropdown-toggle" href="#" id="dropdownMenu"

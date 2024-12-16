@@ -59,7 +59,7 @@ public class FindExerciseDAO {
 		try {
 			sql = "select address "
 					+ " from memberDetails"
-					+ " where userId = ?";
+					+ " where memberId = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			

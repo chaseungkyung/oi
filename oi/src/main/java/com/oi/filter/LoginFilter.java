@@ -71,7 +71,9 @@ public class LoginFilter implements Filter {
 			"/main", "/access/login",
 			"/index.jsp","/access/logout",
 			"/uploads/photo/**",
-			"/resources/**"
+			"/resources/**",
+			"/QnA/main",
+			"/findGymController/view"
 		};
 		
 		if(uri.length() <= 1) {
