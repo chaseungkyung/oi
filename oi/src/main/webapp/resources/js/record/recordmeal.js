@@ -59,6 +59,10 @@ function updateCalendar(startOfWeek, endOfWeek) {
   document.querySelector("label").textContent = `${startOfWeek} ~ ${endOfWeek}`;
 }
 
+
+
+
+
 // 아침, 점심, 저녁 추가 기능
 function addMealEntry(mealType) {
   let mealTime = prompt("식사 시간을 입력하세요 (예: 7:00): ");
@@ -79,3 +83,34 @@ function addMeal() {
     alert("메모가 저장되었습니다: " + memoText);
   }
 }
+
+
+
+// 모달창
+let currentMealType = ""; // 현재 추가할 식사 타입
+
+ function openModal(mealType) {
+   currentMealType = mealType;
+   document.getElementById('mealModal').style.display = 'flex';
+ }
+
+ function closeModal() {
+   document.getElementById('mealModal').style.display = 'none';
+   document.getElementById('mealTime').value = "";
+   document.getElementById('mealMenu').value = "";
+ }
+
+ function addMeal() {
+   let mealTime = document.getElementById('mealTime').value;
+   let mealMenu = document.getElementById('mealMenu').value;
+
+   if (mealTime && mealMenu) {
+     let table = document.getElementById(`${currentMealType}Table`);
+     let row = table.insertRow();
+     row.insertCell(0).textContent = mealTime;
+     row.insertCell(1).textContent = mealMenu;
+     closeModal();
+   } else {
+     alert("모든 필드를 입력해주세요.");
+   }
+ }

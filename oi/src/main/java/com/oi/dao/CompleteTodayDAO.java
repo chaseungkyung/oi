@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.oi.dto.CompleteTodayDTO;
@@ -13,7 +12,6 @@ import com.oi.dto.WotdCommentDTO;
 import com.oi.dto.Wotdfile;
 import com.oi.util.DBConn;
 import com.oi.util.DBUtil;
-import com.oi.util.MyMultipartFile;
 
 public class CompleteTodayDAO {
 	private Connection conn = DBConn.getConnection();
@@ -92,7 +90,7 @@ public class CompleteTodayDAO {
 		StringBuilder sql = new StringBuilder();
 		
 		try {
-			sql.append(" SELECT  w.wNum, m.memberId, todayCon,TO_CHAR(todayUpdate,'YYYY-MM-DD')todayUpdate, nickName, profilePhoto");
+			sql.append(" SELECT  w.wNum, m.memberId, todayCon,TO_CHAR(todayUpdate,'YYYY-MM-DD')todayUpdate, nickName, NVL(profilePhoto,'default')profilePhoto");
 			sql.append(" FROM wotd w JOIN member m ON m.memberId = w.memberId ");
 			sql.append(" LEFT OUTER JOIN memberdetails md ON m.memberId = md.memberId ");
 			sql.append(" WHERE todayBlind = 1 ORDER BY todayDate DESC ");
@@ -130,6 +128,7 @@ public class CompleteTodayDAO {
 	
 	// 파일 불러오기 
 	public void getFiles(CompleteTodayDTO dto) {
+		List<String> list = new ArrayList<String>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql; 
@@ -145,7 +144,10 @@ public class CompleteTodayDAO {
 			while (rs.next()) {
 				dto.getFile().setFile(rs.getLong("wpPhotoNum"),rs.getString("wpFile"));
 				dto.getFile().setParentnum(rs.getLong("wNum"));
+				list.add(rs.getString("wpFile"));
 			}
+			dto.getFile().setSaveFileName(list.toArray(new String [list.size()]));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -185,7 +187,7 @@ public class CompleteTodayDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT NVL(COUNT(*),0) FROM wotdlike WHERE wNum = ? " ;
+			sql = "SELECT NVL(COUNT(*),0) FROM wotdcomment WHERE wNum = ?  AND wotdParCom = 0 " ;
 			ps = conn.prepareStatement(sql);
 			ps.setLong(1, wnum);
 			rs = ps.executeQuery();
@@ -276,7 +278,7 @@ public class CompleteTodayDAO {
 		ResultSet rs = null;
 		String sql;
 		try {
-			sql = "SELECT w.wNum, wpfile, todaycon,nickname,profilephoto FROM wotd w JOIN wotdphoto ph ON ph.wnum = w.wnum JOIN member m ON m.memberid= w.memberid JOIN memberdetails md ON md.memberid = w.memberid  WHERE w.wnum = ? ";
+			sql = "SELECT w.wNum, wpfile, todaycon,nickname,NVL(profilePhoto,'default')profilePhoto FROM wotd w JOIN wotdphoto ph ON ph.wnum = w.wnum JOIN member m ON m.memberid= w.memberid LEFT OUTER JOIN memberdetails md ON md.memberid = w.memberid  WHERE w.wnum = ? ";
 			
 			ps = conn.prepareStatement(sql);
 			
@@ -303,6 +305,28 @@ public class CompleteTodayDAO {
 		return dto;
 	}
 	
+	// 댓글 등록 
+	public void insertComment (CompleteTodayDTO dto) {
+		PreparedStatement ps = null;
+		String sql;
+		try {
+			sql = " INSERT INTO wotdcomment (wcomnum,wnum,memberid,postcatenum,wcomcon,blindcnt,wotdparcom,wcomdate,wcomupdate) VALUES (seq_wotdComment.NEXTVAL,?,?,11,?,1,0,SYSDATE,SYSDATE)";
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setLong(1, dto.getWnum());
+			ps.setString(2, dto.getMemberId());
+			ps.setString(3, dto.getContent());
+			
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(ps);
+		}
+	}
+	
 	// 해당게시물에 대한 댓글 목록 
 	// wotdparcom = 0 인애들이 부모 
 	public void getComments(CompleteTodayDTO dto) {
@@ -311,7 +335,7 @@ public class CompleteTodayDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT wcomnum, profilephoto,md.memberid, wcomcon, wotdparcom, TO_CHAR(wcomupdate,'YYYY-MM-DD')wcomupdate FROM wotdcomment c JOIN memberdetails md ON md.memberid = c.memberid WHERE wnum = ? AND wotdparcom = 0 ";
+			sql = "SELECT wcomnum, NVL(profilePhoto,'default')profilePhoto ,md.memberid,nickname, wcomcon, wotdparcom, TO_CHAR(wcomupdate,'YYYY-MM-DD')wcomupdate FROM wotdcomment c JOIN member m ON m.memberid = c.memberid LEFT OUTER JOIN memberdetails md ON md.memberid = c.memberid WHERE wnum = ? AND wotdparcom = 0 ";
 			ps = conn.prepareStatement(sql);
 			
 			ps.setLong(1, dto.getWnum());
@@ -319,16 +343,17 @@ public class CompleteTodayDAO {
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {
-				WotdCommentDTO com = new WotdCommentDTO();
+				WotdCommentDTO obj = new WotdCommentDTO();
 				
-				com.setCommentseq(rs.getInt("wcomnum"));
-				com.setMemberId(rs.getString("memberid"));
-				com.setMemberPhoto(rs.getString("profilephoto"));
-				com.setParent(rs.getLong("wotdparcom"));
-				com.setWrittenDate(rs.getString("wcomupdate"));
-				com.setInnercontent(rs.getString("wcomcon"));
+				obj.setCommentseq(rs.getInt("wcomnum"));
+				obj.setMemberId(rs.getString("memberid"));
+				obj.setMemberPhoto(rs.getString("profilephoto"));
+				obj.setWriternickname(rs.getString("nickname"));
+				obj.setParent(rs.getLong("wotdparcom"));
+				obj.setWrittenDate(rs.getString("wcomupdate"));
+				obj.setInnercontent(rs.getString("wcomcon"));
 				
-				dto.setComments(com);
+				dto.setComments(obj);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -337,5 +362,6 @@ public class CompleteTodayDAO {
 			DBUtil.close(ps);
 		}
 	}
+	
 	
 }

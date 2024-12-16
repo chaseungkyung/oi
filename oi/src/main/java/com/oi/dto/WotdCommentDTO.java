@@ -6,10 +6,18 @@ public class WotdCommentDTO {
 	private long parent;
 	private long commentseq;
 	private String memberId;
+	private String writernickname;
 	private String memberPhoto;
 	private String innercontent;
 	private String writtenDate;
 	
+	
+	public String getWriternickname() {
+		return writernickname;
+	}
+	public void setWriternickname(String writernickname) {
+		this.writernickname = writernickname;
+	}
 	public String getMemberPhoto() {
 		return memberPhoto;
 	}

@@ -24,10 +24,13 @@
 					<table>
 						<thead>
 							<tr class="row">
-								<td class="col-auto"><img
+								<td class="col-auto">
+								<c:set var="defaultfile" value="${pageContext.request.contextPath}/resources/images/blank-profile.png"/>
+								<c:set var="fileroot" value="${pageContext.request.contextPath}/uploads/photo/${sessionScope.member.saveprofile}" />
+								<img
 									style="width: 20px; height: 20px;"
 									class="rounded-circle object-fit-scale"
-									src="${pageContext.request.contextPath}/resources/images/mango.jpg"></td>
+									src="${sessionScope.member.saveprofile == 'default' ? defaultfile: fileroot }"></td>
 								<td class="col-auto"><span style="font-weight: 300; font-size: 14px;">${sessionScope.member.nickname}</span></td>
 							</tr>
 						</thead>

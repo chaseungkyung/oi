@@ -41,30 +41,35 @@ public class WorkToDayController {
 		return new ModelAndView("worktoday/wtdmain");
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/completeworkout/main", method = RequestMethod.POST)
-	public Map<String, Object> getComment(HttpServletRequest req, HttpServletResponse resp)
+	@RequestMapping(value = "/completeworkout/personal", method = RequestMethod.GET)
+	public ModelAndView mine(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		return new ModelAndView("worktoday/mine");
+	}
+	
+	@RequestMapping(value = "/completeworkout/modalbody", method = RequestMethod.GET)
+	public ModelAndView getComment(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
 		// 넘어오는 파라미터 : wnum 
-		Map<String, Object> model = new HashMap<String, Object>();
+		ModelAndView mav = new ModelAndView("worktoday/wotdcomment");
 		try {
 
 			long wnum = Long.parseLong(req.getParameter("wnum"));
-			
+
 			// 해당하는 게시물 가져오기		// 내용 , 닉네임, 프로필사진, 컨텐츠 / 날짜 필요없을듯 
 			CompleteTodayDTO dto = dao.findByNum(wnum);
 			
 			// 댓글 목록 가져오기 
 			dao.getComments(dto);
 			
-			model.put("dto", dto);
-			model.put("list", dto.getComments());
+			mav.addObject("article", dto);
+			mav.addObject("commentlist", dto.getComments());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return model;
+		return mav;
 	}
 	
 	
@@ -173,12 +178,9 @@ public class WorkToDayController {
 			dto.setMemberId(login.getUserId());
 			dto.setContent(req.getParameter("content"));
 			
-			// 인서트 성공시 true 실패시 false 
-			boolean result = dao.insertCompleteWork(dto);
-			
-			// 테스트용
-			System.out.println(result);
-			
+			// 인서트 성공시 true 실패시 false // boolean result = 
+			dao.insertCompleteWork(dto);
+		
 			// 실패시 insertform 에서 alert 창 띄우기 = 실패 ! 
 			/*
 			if(! result) {
@@ -230,5 +232,38 @@ public class WorkToDayController {
 		return model;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/completeworkout/insertcomment", method =RequestMethod.GET )
+	public Map<String, Object> insertComment (HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException{
+		
+		Map<String,Object> model = new HashMap<String, Object>();
+		
+		String content =  req.getParameter("content");
+		HttpSession session = req.getSession();
+		LoginDTO login = (LoginDTO) session.getAttribute("member");
+		
+		try {
+			long wnum = Long.parseLong(req.getParameter("wnum"));
+			
+			CompleteTodayDTO dto  = new CompleteTodayDTO();
+			
+			dto.setWnum(wnum);
+			dto.setMemberId(login.getUserId());
+			dto.setContent(content);
+			
+			dao.insertComment(dto);
+			
+			dao.getComments(dto);
+			
+			model.put("wnum", wnum);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return model;
+	}
+
 	
 }

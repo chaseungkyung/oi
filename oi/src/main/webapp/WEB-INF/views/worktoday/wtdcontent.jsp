@@ -8,9 +8,11 @@
 		<table class="headtable">
 			<thead>
 				<tr>
-					<td style="width: 23px;"><img
-						class="rounded-circle object-fit-scale" alt="사진"
-						src="${pageContext.request.contextPath}/resources/images/mango.jpg"
+					<td style="width: 23px;">
+					<c:set var="defaultfile" value="${pageContext.request.contextPath}/resources/images/blank-profile.png"/>
+					<c:set var="fileroot" value="${pageContext.request.contextPath}/uploads/photo/${vo.profilePhoto}" />
+					<img class="rounded-circle object-fit-scale" alt="사진"
+						src="${vo.profilePhoto == 'default' ? defaultfile: fileroot }"
 						style="width: 20px; height: 20px;"></td>
 					<td style="width: auto;">${vo.nickName}</td>
 					<td>${vo.updatedate}</td>
@@ -44,7 +46,7 @@
 					<td>
 						<a style="color: black;" class="like emotion"><i class="bi ${vo.liked ? 'bi-heart-fill': 'bi-heart'}"></i></a><span style="font-size: 14px; font-weight: 300; padding-left: 4px;">${vo.loved}</span>
 						<a style="color: black; align-items: center; " class="comment emotion"><button type="button" class="btn btnmodalshow" data-bs-toggle="modal"
-		data-bs-target="#modal"><i class="bi bi-chat-dots"></i></button></a><span style="font-size: 14px; font-weight: 300; padding-left: 4px;">${vo.commentcount}</span>
+		data-bs-target="#modal" data-article="${vo.wnum}"><i class="bi bi-chat-dots"></i></button></a><span style="font-size: 14px; font-weight: 300; padding-left: 4px;">${vo.commentcount}</span>
 					</td>
 				</tr>
 			</tbody>
