@@ -92,6 +92,48 @@ import com.oi.util.DBUtil;
 		    }
 		    return dto;
 		}
+		
+		public void updateMemberInfo(MemberDTO member) throws SQLException {
+		    PreparedStatement pstmt = null;
+		    String sql = null;
+
+		    try {
+		        // Member 테이블 업데이트
+		        sql = "UPDATE member SET memberPw = ?, nickName = ? WHERE memberId = ?";
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setString(1, member.getMemberPw());
+		        pstmt.setString(2, member.getNickName());
+		        pstmt.setString(3, member.getMemberId());
+		        pstmt.executeUpdate();
+		        DBUtil.close(pstmt);
+
+		        // MemberDetails 테이블 업데이트
+		        sql = "UPDATE memberDetails SET address = ?, addressNum = ?, email = ? WHERE memberId = ?";
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setString(1, member.getMemberDetails().getAddress());
+		        pstmt.setInt(2, Integer.parseInt(member.getMemberDetails().getAddressNum())); // addressNum이 숫자라 가정
+		        pstmt.setString(3, member.getMemberDetails().getEmail());
+		        pstmt.setString(4, member.getMemberId());
+		        pstmt.executeUpdate();
+		        DBUtil.close(pstmt);
+
+		        // BodyRecord 테이블 업데이트
+		        sql = "UPDATE bodyRecord SET height = ?, weight = ?, bodyFat = ?, bodyMuscle = ? WHERE memberId = ?";
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setInt(1, member.getBodyRecord().getHeight());
+		        pstmt.setInt(2, member.getBodyRecord().getWeight());
+		        pstmt.setInt(3, member.getBodyRecord().getBodyFat());
+		        pstmt.setInt(4, member.getBodyRecord().getBodyMuscle());
+		        pstmt.setString(5, member.getMemberId());
+		        pstmt.executeUpdate();
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		        throw e; // 예외 발생 시 호출 부에서 처리
+		    } finally {
+		        DBUtil.close(pstmt);
+		    }
+		}
 
 	}
 
