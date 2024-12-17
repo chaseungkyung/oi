@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,11 @@
     <!-- 왼쪽 사이드 바 -->
     <div class="mypage-container">
         <nav class="my-history-nav">
-            <div><img src="${pageContext.request.contextPath}/resources/images/blank-profile.png" alt="프로필 사진" class="mypage-profile" style="height: 40px; width: auto;"></div>
+            <div>
+            	<c:set var="fileroot" value="${pageContext.request.contextPath}/uploads/photo/${sessionScope.member.saveprofile}" />
+               	<c:set var="defaultfile" value="${pageContext.request.contextPath}/resources/images/blank-profile.png"/>
+            	<img src="${sessionScope.member.saveprofile == 'default' ? defaultfile: fileroot }" alt="프로필 사진" class="mypage-profile" style="height: 40px; width: auto;">
+            </div>
             <p>
                 <span>${member.nickName}님</span>
             </p>
@@ -28,17 +33,16 @@
             <p>
                 <i class="fa-solid fa-user"></i><span>나의 내역</span>
             </p>
-            <a href="#"><i class="fa-solid fa-cart-shopping"></i><span>판매
-                    내역</span></a> 
-            <a href="#"><i class="fa-solid fa-pen"></i><span>댓글 내역</span></a> 
-            <a href="#"><i class="fa-solid fa-circle-user"></i><span>내가 쓴 글 내역</span></a> 
-            <a href="#"><i class="fa-solid fa-thumbs-up"></i><span>게시글 찜 내역</span></a> 
-            <a href="#"><i class="fa-solid fa-heart"></i><span>오운완 좋아요 내역</span></a>
+            <a href="#"><i class="fa-solid fa-cart-shopping"></i><span>판매내역</span></a> 
+            <a href="${pageContext.request.contextPath}/mypage/comment"><i class="fa-solid fa-pen"></i><span>댓글 내역</span></a> 
+            <a href="${pageContext.request.contextPath}/mypage/mycomment"><i class="fa-solid fa-circle-user"></i><span>내가 쓴 글 내역</span></a> 
+            <a href="${pageContext.request.contextPath}/mypage/boardlike"><i class="fa-solid fa-thumbs-up"></i><span>게시글 찜 내역</span></a> 
+            <a href="${pageContext.request.contextPath}/mypage/todayworklike"><i class="fa-solid fa-heart"></i><span>오운완 좋아요 내역</span></a>
         </nav>
 
         <main>
             <!-- 여기서부터 하나의 form으로 합침 -->
-            <form id="combinedForm" method="post" action="${pageContext.request.contextPath}/mypage/updatePersonal">
+            <form id="combinedForm" method="post" action="${pageContext.request.contextPath}/mypage/updatePersonal" enctype="multipart/form-data">
                 <div class="content">
                     <div class="personal-info">
                         <div class="personal-header d-flex justify-content-between align-items-center">
@@ -97,7 +101,7 @@
                             </div>
                             <div class="personal-profileimage mb-3">
                                 <label for="profileImage" class="form-label">프로필 사진</label> 
-                                <input type="file" class="form-control" id="profileImage"
+                                <input type="file" class="form-control" name="profileImage" id="profileImage"
                                     accept="image/*">
                             </div>
                         </div>

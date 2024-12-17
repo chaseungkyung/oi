@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/entry/login_.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/entry/login_.js"></script>
 </head>
-<body>
-	<header><jsp:include page="/WEB-INF/views/layout/header.jsp"/></header>
+	<body>
+		<header><jsp:include page="/WEB-INF/views/layout/header.jsp"/></header>
 
 	<div id="login">
     <div id="formcover">

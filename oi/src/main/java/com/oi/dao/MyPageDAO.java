@@ -1,7 +1,6 @@
 package com.oi.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,30 +21,26 @@ import com.oi.util.DBUtil;
 		    String sql;
 
 		    try {
-		        sql = "SELECT " +
-		                "m.memberId, " +
-		                "m.memberPw, " +
-		                "m.nickName, " +
-		                "TO_CHAR(md.birth, 'YYYY-MM-DD') AS birth, " +
-		                "md.email, " +
-		                "md.address, " +
-		                "md.addressNum, " +
-		                "md.name, " +
-		                "md.profilePhoto, " +
-		                "br.gender, " +
-		                "br.height, " +
-		                "br.weight, " +
-		                "br.bodyRecordDate, " +
-		                "br.bodyFat, " +
-		                "br.bodyMuscle " +
-		                "FROM " +
-		                "Member m " +
-		                "LEFT JOIN " +
-		                "MemberDetails md ON m.memberId = md.memberId " +
-		                "LEFT JOIN " +
-		                "BodyRecord br ON m.memberId = br.memberId " +
-		                "WHERE " +
-		                "m.memberId = ?";
+		    	sql = "SELECT " +
+		    		      "m.memberId, " +
+		    		      "m.memberPw, " +
+		    		      "m.nickName, " +
+		    		      "TO_CHAR(md.birth, 'YYYY-MM-DD') AS birth, " +
+		    		      "md.email, " +
+		    		      "md.address, " +
+		    		      "md.addressNum, " +
+		    		      "md.name, " +
+		    		      "md.profilePhoto, " +
+		    		      "br.gender, " +
+		    		      "br.height, " +
+		    		      "br.weight, " +
+		    		      "br.bodyRecordDate, " +
+		    		      "br.bodyFat, " +
+		    		      "br.bodyMuscle " +
+		    		      "FROM OI.member m " +
+		    		      "LEFT JOIN OI.memberDetails md ON m.memberId = md.memberId " +
+		    		      "LEFT JOIN OI.bodyRecord br ON m.memberId = br.memberId " +
+		    		      "WHERE m.memberId = ?";
 
 		        pstmt = conn.prepareStatement(sql);
 		        pstmt.setString(1, memberId);
@@ -74,10 +69,7 @@ import com.oi.util.DBUtil;
 		            bodyRecord.setGender(rs.getString("gender"));
 		            bodyRecord.setHeight(rs.getInt("height"));
 		            bodyRecord.setWeight(rs.getInt("weight"));
-		            Date bodyRecordDate = rs.getDate("bodyRecordDate");
-		            if (bodyRecordDate != null) {
-		                bodyRecord.setBodyRecordDate(bodyRecordDate.toLocalDate());
-		            }
+		            bodyRecord.setBodyRecordDate(rs.getString("bodyRecordDate"));
 		            bodyRecord.setBodyFat(rs.getInt("bodyFat"));
 		            bodyRecord.setBodyMuscle(rs.getInt("bodyMuscle"));
 
@@ -108,23 +100,26 @@ import com.oi.util.DBUtil;
 		        DBUtil.close(pstmt);
 
 		        // MemberDetails 테이블 업데이트
-		        sql = "UPDATE memberDetails SET address = ?, addressNum = ?, email = ? WHERE memberId = ?";
+		        sql = "UPDATE memberDetails SET address = ?, addressNum = ?, email = ?, profilePhoto = ? WHERE memberId = ?";
 		        pstmt = conn.prepareStatement(sql);
 		        pstmt.setString(1, member.getMemberDetails().getAddress());
 		        pstmt.setInt(2, Integer.parseInt(member.getMemberDetails().getAddressNum())); // addressNum이 숫자라 가정
 		        pstmt.setString(3, member.getMemberDetails().getEmail());
-		        pstmt.setString(4, member.getMemberId());
+		        pstmt.setString(4, member.getMemberDetails().getProfilePhoto());
+		        pstmt.setString(5, member.getMemberId());
 		        pstmt.executeUpdate();
 		        DBUtil.close(pstmt);
 
 		        // BodyRecord 테이블 업데이트
-		        sql = "UPDATE bodyRecord SET height = ?, weight = ?, bodyFat = ?, bodyMuscle = ? WHERE memberId = ?";
+		        sql = "UPDATE bodyRecord SET height = ?, weight = ?, bodyFat = ?, bodyMuscle = ?, bodyRecordDate = ? WHERE memberId = ?";
 		        pstmt = conn.prepareStatement(sql);
 		        pstmt.setInt(1, member.getBodyRecord().getHeight());
 		        pstmt.setInt(2, member.getBodyRecord().getWeight());
 		        pstmt.setInt(3, member.getBodyRecord().getBodyFat());
 		        pstmt.setInt(4, member.getBodyRecord().getBodyMuscle());
-		        pstmt.setString(5, member.getMemberId());
+		        pstmt.setString(5, (member.getBodyRecord().getBodyRecordDate()));
+		        pstmt.setString(6, member.getMemberId()); // memberId 설정
+		        
 		        pstmt.executeUpdate();
 
 		    } catch (SQLException e) {

@@ -1,12 +1,10 @@
 package com.oi.dto;
 
-import java.time.LocalDate;
-
 public class BodyRecordDTO {
 	private String gender;
 	private int height;
 	private int weight;
-	private LocalDate bodyRecordDate;
+	private String bodyRecordDate;
 	private int bodyFat;
 	private int bodyMuscle;
 	
@@ -28,11 +26,11 @@ public class BodyRecordDTO {
 	public void setWeight(int weight) {
 		this.weight = weight;
 	}
-	public LocalDate getBodyRecordDate() {
+	public String getBodyRecordDate() {
 		return bodyRecordDate;
 	}
-	public void setBodyRecordDate(LocalDate bodyRecordDate) {
-		this.bodyRecordDate = bodyRecordDate;
+	public void setBodyRecordDate(String localDate) {
+		this.bodyRecordDate = localDate;
 	}
 	public int getBodyFat() {
 		return bodyFat;
