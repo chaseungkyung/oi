@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class RecordMealController {
 	
-	@RequestMapping(value = "/recordmeal/mealmain", method = RequestMethod.GET)
+	@RequestMapping(value = "/recordmeal/mealmain") // method 삭제
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		Calendar cal = Calendar.getInstance();
@@ -38,13 +38,11 @@ public class RecordMealController {
 	
 	}
 	
-	
-
 	@ResponseBody
 	@RequestMapping(value = "/recordmeal/mealinsert" , method =  RequestMethod.POST)
 	public Map<String, Object> mealinsert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		System.out.println("here");
+		
 		// 식단 저장
 		RecordMealDAO dao = new RecordMealDAO();
 		HttpSession session = req.getSession();

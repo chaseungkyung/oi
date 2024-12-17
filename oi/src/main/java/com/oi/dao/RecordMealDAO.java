@@ -31,14 +31,18 @@ public class RecordMealDAO {
 			pstmt.setInt(5, dto.getKcal());
 
 			pstmt.executeUpdate();
-			conn.commit();
+			
+			// 자동커밋 되기때문에 하지 않아도 됨 
+			// 만약 이렇게 하고싶다면 try 문 가장 상단에 conn.setAutoCommit(false)넣고 시작 
+		//	conn.commit();
 		} catch (SQLException e) {
-			conn.rollback();
+		//	conn.rollback();
+			// 자동커밋을 false 로 하지않았기때문에 rollback 사용할 수 없음 
 			e.printStackTrace();
 			throw e;
 		} finally {
 			DBUtil.close(pstmt);
-			conn.setAutoCommit(true);
+		//	conn.setAutoCommit(true);
 		}
 
 	}

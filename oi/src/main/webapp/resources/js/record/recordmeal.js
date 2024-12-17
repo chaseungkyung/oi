@@ -27,11 +27,13 @@ function mealInsertOk() {
     console.log("Meal Capacity: ", mealCapacity);
     console.log("Meal Kcal: ", mealKcal);
 	
-	let url = 'oi/recordmeal/mealinsert';
+	let url = '/oi/recordmeal/mealinsert';
+//	let url = 'oi/recordmeal/mealinsert';
+	
 	// Ajax로 데이터 전송
     $.ajax({
-        type: 'POST',
         url: url,
+        type: 'POST',
         data: {
             dietFoodTime: mealTime,
             dietFoodName: mealName,
