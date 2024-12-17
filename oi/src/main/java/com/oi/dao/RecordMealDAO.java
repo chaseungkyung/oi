@@ -20,15 +20,14 @@ public class RecordMealDAO {
 
 		try {
 			sql = "INSERT INTO mealrecord(dietFoodNum, memberId, dietFoodTime, dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal)  "
-					+ " VALUES ( SEQ_MEALRECORD.NEXTVAL, ?, SYSDATE, SYSDATE, ?, ?, ?, ?)";
+					+ " VALUES ( SEQ_MEALRECORD.NEXTVAL, ?, SYSDATE, SYSDATE, 1, ?, ?, ?)";
 
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getMemberId());
-			pstmt.setString(2, dto.getDietFoodUnit());
-			pstmt.setString(3, dto.getDietFoodName());
-			pstmt.setInt(4, dto.getCapacity());
-			pstmt.setInt(5, dto.getKcal());
+			pstmt.setString(2, dto.getDietFoodName());
+			pstmt.setInt(3, dto.getCapacity());
+			pstmt.setInt(4, dto.getKcal());
 
 			pstmt.executeUpdate();
 			
@@ -47,6 +46,50 @@ public class RecordMealDAO {
 
 	}
 
+	
+	public List<RecordMealDTO> getMealListByMemberId(String memberId) throws SQLException{
+		List<RecordMealDTO> mealList = new ArrayList<RecordMealDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append("SELECT dietFoodNum, memberId, dietFoodDate, dietFoodName, capacity, kcal ");
+			sb.append(" FROM mealrecord WHERE memberId = ? ORDER BY dietFoodDate DESC ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			pstmt.setString(1, memberId);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+	            RecordMealDTO dto = new RecordMealDTO();
+
+	            dto.setDietFoodNum(rs.getInt("dietFoodNum"));
+	            dto.setDietFoodTime(rs.getString("dietFoodTime"));
+	            dto.setDietFoodDate(rs.getString("dietFoodDate"));
+	            dto.setDietFoodName(rs.getString("dietFoodName"));
+	            dto.setCapacity(rs.getInt("capacity"));
+	            dto.setKcal(rs.getInt("kcal"));
+
+	            mealList.add(dto);
+	        }
+			
+			
+		} catch (SQLException e) {
+	        e.printStackTrace();
+	        throw e;
+	        
+	    } finally {
+	        DBUtil.close(rs);
+	        DBUtil.close(pstmt);
+	    }
+
+	    return mealList;
+	}
+	
+	
 	public List<RecordMealDTO> listMonth(String memberId, String dietFoodDate) {
 
 		List<RecordMealDTO> list = new ArrayList<>();

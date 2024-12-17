@@ -3,6 +3,7 @@ package com.oi.controller;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.oi.dao.RecordMealDAO;
@@ -11,7 +12,6 @@ import com.oi.dto.RecordMealDTO;
 import com.oi.mvc.annotation.Controller;
 import com.oi.mvc.annotation.RequestMapping;
 import com.oi.mvc.annotation.RequestMethod;
-import com.oi.mvc.annotation.ResponseBody;
 import com.oi.mvc.view.ModelAndView;
 
 import jakarta.servlet.ServletException;
@@ -38,10 +38,30 @@ public class RecordMealController {
 	
 	}
 	
-	@ResponseBody
+
+	@RequestMapping(value = "/recordmeal/mealList")
+	public ModelAndView mealList(HttpServletRequest req) {
+	    ModelAndView mav = new ModelAndView("mealList");
+	    HttpSession session = req.getSession();
+	    LoginDTO log = (LoginDTO) session.getAttribute("member");
+
+	    try {
+	        String memberId = log.getUserId();
+	        RecordMealDAO dao = new RecordMealDAO();
+	        List<RecordMealDTO> mealList = dao.getMealListByMemberId(memberId);
+
+	        mav.addObject("mealList", mealList);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        mav.addObject("error", "데이터를 불러오는 중 오류가 발생했습니다.");
+	    }
+
+	    return mav;
+	}
+		
+		
 	@RequestMapping(value = "/recordmeal/mealinsert" , method =  RequestMethod.POST)
 	public Map<String, Object> mealinsert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
 		
 		// 식단 저장
 		RecordMealDAO dao = new RecordMealDAO();
@@ -58,14 +78,12 @@ public class RecordMealController {
 			dto.setDietFoodTime(req.getParameter("dietFoodTime"));
 			dto.setDietFoodName(req.getParameter("dietFoodName"));
 			dto.setDietFoodDate(req.getParameter("dietFoodDate"));
-			dto.setDietFoodUnit(req.getParameter("dietFoodUnit"));
 			dto.setCapacity(Integer.parseInt(req.getParameter("capacity")));
 			dto.setKcal(Integer.parseInt(req.getParameter("kcal")));
 			
 	        System.out.println("Received dietFoodTime: " + dto.getDietFoodTime());
 	        System.out.println("Received dietFoodName: " + dto.getDietFoodName());
 	        System.out.println("Received dietFoodDate: " + dto.getDietFoodDate());
-	        System.out.println("Received dietFoodUnit: " + dto.getDietFoodUnit());
 	        System.out.println("Received capacity: " + dto.getCapacity());
 	        System.out.println("Received kcal: " + dto.getKcal());
 	        
