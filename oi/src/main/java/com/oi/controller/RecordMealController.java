@@ -41,41 +41,44 @@ public class RecordMealController {
 	
 
 	@ResponseBody
-	@RequestMapping(value = "/recordmeal/mealinsert" , method =  RequestMethod.GET)
+	@RequestMapping(value = "/recordmeal/mealinsert" , method =  RequestMethod.POST)
 	public Map<String, Object> mealinsert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		System.out.println("here");
 		// 식단 저장
-		Map<String, Object> model = new HashMap<String, Object>();
-		
 		RecordMealDAO dao = new RecordMealDAO();
-		
 		HttpSession session = req.getSession();
 		LoginDTO log = (LoginDTO)session.getAttribute("member");
-		String state = "false";
+		
+		Map<String, Object> model = new HashMap<String, Object>();
 		
 		try {
 			RecordMealDTO dto = new RecordMealDTO();
 			
-			System.out.println("식단시간"+req.getParameter("dietFoodTime"));
-			System.out.println("식단이름"+req.getParameter("dietFoodName"));
-			dto.setMemberId(log.getUserId());
+			dto.setMemberId(log.getUserId());		//userId는... session에 저장됐으니까 따로 log로 불러오고..
+			
 			dto.setDietFoodTime(req.getParameter("dietFoodTime"));
 			dto.setDietFoodName(req.getParameter("dietFoodName"));
 			dto.setDietFoodDate(req.getParameter("dietFoodDate"));
 			dto.setDietFoodUnit(req.getParameter("dietFoodUnit"));
-			dto.setCapacity(req.getParameter("capacity"));
-			
+			dto.setCapacity(Integer.parseInt(req.getParameter("capacity")));
 			dto.setKcal(Integer.parseInt(req.getParameter("kcal")));
 			
+	        System.out.println("Received dietFoodTime: " + dto.getDietFoodTime());
+	        System.out.println("Received dietFoodName: " + dto.getDietFoodName());
+	        System.out.println("Received dietFoodDate: " + dto.getDietFoodDate());
+	        System.out.println("Received dietFoodUnit: " + dto.getDietFoodUnit());
+	        System.out.println("Received capacity: " + dto.getCapacity());
+	        System.out.println("Received kcal: " + dto.getKcal());
+	        
 			dao.insertRecord(dto);
 			
-			state = "true";
-
+			model.put("state", "true");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.put("state", state);
-		
+	
 		return model;
 	}
 	

@@ -19,24 +19,26 @@ public class RecordMealDAO {
 		String sql;
 
 		try {
-			sql = "INSERT INTO mealrecord(dietFoodNum, memberId, dietFoodTime, dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal) "
-					+ " VALUES(SEQ_MEALRECORD.NEXTVAL, ?, TO_DATE(?, 'YYYY-MM-DD'), SYSDATE, ?, ?, ?, ?)";
-			pstmt = conn.prepareStatement(sql);
+			sql = "INSERT INTO mealrecord(dietFoodNum, memberId, dietFoodTime, dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal)  "
+					+ " VALUES ( SEQ_MEALRECORD.NEXTVAL, ?, SYSDATE, SYSDATE, ?, ?, ?, ?)";
 
+			pstmt = conn.prepareStatement(sql);
+			
 			pstmt.setString(1, dto.getMemberId());
-			pstmt.setString(2, dto.getDietFoodTime());
-			pstmt.setString(3, dto.getDietFoodUnit());
-			pstmt.setString(4, dto.getDietFoodName());
-			pstmt.setString(5, dto.getCapacity());
-			pstmt.setInt(6, dto.getKcal());
+			pstmt.setString(2, dto.getDietFoodUnit());
+			pstmt.setString(3, dto.getDietFoodName());
+			pstmt.setInt(4, dto.getCapacity());
+			pstmt.setInt(5, dto.getKcal());
 
 			pstmt.executeUpdate();
-
+			conn.commit();
 		} catch (SQLException e) {
+			conn.rollback();
 			e.printStackTrace();
 			throw e;
 		} finally {
 			DBUtil.close(pstmt);
+			conn.setAutoCommit(true);
 		}
 
 	}
@@ -64,19 +66,21 @@ public class RecordMealDAO {
 			rs = pstmt.executeQuery();
 			
 			while( rs.next()) {
-				dto = new RecordMealDTO();		// while 안에 들어가야 개수만큼 객체 생성
+				dto = new RecordMealDTO();		// while문 안에 들어가야 개수만큼 객체 생성
 				
 				dto.setMemberId(rs.getString("memberId"));
 				dto.setDietFoodName(rs.getString("dietFoodName"));
 				dto.setDietFoodDate(rs.getString("dietFoodDate"));
 				dto.setDietFoodUnit(rs.getString("dietFoodUnit"));
-				dto.setCapacity(rs.getString("capacity"));
+				dto.setCapacity(rs.getInt("capacity"));
 				dto.setKcal(rs.getInt("kcal"));
 				
 				list.add(dto);
 			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		} finally {
 			DBUtil.close(rs);
 			DBUtil.close(pstmt);

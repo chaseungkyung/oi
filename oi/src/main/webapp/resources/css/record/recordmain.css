@@ -109,13 +109,76 @@
 		margin : 10px;
 	}
 	.mealinsertbtn:hover {
-		color: #496769; /* 호버 시 색 변경 */
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 약간의 그림자 */
-		transform: scale(1.03); /* 살짝 커지는 효과 */
+		color: #496769; 
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+		transform: scale(1.03); 
 	}
 
 
+/* 모달  */
+
+.modal {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1000; 
+    justify-content: center;
+    align-items: center;
 }
 
 
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px; 
+    width: 400px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    text-align: center;
+}
 
+.modal-content h3 {
+    color: #28a745; 
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* 버튼 스타일 */
+mealinsertbtn {
+    background-color: #28a745;
+    color: white; 
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px 5px;
+}
+
+mealinsertbtn:hover {
+    background-color: #218838;
+}
+
+
+mealinsertbtn:not(#mealinsertbtn) {
+    background-color: #6c757d;
+}
+
+mealinsertbtn:not(#mealinsertbtn):hover {
+    background-color: #5a6268; 
+}
+
+}
