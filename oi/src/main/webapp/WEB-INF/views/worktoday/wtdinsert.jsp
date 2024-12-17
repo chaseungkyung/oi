@@ -37,7 +37,7 @@
 						<tbody>
 							<tr >
 								<td colspan="1"><label for="content" class="form-label">오늘을 기록해보세요</label> <textarea class="form-control" id="content"
-										name="content" rows="3"></textarea></td>
+										name="content" rows="3">${dto.content }</textarea></td>
 							</tr>
 							<tr>
 								<td colspan="1"><label for="formselected"
@@ -45,10 +45,13 @@
 									class="form-control form-control-sm" id="formselected"
 									type="file" multiple name="fileinput" accept="image/*"></td>
 							</tr>
+							<c:if test="${mode == 'update'}">
+									
+							</c:if>
 						</tbody>
 						<tfoot>
 							<tr class="row">
-								<td class="col-auto"><button type="button" class="btn btn-outline-success" onclick="sendInsert();">완료</button></td>
+								<td class="col-auto"><button type="button" class="btn btn-outline-success" onclick="${mode == 'update' ? 'sendUpdate(dto.wnum);': 'sendInsert();'}">완료</button></td>
 								<td class="col-auto"><button type="button" class="btn btn-outline-secondary" onclick="location.href='${pageContext.request.contextPath}/completeworkout/main'">취소</button></td>
 							</tr>
 						</tfoot>
@@ -61,5 +64,14 @@
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 	</footer>
+	<script type="text/javascript">
+		$(function () {
+			let mode = '${mode}';
+			
+			if(mode == 'update'){
+				
+			}
+		});
+	</script>
 </body>
 </html>

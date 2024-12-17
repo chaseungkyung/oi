@@ -4,7 +4,8 @@
 <%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
 <div id="slider1" class="carousel slide modalcarouel col-6">
 	<div class="carousel-inner">
-		<c:forEach var="file" items="${article.file.saveFileName}" varStatus="status">
+		<c:forEach var="file" items="${article.file.saveFileName}"
+			varStatus="status">
 			<div class="carousel-item ${status.index == 0 ? 'active':''}"
 				data-primary="1">
 				<img class="object-fit-scale d-block w-100" alt="운동인증"
@@ -27,7 +28,7 @@
 <!-- 콘텐츠 영역 -->
 <div class="table-container col-6">
 	<!-- 콘텐츠 -->
-	<div class="content">
+	<div class="content" style="display: flex;">
 		<c:set var="defaultfile"
 			value="${pageContext.request.contextPath}/resources/images/blank-profile.png" />
 		<c:set var="fileroot"
@@ -36,11 +37,21 @@
 			src="${article.profilePhoto == 'default'? defaultfile : fileroot }"
 			style="width: 50px; height: 50px; border-radius: 50%;"><span
 			style="margin-left: 10px; font-weight: bold;">${article.nickName}</span>
-			<c:if test="${mode == 'personal'}">
-			<i class="bi bi-exclamation-circle"></i>
-			</c:if>
-		<div style="margin-top: 10px; font-size: 14px; font-weight: 600;">${article.content}</div>
+		<c:if test="${mode == 'personal'}">
+			<div class="dropdown" style="margin-left: auto;">
+				<button class="btn " type="button"
+					id="dropdownMenuButton1" data-bs-toggle="dropdown"
+					aria-expanded="false" style="border: none;">
+					<i class="bi bi-exclamation-circle"></i>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/completeworkout/update?wnum=${article.wnum}">수정</a></li>
+					<li><a class="dropdown-item" href="#">삭제</a></li>
+				</ul>
+			</div>
+		</c:if>
 	</div>
+	<div style="margin-top: 10px; display: block; 14 px; font-weight: 600;">${article.content}</div>
 	<hr>
 	<!-- 댓글 목록 -->
 	<div class="comments-section"

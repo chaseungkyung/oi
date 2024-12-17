@@ -118,6 +118,26 @@ public class WorkToDayController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/completeworkout/update", method = RequestMethod.GET)
+	public ModelAndView updateArticle(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		
+		// 넘어오는 파라미터 : wnum
+		ModelAndView mav = new ModelAndView("worktoday/wtdinsert");
+		
+		try {
+			long wnum = Long.parseLong(req.getParameter("wnum"));
+			
+			CompleteTodayDTO dto = dao.findByNum(wnum);
+			
+			mav.addObject("dto", dto);
+			mav.addObject("mode", "update");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
 	
 	@RequestMapping(value = "/completeworkout/modalbody", method = RequestMethod.GET)
 	public ModelAndView getComment(HttpServletRequest req, HttpServletResponse resp)
@@ -208,6 +228,7 @@ public class WorkToDayController {
 			throws ServletException, IOException {
 		ModelAndView mav =  new ModelAndView("worktoday/wtdinsert");
 		
+		mav.addObject("mode", "insert");
 		/*
 		// 이전에 실패한 적이 있으면 alert 창 띄울거임 
 		HttpSession session = req.getSession();
