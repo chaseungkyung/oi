@@ -4,8 +4,7 @@
 <%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
 <div id="slider1" class="carousel slide modalcarouel col-6">
 	<div class="carousel-inner">
-		<c:forEach var="file" items="${article.file.saveFileName}"
-			varStatus="status">
+		<c:forEach var="file" items="${article.file.saveFileName}" varStatus="status">
 			<div class="carousel-item ${status.index == 0 ? 'active':''}"
 				data-primary="1">
 				<img class="object-fit-scale d-block w-100" alt="운동인증"
@@ -37,11 +36,15 @@
 			src="${article.profilePhoto == 'default'? defaultfile : fileroot }"
 			style="width: 50px; height: 50px; border-radius: 50%;"><span
 			style="margin-left: 10px; font-weight: bold;">${article.nickName}</span>
+			<c:if test="${mode == 'personal'}">
+			<i class="bi bi-exclamation-circle"></i>
+			</c:if>
 		<div style="margin-top: 10px; font-size: 14px; font-weight: 600;">${article.content}</div>
 	</div>
 	<hr>
 	<!-- 댓글 목록 -->
-	<div class="comments-section" style="min-height: 450px; max-height: 450px; overflow-y: auto; font-size: 14px; font-weight: 300;">
+	<div class="comments-section"
+		style="min-height: 450px; max-height: 450px; overflow-y: auto; font-size: 14px; font-weight: 300;">
 		<c:choose>
 			<c:when test="${fn:length(commentlist) == 0}">
 				<div class="empty">등록된 댓글이 없습니다</div>
@@ -57,7 +60,7 @@
 								style="width: 40px; height: 40px; border-radius: 50%;"> <span
 								style="margin-left: 10px; font-weight: bold;">${commentdto.writernickname}</span>
 						</div>
-						<div style="margin-left: 50px; margin-top: 5px; ">
+						<div style="margin-left: 50px; margin-top: 5px;">
 							<span style="font-size: 14px; font-weight: 300;">${commentdto.innercontent}</span>
 						</div>
 					</div>
@@ -68,8 +71,10 @@
 	</div>
 	<!-- 댓글 입력란 -->
 	<div class="input-container">
-		<input type="text" class="contents" name="commentcontents" placeholder="댓글을 남겨보세요">
+		<input type="text" class="contents" name="commentcontents"
+			placeholder="댓글을 남겨보세요">
 		<button type="button" class="btn btn-primary btn-answer">등록</button>
-		<input type="hidden" name="wnum" class="getwnum" value="${article.wnum}">
+		<input type="hidden" name="wnum" class="getwnum"
+			value="${article.wnum}">
 	</div>
 </div>

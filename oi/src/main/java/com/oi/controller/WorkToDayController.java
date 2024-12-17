@@ -40,24 +40,84 @@ public class WorkToDayController {
 		
 		return new ModelAndView("worktoday/wtdmain");
 	}
-	
-	@RequestMapping(value = "/completeworkout/personal", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/completeworkout/personalmain", method = RequestMethod.GET)
 	public ModelAndView mine(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		return new ModelAndView("worktoday/mine");
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/completeworkout/personal", method = RequestMethod.GET)
+	public Map<String, Object> getmines(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 		
+		// 넘어오는 파라미터 page 
+
+		Map<String, Object> model = new HashMap<String, Object>();
 		HttpSession session = req.getSession();
 		LoginDTO login = (LoginDTO) session.getAttribute("member");
 		
 		try {
+			long page = 1;
+			
+			if(req.getParameter("page") != null) {
+				page = Long.parseLong(req.getParameter("page"));
+			}
+			
+			// 게시물 개수 반환
+			int dataCount = dao.DataCount(login.getUserId());
+			
+			// 한번에 가져갈 게시물
+			int size = 6;
+			
+			// 총 페이지 수 
+			int totalpage = util.pageCount(dataCount, 6);
+			
+			int offset = (int)(page - 1)* size;
+			if(offset < 0) offset = 0;
+			
+			// 게시글 받아오기 
+			List<CompleteTodayDTO> list = dao.getDataById(offset, size, login.getUserId());
+			
+			// 게시글에대한 대표 사진 받아오기 
+			for(CompleteTodayDTO cdto: list) {
+				dao.getFilesById(cdto, login.getUserId());
+			}
+			
+			model.put("dataCount", dataCount);
+			model.put("list", list);
+			model.put("nowpage", page);
+			model.put("totalpage", totalpage);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return new ModelAndView("worktoday/mine");
-		
-		
+		return model;
 	}
+	
+	@RequestMapping(value = "/completeworkout/personalarticle", method = RequestMethod.GET)
+	public ModelAndView getArticle(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView("worktoday/wotdcomment");
+		
+		try {
+			long wnum =	Long.parseLong(req.getParameter("wnum"));
+			
+			CompleteTodayDTO dto = dao.findByNum(wnum);
+			
+			dao.getComments(dto);
+			
+			mav.addObject("article", dto);
+			mav.addObject("commentlist", dto.getComments());
+			mav.addObject("mode", "personal");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return mav;
+	}
+	
 	
 	@RequestMapping(value = "/completeworkout/modalbody", method = RequestMethod.GET)
 	public ModelAndView getComment(HttpServletRequest req, HttpServletResponse resp)

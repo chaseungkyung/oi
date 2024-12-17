@@ -13,8 +13,7 @@
 <jsp:include page="/WEB-INF/views/layout/headimported.jsp" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/wtd/wtdmain.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/wtd/mine.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/wtd/mine.css">
 </head>
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
@@ -26,32 +25,32 @@
 			<div class="container" style="width: 100%;">
 				<div class="row profile-header">
 					<div class="col-md-4 d-flex justify-content-center">
-						<img src="#" alt="Profile" class="profile-img">
+						<c:set var="defaultprofile"
+							value="${pageContext.request.contextPath}/resources/images/blank-profile.png" />
+						<c:set var="photo"
+							value="${pageContext.request.contextPath}/uploads/photo/${sessionScope.member.saveprofile}" />
+						<img
+							src="${sessionScope.member.saveprofile ? photo : defaultprofile }"
+							alt="Profile" class="profile-img">
 					</div>
 					<div class="col-md-8 d-flex flex-column justify-content-center">
 						<div class="profile-info d-flex align-items-center">
-							<h2 class="me-3">username</h2>
+							<h2 class="me-3">${sessionScope.member.nickname}</h2>
 							<button class="btn btn-outline-secondary btn-sm">프로필 편집</button>
 						</div>
 						<div class="profile-stats">
 							<div>
-								<span>10</span> 게시물
+								<span id="dataCount"></span> 게시물
 							</div>
 						</div>
 						<div class="profile-bio">
-							<strong>닉네임</strong>
+							<strong>${sessionScope.member.nickname}</strong>
 						</div>
 					</div>
 				</div>
 				<hr>
-				<div class="profile-posts row">
-					<!-- 3열 그리드 예시 -->
-					<div class="col-4 articles" data-bs-toggle="modal"
-						data-bs-target="#modal">
-						<div class="post post1"></div>
-					</div>
-					<!--  반복  -->
-				</div>
+				<div class="profile-posts row" data-page="0" data-total="0"></div>
+				<button class="btn seemore" style="display: none;">더보기</button>
 			</div>
 		</div>
 	</main>
@@ -79,7 +78,67 @@
 	<script type="text/javascript">
 		$(function() {
 			$('.profile-posts').on('click', '.articles', function() {
-				
+				let url = "${pageContext.request.contextPath}/completeworkout/personalarticle";
+				let wnum = $(this).attr('data-wnum');
+				console.log(wnum);
+				$.ajax({
+					type :'get',
+					url : url,
+					data: {wnum : wnum},
+					dataType : 'text',
+					success : function (data) {
+						$(".modal-body").html(data);
+					},
+					beforeSend : function (jqXHR) {
+						jqXHR.setRequestHeader('AJAX',true);
+					},
+					error : function (e) {
+						console.log(e.responseText);
+					}
+				});
+			});
+		});
+		
+		// 컨텐츠 불러오기 
+		function loadingcontent(data) {
+			
+			let dataCount = data.dataCount;
+			let page = data.nowpage;
+			let totalpage = data.totalpage;
+			
+			$('.profile-posts').attr('data-page',page);
+			$('.profile-posts').attr('data-total',totalpage);
+			$('#dataCount').html(dataCount);
+			
+			if(page < totalpage){
+				$('.seemore').show();
+			}
+			let text;
+			for(item of data.list){
+				let filename = item.file.saveFileName;
+				text = '<div class="col-4 articles" data-bs-toggle="modal" data-bs-target="#modal" data-wnum="'+item.wnum+'">'
+				text += '<img class="post" alt="사진" src="${pageContext.request.contextPath}/uploads/photo/'+filename+'">'
+				text += '</div>';
+				$('.profile-posts').append(text);
+			}
+		}
+		$(function () {
+			let url = "${pageContext.request.contextPath}/completeworkout/personal";
+			let page = $('.profile-posts').attr('data-page')+1;
+			$.ajax({
+				type : "get",
+				url : url,
+				data : {page:page},
+				dataType:'json',
+				success : function (data) {
+					loadingcontent(data);
+				},
+				beforeSend : function (jqXHR) {
+					jqXHR.setRequestHeader('AJAX',true);
+				},
+				error : function (e) {
+					console.log(e.responseText);
+				}
 			});
 		});
 	</script>
