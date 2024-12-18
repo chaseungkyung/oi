@@ -42,7 +42,31 @@
 		
 		<!-- 메인 필드 -->
 		<main>
-		
+			<h2>작성한 댓글 목록</h2>
+
+			<h3>오운완 댓글</h3>
+			<c:forEach var="comment" items="${commentMap.wotdComments}">
+				<p>
+					<strong>댓글 내용:</strong> ${comment.commentContent} <br> <strong>작성
+						날짜:</strong> ${comment.commentDate}
+				</p>
+				<hr>
+			</c:forEach>
+
+			<h3>중고거래 댓글</h3>
+			<c:forEach var="comment" items="${commentMap.goodsComments}">
+				<p>
+					<strong>게시물 이름:</strong> ${comment.postTitle} <br> <strong>댓글
+						내용:</strong> ${comment.commentContent} <br> <strong>작성 날짜:</strong>
+					${comment.commentDate}
+				</p>
+				<hr>
+			</c:forEach>
+
+			<c:if
+				test="${empty commentMap.wotdComments && empty commentMap.goodsComments}">
+				<p>작성한 댓글이 없습니다.</p>
+			</c:if>
 		</main>
 	</div>
  	<footer><jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include></footer>

@@ -17,6 +17,7 @@ public class MemberDTO {
 	public MemberDetailsDTO getMemberDetails() {
 		return memberDetails;
 	}
+	
 	public void setMemberDetails(MemberDetailsDTO memberDetails) {
 		this.memberDetails = memberDetails;
 	}

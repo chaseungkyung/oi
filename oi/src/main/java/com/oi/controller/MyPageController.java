@@ -3,10 +3,15 @@ package com.oi.controller;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.oi.dao.MyPageDAO;
 import com.oi.dto.LoginDTO;
 import com.oi.dto.MemberDTO;
+import com.oi.dto.MyPageCommentDTO;
+import com.oi.dto.MyPageGoodsDTO;
 import com.oi.mvc.annotation.Controller;
 import com.oi.mvc.annotation.RequestMapping;
 import com.oi.mvc.annotation.RequestMethod;
@@ -155,8 +160,22 @@ public class MyPageController {
             return new ModelAndView("redirect:/access/login");
         }
 
-        // 댓글 페이지로 이동
-        return new ModelAndView("mypage/comment");
+        String memberId = login.getUserId();
+
+        // 댓글 목록 가져오기
+        List<MyPageCommentDTO> wotdComments = myPageDAO.getWotdComments(memberId);
+        List<MyPageCommentDTO> goodsComments = myPageDAO.getGoodsComments(memberId);
+
+        // Map에 댓글 목록 저장
+        Map<String, List<MyPageCommentDTO>> commentMap = new HashMap<>();
+        commentMap.put("wotdComments", wotdComments);
+        commentMap.put("goodsComments", goodsComments);
+
+        // ModelAndView에 데이터와 뷰 이름 설정
+        ModelAndView mav = new ModelAndView("mypage/comment");
+        mav.addObject("commentMap", commentMap);
+
+        return mav;
     }
     
     @RequestMapping("/mypage/mycomment")
@@ -169,22 +188,33 @@ public class MyPageController {
     		return new ModelAndView("redirect:/access/login");
     	}
     	
-    	// 댓글 페이지로 이동
-    	return new ModelAndView("mypage/comment");
+    	return new ModelAndView("mypage/mycomment");
     }
     
     @RequestMapping("/mypage/boardlike")
     public ModelAndView boardLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	
-    	HttpSession session = req.getSession();
-    	LoginDTO login = (LoginDTO) session.getAttribute("member");
-    	
-    	if (login == null) {
-    		return new ModelAndView("redirect:/access/login");
-    	}
-    	
-    	// 댓글 페이지로 이동
-    	return new ModelAndView("mypage/comment");
+
+        HttpSession session = req.getSession();
+        LoginDTO login = (LoginDTO) session.getAttribute("member");
+
+        if (login == null) {
+            return new ModelAndView("redirect:/access/login");
+        }
+
+        String memberId = login.getUserId();
+
+        // 찜한 게시물 목록 가져오기
+        List<MyPageGoodsDTO> likedGoods = myPageDAO.getMyPageList(memberId);
+
+        // Map에 찜한 게시물 목록 저장
+        Map<String, List<MyPageGoodsDTO>> boardLikeMap = new HashMap<>();
+        boardLikeMap.put("likedGoods", likedGoods);
+
+        // ModelAndView에 데이터와 뷰 이름 설정
+        ModelAndView mav = new ModelAndView("mypage/boardlike");
+        mav.addObject("boardLikeMap", boardLikeMap);
+
+        return mav;
     }
    
     @RequestMapping("/mypage/todayworklike")
@@ -197,7 +227,6 @@ public class MyPageController {
     		return new ModelAndView("redirect:/access/login");
     	}
     	
-    	// 댓글 페이지로 이동
     	return new ModelAndView("mypage/todayworklike");
     }
 }

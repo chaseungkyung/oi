@@ -4,10 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.oi.dto.BodyRecordDTO;
 import com.oi.dto.MemberDTO;
 import com.oi.dto.MemberDetailsDTO;
+import com.oi.dto.MyPageCommentDTO;
+import com.oi.dto.MyPageGoodsDTO;
 import com.oi.util.DBConn;
 import com.oi.util.DBUtil;
 
@@ -90,7 +94,7 @@ import com.oi.util.DBUtil;
 		    String sql = null;
 
 		    try {
-		        // Member 테이블 업데이트
+		        // Member
 		        sql = "UPDATE member SET memberPw = ?, nickName = ? WHERE memberId = ?";
 		        pstmt = conn.prepareStatement(sql);
 		        pstmt.setString(1, member.getMemberPw());
@@ -99,7 +103,7 @@ import com.oi.util.DBUtil;
 		        pstmt.executeUpdate();
 		        DBUtil.close(pstmt);
 
-		        // MemberDetails 테이블 업데이트
+		        // MemberDetails
 		        sql = "UPDATE memberDetails SET address = ?, addressNum = ?, email = ?, profilePhoto = ? WHERE memberId = ?";
 		        pstmt = conn.prepareStatement(sql);
 		        pstmt.setString(1, member.getMemberDetails().getAddress());
@@ -110,7 +114,7 @@ import com.oi.util.DBUtil;
 		        pstmt.executeUpdate();
 		        DBUtil.close(pstmt);
 
-		        // BodyRecord 테이블 업데이트
+		        // BodyRecord
 		        sql = "UPDATE bodyRecord SET height = ?, weight = ?, bodyFat = ?, bodyMuscle = ?, bodyRecordDate = ? WHERE memberId = ?";
 		        pstmt = conn.prepareStatement(sql);
 		        pstmt.setInt(1, member.getBodyRecord().getHeight());
@@ -124,11 +128,123 @@ import com.oi.util.DBUtil;
 
 		    } catch (SQLException e) {
 		        e.printStackTrace();
-		        throw e; // 예외 발생 시 호출 부에서 처리
+		        throw e;
 		    } finally {
 		        DBUtil.close(pstmt);
 		    }
 		}
+		
+		// 찜한 게시물 보기
+		public List<MyPageGoodsDTO> getMyPageList(String memberId) {
+		    List<MyPageGoodsDTO> mList = new ArrayList<>();
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    String sql = null;
 
+		    try {
+		        sql = "SELECT g.goodsListNum, g.goodsName, g.goodsPrice, g.goodsExp, g.goodsDate " +
+		              "FROM likePost lp " +
+		              "JOIN goods g ON lp.listNum = g.goodsListNum " +
+		              "WHERE lp.memberId = ?";
+
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setString(1, memberId);
+
+		        rs = pstmt.executeQuery();
+
+		        while (rs.next()) {
+		            MyPageGoodsDTO dto = new MyPageGoodsDTO();
+		            dto.setGoodsListNum(rs.getInt("goodsListNum"));
+		            dto.setGoodsName(rs.getString("goodsName"));
+		            dto.setGoodsPrice(rs.getInt("goodsPrice"));
+		            dto.setGoodsExp(rs.getString("goodsExp"));
+		            dto.setGoodsDate(rs.getString("goodsDate"));
+
+		            mList.add(dto);
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        DBUtil.close(rs);
+		        DBUtil.close(pstmt);
+		    }
+		    return mList;
+		}
+		
+		// 오운완 댓글
+		public List<MyPageCommentDTO> getWotdComments(String memberId) {
+		    List<MyPageCommentDTO> commentList = new ArrayList<>();
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    String sql = null;
+
+		    try {
+		        sql = "SELECT m.memberId, c.wComCon, c.wComDate " +
+		              "FROM wotdComment c " +
+		              "JOIN member m ON c.memberId = m.memberId " +
+		              "WHERE c.memberId = ?";
+
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setString(1, memberId);
+
+		        rs = pstmt.executeQuery();
+
+		        while (rs.next()) {
+		        	MyPageCommentDTO dto = new MyPageCommentDTO();
+		            dto.setMemberId(rs.getString("memberId"));
+		            dto.setCommentContent(rs.getString("wComCon"));
+		            dto.setCommentDate(rs.getString("wComDate"));
+
+		            commentList.add(dto);
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        DBUtil.close(rs);
+		        DBUtil.close(pstmt);
+		    }
+
+		    return commentList;
+		}
+		
+		// 중고거래 댓글
+		public List<MyPageCommentDTO> getGoodsComments(String memberId) {
+		    List<MyPageCommentDTO> commentList = new ArrayList<>();
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    String sql = null;
+
+		    try {
+		        sql = "SELECT m.memberId, c.gcComCon, c.gcInsertNum, g.goodsName " +
+		              "FROM goodsComment c " +
+		              "JOIN goods g ON c.goodsListNum = g.goodsListNum " +
+		              "JOIN member m ON c.memberId = m.memberId " +
+		              "WHERE c.memberId = ?";
+
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setString(1, memberId);
+
+		        rs = pstmt.executeQuery();
+
+		        while (rs.next()) {
+		        	MyPageCommentDTO dto = new MyPageCommentDTO();
+		            dto.setMemberId(rs.getString("memberId"));
+		            dto.setCommentContent(rs.getString("gcComCon"));
+		            dto.setCommentDate(rs.getString("gcInsertNum"));
+		            dto.setPostTitle(rs.getString("goodsName"));
+
+		            commentList.add(dto);
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        DBUtil.close(rs);
+		        DBUtil.close(pstmt);
+		    }
+
+		    return commentList;
+		}
 	}
 
