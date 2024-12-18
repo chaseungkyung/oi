@@ -403,7 +403,7 @@ $(function(){
 		}
 		
 		let url = '${pageContext.request.contextPath}/admin/faq/insertCategory';
-		let formData = {category:category, enabled:enabled, orderNo:orderNo};
+		let formData = {faqCateName:faqCateName, enabled:enabled, orderNo:orderNo};
 		
 		const fn = function(data) {
 			$('form[name=categoryForm]')[0].reset();
@@ -426,7 +426,7 @@ $(function(){
 		
 		$tr.find('input').prop('disabled', false);
 		$tr.find('select').prop('disabled', false);
-		$tr.find('input[name=category]').focus();
+		$tr.find('input[name=faqCateName]').focus();
 		
 		$tr.find('.category-modify-btn').hide();
 		$tr.find('.category-modify-btnOk').show();		
@@ -441,7 +441,7 @@ $(function(){
 		let enabled = $tr.find('select[name=enabled]').val();
 		let orderNo = $tr.find('input[name=orderNo]').val();
 		
-		if(! category) {
+		if(! faqCateName) {
 			$tr.find('input[name=faqCateName]').focus();
 			return false;
 		}

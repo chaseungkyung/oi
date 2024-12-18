@@ -35,7 +35,7 @@ public class FaqDAO {
 				FaqDTO dto = new FaqDTO();
 				dto.setFaqCateNum(rs.getLong("faqCateNum"));
 				dto.setFaqCateName(rs.getString("faqCateName"));
-				dto.setOrderNo(rs.getInt("orderNO"));
+				dto.setOrderNo(rs.getInt("orderNo"));
 				dto.setEnabled(rs.getInt("enabled"));
 				
 				list.add(dto);
@@ -77,7 +77,7 @@ public class FaqDAO {
 		String sql;
 		
 		try {
-			sql = "UPDATE faqCategoty SET faqCateName=?, enabled=?, orderNo=? WHERE faqCateNum=?";
+			sql = "UPDATE faqCategory SET faqCateName=?, enabled=?, orderNo=? WHERE faqCateNum=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getFaqCateName());
@@ -380,7 +380,7 @@ public class FaqDAO {
 		String sql;
 		
 		try {
-			sql = "UPDATE faq SET faqTitle=?, faqContent=?, faqCateNum=? WEHRE faqNum=?";
+			sql = "UPDATE faq SET faqTitle=?, faqContent=?, faqCateNum=? WHERE faqNum=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			

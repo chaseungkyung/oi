@@ -73,7 +73,7 @@
                      data-bs-toggle="dropdown" aria-expanded="false">문의</a>
                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                         <li><a class="dropdown-item" href="${pageContext.request.contextPath}/qna/list">QnA</a></li>
-                        <li><a class="dropdown-item" href="#">FAQ</a></li>
+                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/faq/main">FAQ</a></li>
                      </ul></li>
                   
                         <li class="nav-item me-5 mt-3"><a class="nav-link" href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>

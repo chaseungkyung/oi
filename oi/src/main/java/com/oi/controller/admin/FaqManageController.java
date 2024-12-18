@@ -27,7 +27,7 @@ public class FaqManageController {
 	
 	@RequestMapping(value = "/admin/faq/main", method = RequestMethod.GET)
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("/admin/faq/main");
+		ModelAndView mav = new ModelAndView("admin/faq/main");
 		
 		FaqDAO dao = new FaqDAO();
 		
@@ -44,7 +44,7 @@ public class FaqManageController {
 	
 	@RequestMapping(value = "/admin/faq/list", method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("/admin/faq/list");
+		ModelAndView mav = new ModelAndView("admin/faq/list");
 		
 		MyUtil util = new MyUtilBootstrap();
 		FaqDAO dao = new FaqDAO();
@@ -120,7 +120,7 @@ public class FaqManageController {
 	
 	@RequestMapping(value = "/admin/faq/write", method = RequestMethod.GET)
 	public ModelAndView writeFrom(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("/admin/faq/write");
+		ModelAndView mav = new ModelAndView("admin/faq/write");
 		
 		FaqDAO dao = new FaqDAO();
 		
@@ -171,7 +171,7 @@ public class FaqManageController {
 	
 	@RequestMapping(value = "/admin/faq/update", method = RequestMethod.GET)
 	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("/admin/faq/update");
+		ModelAndView mav = new ModelAndView("admin/faq/write");
 		
 		FaqDAO dao = new FaqDAO();
 		
@@ -247,7 +247,7 @@ public class FaqManageController {
 	
 	@RequestMapping(value = "/admin/faq/listAllCategory", method = RequestMethod.GET)
 	public ModelAndView	listCategory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("/admin/faq/listAllCategory");
+		ModelAndView mav = new ModelAndView("/admin/faq/listCategory");
 
 		FaqDAO dao = new FaqDAO();
 		try {
