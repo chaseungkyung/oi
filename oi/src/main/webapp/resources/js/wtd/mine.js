@@ -96,7 +96,7 @@ function loadingcontent(data) {
 	for (item of data.list) {
 		let filename = item.file.saveFileName;
 		text = '<div class="col-4 articles" data-bs-toggle="modal" data-bs-target="#modal" data-wnum="' + item.wnum + '">'
-		text += '<img class="post" alt="사진" src="${pageContext.request.contextPath}/uploads/photo/' + filename + '">'
+		text += '<img class="post" alt="사진" src="'+cp+'/uploads/photo/' + filename + '">'
 		text += '</div>';
 		$('.profile-posts').append(text);
 	}

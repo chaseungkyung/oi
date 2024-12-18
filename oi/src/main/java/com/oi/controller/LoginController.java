@@ -1,12 +1,16 @@
 package com.oi.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.oi.dao.LoginDAO;
 import com.oi.dto.LoginDTO;
+import com.oi.dto.RegisterDTO;
 import com.oi.mvc.annotation.Controller;
 import com.oi.mvc.annotation.RequestMapping;
 import com.oi.mvc.annotation.RequestMethod;
+import com.oi.mvc.annotation.ResponseBody;
 import com.oi.mvc.view.ModelAndView;
 
 import jakarta.servlet.ServletException;
@@ -66,6 +70,75 @@ public class LoginController {
 		session.invalidate();
 		
 		return mav;
+	}
+	
+	@RequestMapping(value="/access/register" , method = RequestMethod.GET)
+	public ModelAndView registerForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView("entry/register");
+		return mav;
+	}
+	
+	@RequestMapping(value="/access/register" , method = RequestMethod.POST)
+	public ModelAndView registerSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView("redirect:/main");
+		
+		RegisterDTO dto = new RegisterDTO();
+		StringBuilder tel = new StringBuilder();
+		StringBuilder email = new StringBuilder();
+		StringBuilder address = new StringBuilder();
+		
+		try {
+			dto.setUsername(req.getParameter("username"));
+			dto.setUserid(req.getParameter("userid"));
+			dto.setDob(req.getParameter("dob"));
+			
+			tel.append(req.getParameter("phone1"));
+			tel.append(req.getParameter("phone2"));
+			tel.append(req.getParameter("phone3"));
+			dto.setTel(tel.toString());
+			
+			email.append(req.getParameter("email1"));
+			email.append("@");
+			email.append(req.getParameter("email2"));
+			dto.setEmail(email.toString());
+			
+			dto.setAddressnum(Integer.parseInt(req.getParameter("zipcode")));
+			address.append(req.getParameter("address1"));
+			if(req.getParameter("address2") != null ) {
+				address.append(req.getParameter("address2"));
+			}
+			dto.setAddress(address.toString());
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return mav;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/access/idcheck" , method = RequestMethod.GET)
+	public Map<String, Object> idCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		String id = req.getParameter("id");
+		try {
+			boolean state = dao.idCheck(id);
+			
+			if(state) {
+				model.put("state", "사용가능한 아이디입니다");
+				model.put("result", "true");
+			}else {
+				model.put("state", "이미 사용중인 아이디입니다");
+				model.put("result", "false");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
 	}
 
 }

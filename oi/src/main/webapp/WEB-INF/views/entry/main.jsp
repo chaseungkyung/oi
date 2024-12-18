@@ -9,7 +9,6 @@
 <title>OI</title>
 
 <jsp:include page="/WEB-INF/views/layout/headimported.jsp" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/main_layout.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/footer_layout.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/entry/admain.js"></script>

@@ -11,8 +11,10 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/layout/footer_layout.css">
 <jsp:include page="/WEB-INF/views/layout/headimported.jsp" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/wtd/insertwtd.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/wtd/wtdinsert.js"></script>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/wtd/insertwtd.css">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/wtd/wtdinsert.js"></script>
 </head>
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
@@ -24,19 +26,21 @@
 					<table>
 						<thead>
 							<tr class="row">
-								<td class="col-auto">
-								<c:set var="defaultfile" value="${pageContext.request.contextPath}/resources/images/blank-profile.png"/>
-								<c:set var="fileroot" value="${pageContext.request.contextPath}/uploads/photo/${sessionScope.member.saveprofile}" />
-								<img
-									style="width: 20px; height: 20px;"
+								<td class="col-auto"><c:set var="defaultfile"
+										value="${pageContext.request.contextPath}/resources/images/blank-profile.png" />
+									<c:set var="fileroot"
+										value="${pageContext.request.contextPath}/uploads/photo/${sessionScope.member.saveprofile}" />
+									<img style="width: 20px; height: 20px;"
 									class="rounded-circle object-fit-scale"
 									src="${sessionScope.member.saveprofile == 'default' ? defaultfile: fileroot }"></td>
-								<td class="col-auto"><span style="font-weight: 300; font-size: 14px;">${sessionScope.member.nickname}</span></td>
+								<td class="col-auto"><span
+									style="font-weight: 300; font-size: 14px;">${sessionScope.member.nickname}</span></td>
 							</tr>
 						</thead>
 						<tbody>
-							<tr >
-								<td colspan="1"><label for="content" class="form-label">오늘을 기록해보세요</label> <textarea class="form-control" id="content"
+							<tr>
+								<td colspan="1"><label for="content" class="form-label">오늘을
+										기록해보세요</label> <textarea class="form-control" id="content"
 										name="content" rows="3">${dto.content }</textarea></td>
 							</tr>
 							<tr>
@@ -46,17 +50,22 @@
 									type="file" multiple name="fileinput" accept="image/*"></td>
 							</tr>
 							<c:if test="${mode == 'update'}">
-									
+
 							</c:if>
 						</tbody>
 						<tfoot>
 							<tr class="row">
-								<td class="col-auto"><button type="button" class="btn btn-outline-success" onclick="${mode == 'update' ? 'sendUpdate(dto.wnum);': 'sendInsert();'}">완료</button></td>
-								<td class="col-auto"><button type="button" class="btn btn-outline-secondary" onclick="location.href='${pageContext.request.contextPath}/completeworkout/main'">취소</button></td>
+								<td class="col-auto"><button type="button"
+										class="btn btn-outline-success"
+										onclick="${mode == 'update' ? 'sendUpdate()': 'sendInsert();'}">완료</button></td>
+								<td class="col-auto"><button type="button"
+										class="btn btn-outline-secondary"
+										onclick="location.href='${pageContext.request.contextPath}/completeworkout/main'">취소</button></td>
 							</tr>
 						</tfoot>
 					</table>
 				</div>
+				<input type="hidden" value="${dto.wnum}" name="wnum">
 			</form>
 		</div>
 	</main>
@@ -65,11 +74,11 @@
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 	</footer>
 	<script type="text/javascript">
-		$(function () {
+		$(function() {
 			let mode = '${mode}';
-			
-			if(mode == 'update'){
-				
+
+			if (mode == 'update') {
+
 			}
 		});
 	</script>

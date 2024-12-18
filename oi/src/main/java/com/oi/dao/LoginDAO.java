@@ -3,8 +3,10 @@ package com.oi.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import com.oi.dto.LoginDTO;
+import com.oi.dto.RegisterDTO;
 import com.oi.util.DBConn;
 import com.oi.util.DBUtil;
 
@@ -41,5 +43,50 @@ public class LoginDAO {
 			DBUtil.close(pstmt);
 		}
 		return dto;
+	}
+	
+	public boolean idCheck(String idtext) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql;
+		boolean result = true;
+		try {
+			sql = "SELECT memberid FROM member WHERE memberid = ? ";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, idtext);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) result = false ;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(ps);
+			DBUtil.close(rs);
+		}
+		return result;
+	}
+	
+	public void insertMember(RegisterDTO dto) throws SQLException {
+		PreparedStatement ps = null;
+		String sql;
+		try {
+			conn.setAutoCommit(false);
+	//		sql = "INSERT INTO member (memberid,mem) VALUES ()";
+			
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (Exception e2) {
+			}
+			e.printStackTrace();
+			throw e;
+		}finally {
+			DBUtil.close(ps);
+			conn.setAutoCommit(true);
+		}
 	}
 }

@@ -73,7 +73,9 @@ public class LoginFilter implements Filter {
 			"/uploads/photo/**",
 			"/resources/**",
 			"/QnA/main",
-			"/findGymController/**"
+			"/findGymController/**",
+			"/access/register",
+			"/access/idcheck"
 		};
 		
 		if(uri.length() <= 1) {

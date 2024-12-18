@@ -46,7 +46,7 @@
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/completeworkout/update?wnum=${article.wnum}">수정</a></li>
-					<li><a class="dropdown-item" href="#">삭제</a></li>
+					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/completeworkout/deletearticle?wnum=${article.wnum}">삭제</a></li>
 				</ul>
 			</div>
 		</c:if>

@@ -458,4 +458,82 @@ public class CompleteTodayDAO {
 	}
 	
 	
+	// update 
+	public void updateArticle(CompleteTodayDTO dto) throws SQLException {
+		PreparedStatement ps = null;
+		String sql ;
+		try {
+			conn.setAutoCommit(false);
+			
+			sql = "UPDATE wotd SET todaycon = ? , todayUpdate = SYSDATE	WHERE wnum = ? ";
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, dto.getContent());
+			ps.setLong(2, dto.getWnum());
+			
+			ps.executeUpdate();
+			
+			ps = null;
+			sql = null;
+			
+			sql = "INSERT INTO wotdphoto (wpphotonum,wnum,wpfile) VALUES (seq_wotdPhoto.nextval,?,?)";
+			
+			ps = conn.prepareStatement(sql);
+			
+			for(String name : dto.getFile().getSaveFileName()) {
+				ps.setLong(1, dto.getWnum());
+				ps.setString(2, name );
+				
+				ps.executeUpdate();
+			}
+			
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (Exception e2) {
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(ps);
+			conn.setAutoCommit(true);
+		}
+	}
+	
+	// 삭제 
+	public void	deleteArticle(long wnum) throws SQLException {
+		PreparedStatement ps = null;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			String []sqls = {"DELETE FROM wotdlike WHERE wnum = ?",
+					"DELETE FROM wotdphoto WHERE wnum = ?",
+					"DELETE FROM wotdComment WHERE wnum = ?",
+					"DELETE FROM wotd WHERE wnum = ?"} ;
+			
+			for(String sql : sqls ) {
+				ps = conn.prepareStatement(sql);
+				ps.setLong(1, wnum);
+				ps.executeUpdate();
+				ps = null;
+			}
+			
+			conn.commit();
+		
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (Exception e2) {
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			conn.setAutoCommit(true);
+			DBUtil.close(ps);
+		}
+	}
+	
 }

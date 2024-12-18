@@ -1,3 +1,4 @@
+var cp = "/oi";
 function sendInsert(){
 	const form = document.insertForm;
 	const text = document.getElementById('filedescribe');
@@ -20,9 +21,19 @@ function sendInsert(){
 		} 
 	}
 	
-	form.action = "/oi/completeworkout/insertwtd";
+	form.action = cp+"/completeworkout/insertwtd";
 	form.submit();
 };
-function sendUpdate(wnum){
+function sendUpdate(){
+	$form = document.insertForm;
 	
+	$form.action = cp+'/completeworkout/update';
+	
+	
+	if(! $form.content.value){
+		$form.content.focus();
+		return;
+	}
+	
+	$form.submit();
 }

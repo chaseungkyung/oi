@@ -139,6 +139,76 @@ public class WorkToDayController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/completeworkout/update", method = RequestMethod.POST)
+	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		
+		// 넘어오는 파라미터 wnum ,	content	,	file 있을 수도 없을 수도 
+
+		ModelAndView mav = new ModelAndView("redirect:/completeworkout/personalmain");
+		CompleteTodayDTO dto = new CompleteTodayDTO();
+		
+		try {
+			// update 해야됨 
+			long wnum = Long.parseLong(req.getParameter("wnum"));
+			String content = req.getParameter("content");
+			
+			
+			dto.setWnum(wnum);
+			dto.setContent(content);
+			
+			
+			// 파일이 넘어왔는지 확인 
+			String path = req.getServletContext().getRealPath("/") + "uploads"+File.separator+"photo";
+			
+			boolean isexsist = false;
+			Collection<Part> parts = req.getParts();
+			
+			for(Part p : parts) {
+				if(p.getContentType() != null) {
+					isexsist = true;
+				}
+			}
+			
+			if(isexsist) {
+				List<MyMultipartFile> files = filemanager.doFileUpload(parts,path);
+				
+				Wotdfile filedto = dto.getFile();
+				String [] names = new String [files.size()];
+				
+				for(int i = 0; i < files.size(); i ++ ) {
+					names[i] = files.get(i).getSaveFilename();
+				}
+				filedto.setSaveFileName(names);
+			}
+			
+			dao.updateArticle(dto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return mav;
+	}
+	
+	
+	@RequestMapping(value = "/completeworkout/deletearticle", method = RequestMethod.GET)
+	public ModelAndView deleteArticle(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView("redirect:/completeworkout/personalmain");
+		
+		try {
+			long wnum = Long.parseLong(req.getParameter("wnum"));
+			
+			dao.deleteArticle(wnum);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return mav;
+	}
+	
 	@RequestMapping(value = "/completeworkout/modalbody", method = RequestMethod.GET)
 	public ModelAndView getComment(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

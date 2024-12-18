@@ -18,7 +18,7 @@
                <li class="nav-item"><a class="nav-link" aria-current="page"
                   href="${pageContext.request.contextPath}/access/login" id="login">로그인</a></li>
                <li class="nav-item ms-2"><a class="nav-link"
-                  aria-current="page" href="#" id="register">회원가입</a></li>
+                  aria-current="page" href="${pageContext.request.contextPath}/access/register" id="register">회원가입</a></li>
             </c:if>
             <c:if test="${not empty sessionScope.member}">
                <li class="nav-item dropdown">
