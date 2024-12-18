@@ -23,8 +23,9 @@
 	<main>
 
 		<div class="title1">
-			<a href="#" onclick="moveWeek(-1)">&lt;</a> <label
-				id="currentWeekLabel"></label> <a href="#" onclick="moveWeek(1)">&gt;</a>
+			<a href="#" onclick="moveWeek(-1)">&lt;</a> 
+				<label id="currentWeekLabel"></label> 
+			<a href="#" onclick="moveWeek(1)">&gt;</a>
 		</div>
 
 		<table class="rtable">
@@ -65,7 +66,7 @@
 						</c:forEach>
 
 					</table>
-					<button class="btn mealinsertbtn" onclick="openModal('breakfast')">➕추가</button>
+					<button class="btn mealinsertbtn" onclick="openModal('breakfast')">➕ 추가</button>
 				</div>
 
 				<div class="meal">
@@ -87,7 +88,7 @@
 						</c:forEach>
 
 					</table>
-					<button class="btn mealinsertbtn" onclick="openModal('lunch')">➕추가</button>
+					<button class="btn mealinsertbtn" onclick="openModal('lunch')">➕ 추가</button>
 
 				</div>
 
@@ -110,7 +111,7 @@
 						</c:forEach>
 
 					</table>
-					<button class="btn mealinsertbtn" onclick="openModal('dinner')">➕추가</button>
+					<button class="btn mealinsertbtn" onclick="openModal('dinner')">➕ 추가</button>
 				</div>
 
 				<div class="memo">
@@ -121,12 +122,12 @@
 			<div class="mealapi">
 				<div class="list-header">
 					<ul class="list-content">
-						<li>식단 정보</li>
-					</ul>
-					<span class="list-header-left"> 
+						<li>👁 👁  식단 정보</li>
+					<li class="list-header-left"> 
 					<input type="text" id="keyword" class="form-control">
-						<button type="button" class="btn btn-search">검색</button>
-					</span> <span class="list-header-right"></span>
+						<button type="button" class="btn btn-search">✔  검색</button>
+					</li> <li class="list-header-right"></li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -159,72 +160,6 @@
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 	</footer>
 
-
-<script>
-
-function ajaxFun(url, method, formData, dataType, fn, file = false) {
-	const settings = {
-			type: method, 
-			data: formData,
-			dataType:dataType,
-			success:function(data) {
-				fn(data);
-			},
-			beforeSend: function(jqXHR) {
-			},
-			complete: function () {
-			},
-			error: function(jqXHR) {
-				console.log(jqXHR.responseText);
-			}
-	};
-	
-	if(file) {
-		settings.processData = false;  // file 전송시 필수. 서버로전송할 데이터를 쿼리문자열로 변환여부
-		settings.contentType = false;  // file 전송시 필수. 서버에전송할 데이터의 Content-Type. 기본:application/x-www-urlencoded
-	}
-	
-	$.ajax(url, settings);
-}
-
-$(function(){
-	$(".btn-search").click(function(){
-	let kwd = $('#keyword').val().trim();
-		if( ! kwd) {
-		return false;
-		}
-	searchMeal(kwd);
-	});
-		
-	function searchMeal(food_Name) {		
-		let spec = "http://apis.data.go.kr/1390802/AgriFood/MzenFoodCode/getKoreanFoodList";
-		let serviceKey = "XEaV5QgvI1upo1GKGdV%2BXBduU4VuKBUFLpSNAL313umn9xxXhWopCvRCu3c2MXliK2sPxFa6Ba11YnlQJV6uNw%3D%3D";
-//		let serviceKey = "XEaV5QgvI1upo1GKGdV+XBduU4VuKBUFLpSNAL313umn9xxXhWopCvRCu3c2MXliK2sPxFa6Ba11YnlQJV6uNw==";
-		let Page_No = 1;
-		let Page_Size = 10;
-		
-		let qs = "serviceKey="+ encodeURIComponent(serviceKey);
-		qs += "&Page_No="+ Page_No;
-		qs += "&Page_Size="+ Page_Size;
-		qs += "&keyword=" + encodeURIComponent(keyword);
-		qs += "&food_Name=" + food_Name;
-		
-		const fn = function(data) {
-			$('.list-header-right').empty();
-			$('.list-content').empty();
-			
-			printXML(data);
-		};
-		
-		ajaxFun(spec, 'GET', qs, 'xml', fn);	
-	}
-	
-	function printXML(data) {
-		console.log(data);
-
-	}
-});
-</script>
 
 </body>
 </html>

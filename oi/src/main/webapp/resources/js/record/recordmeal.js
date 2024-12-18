@@ -43,6 +43,18 @@ function mealInsertOk() {
             if (response.state === "true") {
                 alert("식단이 등록되었습니다.");
                 closeModal(); 
+				$.ajax({
+				    url: '/oi/recordmeal/mealList',
+				    type: 'GET',
+				    dataType: 'html',
+				    success: function(data) {
+				        $('#calendarBody').html($(data).find('#calendarBody').html());
+				        // 'calendarBody'는 출력할 테이블 ID에 맞게 수정
+				    },
+				    error: function(err) {
+				        console.error("리스트 갱신 실패: ", err);
+				    }
+				});
             } else {
                 alert("저장에 실패했습니다.");
             }
@@ -70,3 +82,65 @@ function closeModal() {
 	document.getElementById('mealTime').value = "";
 	document.getElementById('mealName').value = "";
 }
+
+function ajaxFun(url, method, formData, dataType, fn, file = false) {
+	const settings = {
+			type: method, 
+			data: formData,
+			dataType:dataType,
+			success:function(data) {
+				fn(data);
+			},
+			beforeSend: function(jqXHR) {
+			},
+			complete: function () {
+			},
+			error: function(jqXHR) {
+				console.log(jqXHR.responseText);
+			}
+	};
+	
+	if(file) {
+		settings.processData = false;  // file 전송시 필수. 서버로전송할 데이터를 쿼리문자열로 변환여부
+		settings.contentType = false;  // file 전송시 필수. 서버에전송할 데이터의 Content-Type. 기본:application/x-www-urlencoded
+	}
+	
+	$.ajax(url, settings);
+}
+
+$(function(){
+	$('.btn-search').click(function(){
+	let kwd = $('#keyword').val().trim();
+		if( ! kwd) {
+		return false;
+		}
+	searchMeal(kwd);
+	});
+		
+	function searchMeal(food_Name) {		
+		let spec = 'http://apis.data.go.kr/1390802/AgriFood/MzenFoodCode/getKoreanFoodList';
+		let key = '7aZjzRKyMraXhRyx91Pdw%2Fgec2y9eFWM8gPnrUVz5jg706DLS3hAESkz4xFMXyLLA%2BSA%2FM0aD1yQyVDsQ0ZbkQ%3D%3D';
+		let Page_No = 1;
+		let Page_Size = 5;
+		
+		let qs = "serviceKey="+ encodeURIComponent(key);
+		qs += "&Page_No="+ Page_No;
+		qs += "&Page_Size="+ Page_Size;
+//		qs += "&keyword=" + encodeURIComponent(keyword);
+		qs += "&food_Name=" + food_Name;
+		
+		const fn = function(data) {
+			$('.list-header-right').empty();
+			$('.list-content').empty();
+			
+			printXML(data);
+		};
+		
+		ajaxFun(spec, 'GET', qs, 'xml', fn);	
+	}
+	
+	function printXML(data) {
+		console.log(data);
+
+	}
+});

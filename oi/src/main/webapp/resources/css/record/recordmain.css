@@ -7,13 +7,10 @@
 	font-family: Noto Sans KR, 돋움, sans-serif;
 }
 
-.rtable {
+.rtable, .memo textarea {
 	font-size: 14px !important;
 }
 
-.memo textarea {
-	font-size: 14px;
-}
 
 /* layout */
 .title1 {
@@ -77,14 +74,13 @@ td {
 .mealTotal {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
-	gap: 20px;
+	justify-content: space-evenly
 }
 
 .mealapi {
-	flex: 0 1 300px; /* mealapi가 고정 크기를 가지도록 설정 */
-	margin-left: 20px; /* meal과 mealapi 사이에 간격 추가 */
+	flex: 0 1 200px; /* mealapi가 고정 크기를 가지도록 설정 */
 	align-items: flex-start;
+	margin-right: 200px;
 }
 
 .meal h2 {
@@ -120,7 +116,6 @@ td {
 	border: 1px solid #ddd;
 	border-radius: 8px;
 	resize: none;
-	font-size: 16px;
 }
 
 .mealinsertbtn {
@@ -162,7 +157,7 @@ td {
 
 .modal-content h3 {
 	color: #28a745;
-	font-size: 24px;
+	font-size: 20px;
 	margin-bottom: 20px;
 }
 
@@ -173,23 +168,22 @@ input[type="text"] {
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-sizing: border-box;
-	font-size: 16px;
 }
 
 /* 버튼 스타일 */
-mealinsertbtn {
-	background-color: #28a745;
-	color: white;
+.mealinsertbtn, .btn-search{
+	background-color: white;
+	color: #28a745;
 	padding: 10px 20px;
 	border: none;
 	border-radius: 4px;
-	font-size: 16px;
 	cursor: pointer;
 	margin: 10px 5px;
 }
 
-mealinsertbtn:hover {
-	background-color: #218838;
+.mealinsertbtn:hover, .btn-search:hover {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transform: scale(1.03);
 }
 
 mealinsertbtn:not(#mealinsertbtn) {
@@ -207,21 +201,20 @@ mealinsertbtn:not(#mealinsertbtn):hover {
 @media (max-width: 992px) {
 	.mealTotal {
 		flex-direction: row;
-		align-items: center;
 		justify-content: center;
+		font-size: 10px;
 	}
 
 	.meal-record {
 		width: 50%;
-		max-width: 500px;
+		max-width: 400px;
 	}
 
 	.mealapi {
-		flex: 1;
 		width: 50%;
-		max-width: 500px;
+		max-width: 400px;
 		margin-left: 0;
-		vertical-align: top;
+		display: flex;
 		align-items: flex-start;
 	}
 
@@ -229,13 +222,8 @@ mealinsertbtn:not(#mealinsertbtn):hover {
 	.rtable {
 		width: 50%;
 	}
-
-	h2 {
-		font-size: 20px;
-	}
-
-	/* 메모 텍스트박스 크기 조정 */
-	.memo textarea {
-		font-size: 14px;
+	
+	.memo textarea, h2, btn {
+		font-size: 10px;
 	}
 }
