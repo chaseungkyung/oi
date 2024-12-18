@@ -196,13 +196,13 @@ public class QnaDAO {
 		String sql;
 
 		try {
-			sql = "SELECT questionNum, q.memberId questionId, m.nickName questionName, questionTitle, questionCon, questionDate, "
-					+ " a.memberId answerId, m2.nickName answerName, AnsContent, Ansdate "
+			sql = "SELECT q.questionNum, q.memberId questionId, m.nickName questionName, questionTitle, questionCon, questionDate, "
+					+ " a.memberId answerId, m2.nickName answerName, AnsContent, AnsDate "
 					+ " FROM question q "
 					+ " left outer join answer a on q.questionNum = a.questionNum "
 					+ " JOIN member m ON q.memberId=m.memberId "
 					+ " LEFT OUTER JOIN member m2 ON a.memberId=m.memberId "
-					+ " WHERE questionNum = ? ";
+					+ " WHERE q.questionNum = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, num);
@@ -258,7 +258,7 @@ public class QnaDAO {
 				sb.append(" SELECT questionNum, questionTitle, memberId ");
 				sb.append(" FROM question ");
 				sb.append(" WHERE questionNum > ? ");
-				sb.append(" ORDER BY num ASC ");
+				sb.append(" ORDER BY questionNum ASC ");
 				sb.append(" FETCH FIRST 1 ROWS ONLY ");
 
 				pstmt = conn.prepareStatement(sb.toString());
@@ -367,19 +367,14 @@ public class QnaDAO {
 		String sql;
 
 		try {
-			sql = "UPDATE answer SET AnsContent=?, memberId=?, ";
-			if(dto.getAnsContent().length() == 0) {
-				sql += " answer_date=NULL ";
-			} else {
-				sql += " answer_date=SYSDATE ";
-			}
-			sql += " WHERE questionNum = ?";
+			sql = "insert into answer(AnsNum, questionNum, memberId, AnsDate, AnsTitle, AnsContent) values(seq_answer.nextVal, ?, ?, sysDate, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getAnsContent());
+			pstmt.setLong(1, dto.getQuestionNum());
 			pstmt.setString(2, dto.getAnswerId());
-			pstmt.setLong(3, dto.getQuestionNum());
+			pstmt.setString(3, "1");
+			pstmt.setString(4, dto.getAnsContent());
 			
 			pstmt.executeUpdate();
 

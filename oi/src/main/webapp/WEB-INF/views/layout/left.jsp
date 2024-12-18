@@ -70,7 +70,7 @@ $(function(){
 		</li>
 	
 		<li class="menu--item">
-			<a href="#" class="menu--link" title="QnA">
+			<a href="${pageContext.request.contextPath}/admin/qna/list" class="menu--link" title="QnA">
 				<i class="menu--icon bi bi-question-square"></i>
 				<span class="menu--label">QnA</span>
 			</a>
