@@ -17,20 +17,52 @@
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/resources/css/record/recordmain.css">
     <style type="text/css">
-        .item {cursor: pointer; }
-        .item img { display: block; width: 100%; height: 200px; border-radius: 5px; }
-        .item img:hover { scale: 100.7%; }
+        .item {
+            cursor: pointer;
+        }
+
+        .item img {
+            display: block;
+            width: 100%;
+            height: 100%; /* 높이 설정 */
+            object-fit: cover; /* 비율에 맞게 자르기 */
+            border-radius: 10px; /* 모서리를 둥글게 (값은 원하는 정도로 조절) */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .item .img-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* 정사각형 비율 유지 */
+            overflow: hidden; /* 넘치는 이미지 숨기기 */
+            border-radius: 10px; /* 모서리를 둥글게 */
+        }
+
+
+
         .item .item-title {
             font-size: 14px;
             font-weight: 500;
             padding: 10px 2px 0;
-
-            width: 175px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            text-align: center; /* 텍스트 가운데 정렬 */
+        }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 10px;
         }
 
+        @media (max-width: 768px) {
+            main {
+                max-width: 100%; /* 작은 화면에서는 전체 너비로 */
+                padding: 5px; /* 여백도 줄임 */
+            }
+        }
     </style>
 </head>
 <body>
@@ -45,22 +77,24 @@
             <div class="body-main">
                 <div class="row mb-2 list-header">
                     <div class="col-auto me-auto">
-                        <p class="form-control-plaintext">
+<%--                        <p class="form-control-plaintext">--%>
 <%--                            ${dataCount}개(${page}/${total_page} 페이지)--%>
-                        </p>
+<%--                        </p>--%>
                     </div>
                     <div class="col-auto">
-                        <button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/photo/write';">사진올리기</button>
+                        <button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/marketplace/registration';">사진올리기</button>
                     </div>
-                </div>
 
-                <div class="row row-cols-5 px-1 py-1 g-2">
-                    <c:forEach var="dto" items="" varStatus="status">
-                        <div>
-                            <div class="col border rounded p-1 item"
-                                 onclick="location.href='${articleUrl}&num=${dto.num}';">
-                                <img src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}">
-                                <p class="item-title">${dto.subject}</p>
+                </div>
+                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 px-1 py-1 g-2">
+                    <c:forEach var="dto" items="${list}" varStatus="status">
+                        <div class="col">
+                            <div class="col border rounded p-1 border-0 item"
+                                 onclick="location.href='${articleUrl}&goodsListNum=${dto.goodsListNum}';">
+                                <div class="img-container">
+                                    <img src="${pageContext.request.contextPath}/uploads/photo/${dto.file.saveFileName[0]}">
+                                </div>
+                                <p class="item-title">${dto.goodsName}</p>
                             </div>
                         </div>
                     </c:forEach>
