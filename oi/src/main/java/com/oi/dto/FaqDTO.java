@@ -9,7 +9,9 @@ public class FaqDTO {
 	
 	private String faqCateName;
 	private long faqCateNum;
-	
+	private int enabled;
+	private int orderNo;
+
 	public long getFaqNum() {
 		return faqNum;
 	}
@@ -46,5 +48,16 @@ public class FaqDTO {
 	public void setFaqCateNum(long faqCateNum) {
 		this.faqCateNum = faqCateNum;
 	}
-	
+	public int getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+	public int getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
+	}
 }

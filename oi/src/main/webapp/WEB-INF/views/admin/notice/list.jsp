@@ -30,21 +30,21 @@
 
 	$(function() {
 		$('#chkAll').click(function() {
-			$('form input[name=nums]').prop('checked', $(this).is(':checked'));
+			$('form input[name=noticeNums]').prop('checked', $(this).is(':checked'));
 
 		});
 
-		$('form input[name=nums]')
+		$('form input[name=noticeNums]')
 				.click(
 						function() {
-							let b = $('form input[name=nums]').length === $('form input[name=nums]:checked').lenght;
+							let b = $('form input[name=noticeNums]').length === $('form input[name=noticeNums]:checked').lenght;
 							$('#chkAll').prop('checked', b);
 						});
 
 		$('#btnDeleteList')
 				.click(
 						function() {
-							let cnt = $('input[name=nums]:checked').length;
+							let cnt = $('input[name=noticeNums]:checked').length;
 							if (cnt == 0) {
 								alert('삭제할 게시글을 선택하세요');
 								return false;
@@ -110,10 +110,10 @@
 								<tr>
 									<th class="chk"><input type="checkbox"
 										class="form-check-input" name="chkAll" id="chkAll"></th>
-									<th class="num">번호</th>
-									<th class="subject">제목</th>
+									<th class="noticeNum">번호</th>
+									<th class="noticeTitle">제목</th>
 									<th class="name">작성자</th>
-									<th class="date">등록일</th>
+									<th class="noticeWriteDate">등록일</th>
 								</tr>
 							</thead>
 
@@ -121,12 +121,13 @@
 								<c:forEach var="dto" items="${listNotice}">
 									<tr>
 										<td><input type="checkbox" class="form-check-input"
-											name="nums" value="${dto.noticeNum}"></td>
+											name="noticeNums" value="${dto.noticeNum}"></td>
+										
 										<td><span class="badge bg-primary">공지</span></td>
 										<td class="left"><span
 											class="d-inline-block text-truncate align-middle"
 											style="max-width: 390px;"><a
-												href="${articleUrl}&num=${dto.noticeNum}" class="text-reset">${dto.noticeTitle}</a></span>
+												href="${articleUrl}&noticeNum=${dto.noticeNum}" class="text-reset">${dto.noticeTitle}</a></span>
 										</td>
 										<!-- 글이 길면 ...으로 간추리기 위해 span 태그로 감싼 것 / width는 span태그라 준 것-->
 										<td>관리자</td>
@@ -137,11 +138,12 @@
 								<c:forEach var="dto" items="${list}" varStatus="status">
 									<tr>
 										<td><input type="checkbox" class="form-check-input"
-											name="nums" value="${dto.noticeNum}"></td>
+											name="noticeNums" value="${dto.noticeNum}"></td>
+										<td>${dataCount-(page-1)*size-status.index}</td>
 										<td class="left"><span
 											class="d-inline-block text-truncate align-middle"
 											style="max-width: 390px;"><a
-												href="${articleUrl}&num=${dto.noticeNum}" class="text-reset">${dto.noticeTitle}</a></span>
+												href="${articleUrl}&noticeNum=${dto.noticeNum}" class="text-reset">${dto.noticeTitle}</a></span>
 										</td>
 										<td>관리자</td>
 										<td>${dto.noticeWriteDate}</td>

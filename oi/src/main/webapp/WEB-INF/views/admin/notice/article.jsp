@@ -17,13 +17,12 @@
 </style>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/boot-board.css"
-	type="text/css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/bootstrap5/js/bootstrap.bundle.min.js"></script>
+	type="text/css"/>
+
 <script type="text/javascript">
 	function deleteBoard() {
 		if (confirm('게시글을 삭제하겠습니까?')) {
-			let query = 'num=${dto.noticeNum}&${query}';
+			let query = 'noticeNum=${dto.noticeNum}&${query}';
 			let url = '${pageContext.request.contextPath}/admin/notice/delete?'
 					+ query;
 			location.href = url;
@@ -57,8 +56,10 @@
 
 					<tbody>
 						<tr>
-							<td width="50%">관리자</td>
-							<td align="right">${dto.noticeWriteDate}</td>
+							<td width="50%">
+								작성자 관리자
+							</td>
+							<td align="right">등록일 ${dto.noticeWriteDate}</td>
 						</tr>
 
 						<tr>
@@ -71,7 +72,7 @@
 									varStatus="status">
 									<p class="border text-secondary mb-1 p-2">
 										<i class="bi bi-folder2-open"></i> <a
-											href="${pageContext.request.contextPath}/admin/notice/download?noticeFileNum=${vo.noticeFileNum">${vo.noticeOriFileNum}</a>
+											href="${pageContext.request.contextPath}/admin/notice/download?noticeFileNum=${vo.noticeFileNum}">${vo.noticeOriFileName}</a>
 									</p>
 								</c:forEach></td>
 						</tr>
@@ -102,7 +103,7 @@
 										onclick="location.href='${pageContext.request.contextPath}/admin/notice/update?noticeNum=${dto.noticeNum}&page=${page}&size=${size}';">수정</button>
 								</c:when>
 								<c:otherwise>
-									<button type="button" class="btn btn-light">수정</button>
+									<button type="button" class="btn btn-light" >수정</button>
 								</c:otherwise>
 							</c:choose>
 
@@ -121,6 +122,7 @@
 	</main>
 
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
+	
 	<jsp:include page="/WEB-INF/views/layout/footerimported.jsp" />
 </body>
 </html>

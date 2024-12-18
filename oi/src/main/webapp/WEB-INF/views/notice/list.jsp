@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<jsp:include page="/WEB-INF/views/layout/headimported.jsp"></jsp:include>
 <style type="text/css">
 .body-container {
 	max-width: 800px;
@@ -31,15 +32,14 @@ function searchList() {
 <body>
 
 <header>
-	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/views/layout/headimported.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 </header>
 
 <main>
 	<div class="container">
 		<div class="body-container">
 			<div class="body-title">
-				<h3> 공지사항 </h3>
+				<h3><i class="bi bi-clipboard"></i> 공지사항 </h3>
 			</div>
 			
 			<div class="body-main">
@@ -81,10 +81,21 @@ function searchList() {
 								<tr>
 									<td><span class="badge bg-primary">공지</span></td>
 									<td class="left">
-										<span class="d-inline-block text-truncate align-middle" style="max-width: 390px;"><a href="${articleUrl}&num=${dto.num}" class="text-reset">${dto.noticeTitle}</a></span>
+										<span class="d-inline-block text-truncate align-middle" style="max-width: 390px;"><a href="${articleUrl}&num=${dto.noticeNum}" class="text-reset">${dto.noticeTitle}</a></span>
 									</td>
-									<td>${dto.memberId}</td>
+									<td>관리자</td>
 									<td>${dto.noticeUpdateDate}</td>
+								</tr>
+							</c:forEach>
+							
+							<c:forEach var="dto" items="${list}" varStatus="status">
+								<tr>
+									<td>${dataCount-(page-1)*size-status.index}</td>
+									<td class="left">
+										<span class="d-inline-block text-truncate align-middle" style="max-width: 390px;"><a href="${articleUrl}&noticeNum=${dto.noticeNum}" class="text-reset">${dto.noticeTitle}</a></span>
+									</td>
+									<td>관리자</td>
+									<td>${dto.noticeWriteDate}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

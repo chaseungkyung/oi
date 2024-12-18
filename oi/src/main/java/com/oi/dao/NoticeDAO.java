@@ -19,16 +19,34 @@ public class NoticeDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
+		long seq;
 		
 		try {
-			sql = "INSERT INTO notice(noticeNum, notice, memberId, noticeWriteDate, noticeUpdateDate, noticePhoto, noticeTitle, noticeContent) VALUES (seq_notice.NEXTVAL, ?, ?, SYSDATE, SYSDATE, ?, ?, ?)";
+			sql = "SELECT seq_notice.NEXTVAL FROM dual";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, dto.getNotice());
-			pstmt.setString(2, dto.getMemberId());
-			pstmt.setString(3, dto.getNoticePhoto());
-			pstmt.setString(4, dto.getNoticeTitle());
-			pstmt.setString(5, dto.getNoticeContent());
+			rs = pstmt.executeQuery();
+			
+			seq = 0;
+			if(rs.next()) {
+				seq = rs.getLong(1);
+			}
+			dto.setNoticeNum(seq);
+			
+			rs.close();
+			pstmt.close();
+			rs = null;
+			pstmt = null;
+			
+			sql = "INSERT INTO notice(noticeNum, notice, memberId, noticeWriteDate, noticeUpdateDate, noticePhoto, noticeTitle, noticeContent) VALUES (?, ?, ?, SYSDATE, SYSDATE, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, dto.getNoticeNum());
+			pstmt.setInt(2, dto.getNotice());
+			pstmt.setString(3, dto.getMemberId());
+			pstmt.setString(4, dto.getNoticePhoto());
+			pstmt.setString(5, dto.getNoticeTitle());
+			pstmt.setString(6, dto.getNoticeContent());
 			
 			pstmt.executeUpdate();
 			
@@ -409,20 +427,21 @@ public class NoticeDAO {
 		}
 		return dto;
 	}
-	
+		
 	public void updateNotice(NoticeDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			sql = "UPDATE notice SET notice=?, noticeTitle=?, noticeContent=?, noticeUpdateDate=SYSDATE WHERE noticeNum=?";
+			sql = "UPDATE notice SET notice=?, noticePhoto=?, noticeTitle=?, noticeContent=?, noticeUpdateDate=SYSDATE WHERE noticeNum=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, dto.getNotice());
 			pstmt.setString(2, dto.getNoticeTitle());
-			pstmt.setString(3, dto.getNoticeContent());
-			pstmt.setLong(4, dto.getNoticeNum());
+			pstmt.setString(3, dto.getNoticePhoto());
+			pstmt.setString(4, dto.getNoticeContent());
+			pstmt.setLong(5, dto.getNoticeNum());
 			
 			pstmt.executeUpdate();
 			
@@ -430,7 +449,7 @@ public class NoticeDAO {
 			pstmt = null;
 			
 			if(dto.getListFile() != null  && dto.getListFile().size() != 0) {
-				sql = "INSERT INTO noticeFile(noticeFileNum, noticeNum, noticeSaveFileName, noticeOriFileName) VALUES (noticeFile_seq.NEXTVAL, ?, ?, ?)";
+				sql = "INSERT INTO noticeFile(noticeFileNum, noticeNum, noticeSaveFileName, noticeOriFileName) VALUES (seq_notieFile.NEXTVAL, ?, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 				
 				for(MyMultipartFile mf : dto.getListFile()) {
@@ -455,7 +474,7 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
-			sql = "DELETE FROM notice WEHRE noticeNum = ?";
+			sql = "DELETE FROM notice WHERE noticeNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, noticeNum);
@@ -468,7 +487,6 @@ public class NoticeDAO {
 		} finally {
 			DBUtil.close(pstmt);
 		}
-		
 	}
 	
 	public void deleteNotice(long[] noticeNums) throws SQLException {
@@ -476,7 +494,7 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
-			sql = "DELETE FROM notice WEHRE noticeNum = ?";
+			sql = "DELETE FROM notice WHERE noticeNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			for(long noticeNum : noticeNums) {
@@ -557,7 +575,7 @@ public class NoticeDAO {
 		return dto;
 	}
 	
-	public void deleteNoticeFile(String mode, long noticeFileNum) throws SQLException {
+	public void deleteNoticeFile(String mode, long noticeNum) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 		
@@ -570,7 +588,7 @@ public class NoticeDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, noticeFileNum);
+			pstmt.setLong(1, noticeNum);
 			
 			pstmt.executeUpdate();
 			

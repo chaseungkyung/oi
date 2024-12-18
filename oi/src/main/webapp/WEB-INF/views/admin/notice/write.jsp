@@ -46,7 +46,7 @@
 			return;
 		}
 
-		let qs = 'num=${dto.noticeNum}&fileNum=' + fileNum
+		let qs = 'noticeNum=${dto.noticeNum}&noticeFileNum=' + noticeFileNum
 				+ '&page=${page}&size=${size}';
 		let url = '${pageContext.request.contextPath}/admin/notice/deleteFile?'
 				+ qs;
@@ -81,7 +81,7 @@
 								<td><input type="checkbox" class="form-check-input"
 									name="notice" id="notice" value="1"
 									${dto.notice==1 ? "checked" :""}> <label
-									class="form-check-label" for="notice"> 공지 </label></td>
+									class="form-check-label" for="notice">공지 </label></td>
 							</tr>
 
 							<tr>

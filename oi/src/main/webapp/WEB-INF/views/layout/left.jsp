@@ -56,7 +56,7 @@ $(function(){
 <nav class="vertical_nav">
 	<ul id="js-menu" class="menu">
 		<li class="menu--item">
-			<a href="${pageContext.request.contextPath}/main" class="menu--link" title="Home">
+			<a href="${pageContext.request.contextPath}/admin/main" class="menu--link" title="Home">
 				<i class="menu--icon bi bi-h-square"></i>
 				<span class="menu--label">Home</span>
 			</a>
@@ -77,7 +77,7 @@ $(function(){
 		</li>
 	
 		<li class="menu--item">
-			<a href="#" class="menu--link" title="FAQ">
+			<a href="${pageContext.request.contextPath}/admin/faq/main" class="menu--link" title="FAQ">
 				<i class="menu--icon bi bi-book-half"></i>
 				<span class="menu--label">FAQ</span>
 			</a>

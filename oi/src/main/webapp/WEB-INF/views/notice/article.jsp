@@ -5,22 +5,31 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=devide-width, initial-scale=1">
 <title>Insert title here</title>
+
+<jsp:include page="/WEB-INF/views/layout/headimported.jsp"/>
 
 <style type="text/css">
 .body-container {
 	max-width: 800px;
 }
 </style>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css"/>
+
 </head>
 <body>
+
+<header>
+	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+</header>
 
 <main>
 	<div class="container">
 		<div class="body-container">
 			<div class="body-title">
-				<h3> 공지사항 </h3>
+				<h3><i class="bi bi-clipboard"></i> 공지사항 </h3>
 			</div>
 	
 			<div class="body-main">
@@ -37,7 +46,7 @@
 				<tbody>
 					<tr>
 						<td width="50%">
-							${dto.memberId}
+							작성자 : 관리자
 						</td>
 						<td align="right">
 							${dto.noticeWriteDate}
@@ -51,8 +60,9 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<c:forEach>
-								<p>
+							<c:forEach var="vo" items="${listFile}" varStatus="status">
+								<p class="border text-secondary mb-1 p-2">
+									<i class="bi bi-folder2-open"></i>
 									<a href="${pageContext.request.contextPath}/notice/download?noticeFileNum=${vo.noticeFileNum}">${vo.noticeOriFileName}</a>
 								</p>
 							</c:forEach>	
