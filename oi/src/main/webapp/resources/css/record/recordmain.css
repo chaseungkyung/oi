@@ -7,178 +7,235 @@
 	font-family: Noto Sans KR, 돋움, sans-serif;
 }
 
-/* 반응형 디자인 (화면 크기에 따라 자동 조정) */
-@media ( min-width : 992px) {
-	.meal-record {
-		width: 80% !important;
-	}
-	.rtable {
-		font-size: 14px !important;
-	}
-	.memo textarea {
-		font-size: 14px;
-	}
-
-	/* layout */
-	.title1 {
-		width: 50vw;
-		margin: 30px auto;
-		display: flex;
-		justify-content: center;
-	}
-
-	/* 여기서부터 식단기록 세부 css*/
-	body {
-		font-family: Noto Sans KR, 돋움, sans-serif;
-		margin: 0;
-		padding: 0;
-	}
-	.meal-record {
-		width: 40%;
-		max-width: 600px;
-		margin: 0 auto;
-		padding: 20px;
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-	}
-	h2 {
-		text-align: center;
-		color: #333;
-	}
-
-
-	/* 테이블 스타일 */
-	.rtable {
-		width: 50%;
-		margin-bottom: 20px;
-		margin: 0 auto;
-		border-collapse: collapse;
-		justify-content: center;
-	}
-	th, td {
-		padding: 10px;
-		text-align: center;
-		border: none;
-	}
-	td {
-		background-color: white;
-	}
-
-	/* 각 식사 (아침, 점심, 저녁) 구분 */
-	.meal {
-		margin-bottom: 40px;
-		border-radius: 8px;
-		border: none;
-	}
-	.meal h2 {
-		background-color: #5B7B57;
-		color: #EDF9D0;
-		padding: 10px;
-		border-radius: 8px;
-		margin-bottom: 10px;
-		border: none;
-	}
-	.meal th {
-		color: #587B37;
-		background: white;
-	}
-
-	/* 메모 영역 */
-	.memo {
-		margin-top: 20px;
-	}
-	.memo h2 {
-		color: #587B37;
-		padding: 10px;
-		border-radius: 8px;
-		margin-bottom: 10px;
-	}
-	.memo textarea {
-		width: 100%;
-		height: 150px;
-		padding: 10px;
-		border: 1px solid #ddd;
-		border-radius: 8px;
-		resize: none;
-		font-size: 16px;
-	}
-	.mealinsertbtn {
-		color: #587B37;
-		font-weight: 900px;
-		background-color: white;
-		border: none;
-		margin : 10px;
-	}
-	.mealinsertbtn:hover {
-		color: #496769; 
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-		transform: scale(1.03); 
-	}
-
-
-/* 모달  */
-
-.modal {
-    display: none; 
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
-    z-index: 1000; 
-    justify-content: center;
-    align-items: center;
+.rtable {
+	font-size: 14px !important;
 }
 
+.memo textarea {
+	font-size: 14px;
+}
+
+/* layout */
+.title1 {
+	width: 50vw;
+	margin: 30px auto;
+	display: flex;
+	justify-content: center;
+}
+
+/* 여기서부터 식단기록 세부 css*/
+body {
+	font-family: Noto Sans KR, 돋움, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.meal-record {
+	width: 40%;
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 20px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	flex: 1;
+}
+
+.mealapi ul li {
+	list-style:none;
+}
+h2 {
+	text-align: center;
+	color: #333;
+}
+
+/* 테이블 스타일 */
+.rtable {
+	width: 50%;
+	margin-bottom: 20px;
+	margin: 0 auto;
+	border-collapse: collapse;
+	justify-content: center;
+}
+
+th, td {
+	padding: 10px;
+	text-align: center;
+	border: none;
+}
+
+td {
+	background-color: white;
+}
+
+/* 각 식사 (아침, 점심, 저녁) 구분 */
+.meal {
+	margin-bottom: 40px;
+	border-radius: 8px;
+	border: none;
+	flex: 1;
+}
+
+.mealTotal {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	gap: 20px;
+}
+
+.mealapi {
+	flex: 0 1 300px; /* mealapi가 고정 크기를 가지도록 설정 */
+	margin-left: 20px; /* meal과 mealapi 사이에 간격 추가 */
+	align-items: flex-start;
+}
+
+.meal h2 {
+	background-color: #5B7B57;
+	color: #EDF9D0;
+	padding: 10px;
+	border-radius: 8px;
+	margin-bottom: 10px;
+	border: none;
+}
+
+.meal th {
+	color: #587B37;
+	background: white;
+}
+
+/* 메모 영역 */
+.memo {
+	margin-top: 20px;
+}
+
+.memo h2 {
+	color: #587B37;
+	padding: 10px;
+	border-radius: 8px;
+	margin-bottom: 10px;
+}
+
+.memo textarea {
+	width: 100%;
+	height: 150px;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	resize: none;
+	font-size: 16px;
+}
+
+.mealinsertbtn {
+	color: #587B37;
+	font-weight: 900px;
+	background-color: white;
+	border: none;
+	margin: 10px;
+}
+
+.mealinsertbtn:hover {
+	color: #496769;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transform: scale(1.03);
+}
+
+/* 모달  */
+.modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+	justify-content: center;
+	align-items: center;
+}
 
 .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px; 
-    width: 400px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
-    text-align: center;
+	background-color: white;
+	padding: 20px;
+	border-radius: 8px;
+	width: 400px;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+	text-align: center;
 }
 
 .modal-content h3 {
-    color: #28a745; 
-    font-size: 24px;
-    margin-bottom: 20px;
+	color: #28a745;
+	font-size: 24px;
+	margin-bottom: 20px;
 }
 
 input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
+	width: 100%;
+	padding: 10px;
+	margin: 8px 0;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	font-size: 16px;
 }
 
 /* 버튼 스타일 */
 mealinsertbtn {
-    background-color: #28a745;
-    color: white; 
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 10px 5px;
+	background-color: #28a745;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	font-size: 16px;
+	cursor: pointer;
+	margin: 10px 5px;
 }
 
 mealinsertbtn:hover {
-    background-color: #218838;
+	background-color: #218838;
 }
 
-
 mealinsertbtn:not(#mealinsertbtn) {
-    background-color: #6c757d;
+	background-color: #6c757d;
 }
 
 mealinsertbtn:not(#mealinsertbtn):hover {
-    background-color: #5a6268; 
+	background-color: #5a6268;
 }
 
+
+
+
+/* 반응형 디자인 */
+@media (max-width: 992px) {
+	.mealTotal {
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.meal-record {
+		width: 50%;
+		max-width: 500px;
+	}
+
+	.mealapi {
+		flex: 1;
+		width: 50%;
+		max-width: 500px;
+		margin-left: 0;
+		vertical-align: top;
+		align-items: flex-start;
+	}
+
+	/* 제목과 테이블 크기 조정 */
+	.rtable {
+		width: 50%;
+	}
+
+	h2 {
+		font-size: 20px;
+	}
+
+	/* 메모 텍스트박스 크기 조정 */
+	.memo textarea {
+		font-size: 14px;
+	}
 }

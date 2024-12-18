@@ -63,7 +63,7 @@ div .title {
 .btn .btn2 {
 	font-size: 20px;
 	justify-content: center;
-	flex-direction: low;
+	flex-direction: row;
 	align-items: center;
 	border: none;
 	border-radius: 10px;

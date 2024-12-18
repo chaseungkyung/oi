@@ -47,29 +47,14 @@ function mealInsertOk() {
                 alert("저장에 실패했습니다.");
             }
         },
-        error: function() {
-            alert("서버와의 연결에 문제가 발생했습니다.");
+        error: function(a) {
+            console.log(a.responseText);
         }
     });
 }
 
 
-function ajaxFun(url, method, formData, dataType, fn) {
-	
-	const settings = {
-		type: method,
-		data: formData,
-		dataType: dataType,
-		success: function(data) {
-			fn(data);
-		},
-		beforeSend: function(jqXHR) {
-			jqXHR.setRequestHeader('AJAX', true);		// 헤더한테 AJAX라고 넘김
-		}
-	};
 
-	$.ajax(url, settings);
-}
 
 // 모달창
 let currentMealType = ""; // 현재 추가할 식사 타입
@@ -85,4 +70,3 @@ function closeModal() {
 	document.getElementById('mealTime').value = "";
 	document.getElementById('mealName').value = "";
 }
-
