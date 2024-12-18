@@ -23,3 +23,6 @@ function sendInsert(){
 	form.action = "/oi/completeworkout/insertwtd";
 	form.submit();
 };
+function sendUpdate(wnum){
+	
+}

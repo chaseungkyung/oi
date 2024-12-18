@@ -1,0 +1,158 @@
+@charset "UTF-8";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Noto Sans KR, sans-serif;	
+}
+
+/* 메인 컨테이너를 가로 정렬 */
+.mypage-container {
+    display: flex;          /* 사이드바와 메인 콘텐츠를 가로로 배치 */
+}
+
+/* 메인 콘텐츠 스타일 */
+main {
+    flex-grow: 1;           /* 남은 공간을 모두 차지 */
+    padding: 2rem;
+    box-sizing: border-box;
+    margin-top: 100px;
+}
+
+/* 가운데로 정렬될 콘텐츠 */
+.content {
+    width: 100%;              /* 기본적으로 전체 너비 사용 */
+    max-width: 800px;         /* 최대 너비 설정 (원하는 크기로 조정) */
+    margin: 0 auto;           /* 여백을 자동으로 설정해 가운데 정렬 */
+    padding: 1rem;            /* 내부 여백 */
+    background-color: #fff;   /* 배경색 (선택 사항) */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 선택적 그림자 효과 */
+    border-radius: 8px;       /* 모서리 둥글게 (선택 사항) */
+}
+
+.physical-info {
+	width: 100%;              /* 기본적으로 전체 너비 사용 */
+    max-width: 800px;         /* 최대 너비 설정 (원하는 크기로 조정) */
+    margin: 0 auto;           /* 여백을 자동으로 설정해 가운데 정렬 */
+    padding: 1rem;            /* 내부 여백 */
+    background-color: #fff;   /* 배경색 (선택 사항) */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 선택적 그림자 효과 */
+    border-radius: 8px;       /* 모서리 둥글게 (선택 사항) */
+    margin-top: 2rem;
+}
+
+h2 {
+	margin-top: 1rem;
+}
+
+.personal-header {
+    display: flex;           /* 제목과 버튼을 가로로 나란히 배치 */
+    align-items: center;     /* 세로축에서 가운데 정렬 */
+    gap: 1rem;               /* 제목과 버튼 사이 간격 */
+    margin-bottom: 1rem;     /* 아래쪽 여백 추가 */
+}
+
+.physical-header {
+    display: flex;           /* 제목과 버튼을 가로로 나란히 배치 */
+    align-items: center;     /* 세로축에서 가운데 정렬 */
+    gap: 1rem;               /* 제목과 버튼 사이 간격 */
+    margin-bottom: 1rem;     /* 아래쪽 여백 추가 */
+}
+
+.btn-zipcode {
+	font-size: 0.8rem;        /* 글자 크기 조정 */
+    padding: 0.2rem 0.5rem;   /* 패딩 조정 */
+    border-radius: 0.2rem;    /* 모서리 둥글기 조정 */
+    margin: 1rem 0;
+}
+
+/* 
+   사이드바 영역 스타일
+   Bootstrap 변수 활용:
+   --bs-light: 밝은 배경색
+   --bs-border-color: 테두리 색상
+   --bs-body-color: 본문 기본 텍스트 색상
+*/
+.my-history-nav {
+    background-color: var(--bs-light, #f8f9fa);
+    border-right: 1px solid var(--bs-border-color, #dee2e6);
+    height: 100vh;           /* 화면 전체 높이 */
+    width: 200px;            /* 고정 너비 사이드바 */
+    padding: 1rem;           /* 내부 여백 */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;  /* 수직 정렬 */
+}
+
+/* "나의 내역" 제목 스타일 */
+.my-history-nav p {
+    margin-bottom: 1rem;
+}
+
+.my-history-nav p span {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--bs-body-color, #343a40);
+}
+
+/* 링크 스타일 */
+.my-history-nav a, p {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--bs-body-color, #495057);
+    padding: 0.5rem;       /* 패딩으로 여백 설정 */
+    width: 100%;           /* 링크의 너비를 부모 요소에 맞춤 */
+    box-sizing: border-box; /* 패딩을 포함한 너비 계산 */
+    border-radius: 0.25rem;
+    margin-bottom: 0.3rem;
+    transition: background-color 0.2s ease;
+}
+
+/* hover 시 배경 강조 (Bootstrap hover 스타일 유사) */
+.my-history-nav a:hover {
+    background-color: #e9ecef;
+}
+
+/* 화살표 버튼 스타일 */
+.my-history-nav {
+    position: relative;  /* 버튼 위치 고정을 위해 relative 추가 */
+}
+
+#toggleButton {
+    position: absolute;  /* 버튼을 사이드바 바깥으로 배치 */
+    right: -15px;        /* 사이드바 바깥쪽으로 버튼 이동 */
+    top: 10px;           /* 버튼의 상단 여백 조정 */
+    z-index: 1000;       /* 다른 요소 위에 보이도록 설정 */
+    width: 30px;         /* 버튼 너비 조정 */
+    height: 30px;        /* 버튼 높이 조정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;  /* 버튼을 동그랗게 만들기 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  /* 버튼에 약간의 그림자 추가 */
+}
+
+.my-history-nav.collapsed {
+    width: 100px; /* 사이드바 너비를 줄임 */
+    padding: 1rem 0.5rem; /* 내부 여백 조정 */
+    transition: width 0.3s ease; /* 부드러운 애니메이션 효과 */
+}
+
+/* 사이드바가 접혔을 때 링크 숨기기 */
+.my-history-nav.collapsed a span,
+.my-history-nav.collapsed p {
+    display: none;
+}
+
+.psbtn {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* 수직 가운데 정렬도 필요하다면 추가 */
+}
+
+.btn-phok {
+	margin-top: 2rem;
+	width: 200px;
+}

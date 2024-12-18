@@ -12,9 +12,7 @@
 }
 </style>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/icon/bootstrap-icons.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/header_layout.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
 <script type="text/javascript">
 function changeList() {
@@ -29,7 +27,6 @@ function searchList() {
 	f.submit();
 }
 </script>
-
 </head>
 <body>
 
@@ -100,7 +97,7 @@ function searchList() {
 				
 				<div class="row board-list-footer">
 					<div class="col">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/notice/list';">버튼</button>
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/notice/list';"><i class="bi bi-arrow-clockwise"></i></button>
 					</div>
 					<div class="col-6 text-center">
 						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/notice/list" method="post">
@@ -117,7 +114,7 @@ function searchList() {
 							</div>
 							<div class="col-auto p-1">
 								<input type="hidden" name="size" value="${size}">
-								<button type="button" class="btn btn-light" onclick="searchList()">버튼</button>
+								<button type="button" class="btn btn-light" onclick="searchList()"><i class="bi bi-search"></i></button>
 							</div>
 						</form>
 					</div>

@@ -1,5 +1,6 @@
 package com.oi.dto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,8 +8,9 @@ import java.util.Map;
 import com.oi.util.MyMultipartFile;
 
 public class Wotdfile {
-	private List<MyMultipartFile> filenames ;
+	private List<MyMultipartFile> filenames;
 	private Map<Long, String> file = new HashMap<Long, String>();
+	private List<String> list = new ArrayList<String>();
 	private String [] saveFileName;
 	private long parentnum;
 	
@@ -36,6 +38,11 @@ public class Wotdfile {
 	public void setParentnum(long parentnum) {
 		this.parentnum = parentnum;
 	}
-	
+	public List<String> getList() {
+		return list;
+	}
+	public void setList(List<String> list) {
+		this.list = list;
+	}
 	
 }

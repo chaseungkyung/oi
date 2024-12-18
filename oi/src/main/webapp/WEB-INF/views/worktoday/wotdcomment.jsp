@@ -28,7 +28,7 @@
 <!-- 콘텐츠 영역 -->
 <div class="table-container col-6">
 	<!-- 콘텐츠 -->
-	<div class="content">
+	<div class="content" style="display: flex;">
 		<c:set var="defaultfile"
 			value="${pageContext.request.contextPath}/resources/images/blank-profile.png" />
 		<c:set var="fileroot"
@@ -37,11 +37,25 @@
 			src="${article.profilePhoto == 'default'? defaultfile : fileroot }"
 			style="width: 50px; height: 50px; border-radius: 50%;"><span
 			style="margin-left: 10px; font-weight: bold;">${article.nickName}</span>
-		<div style="margin-top: 10px; font-size: 14px; font-weight: 600;">${article.content}</div>
+		<c:if test="${mode == 'personal'}">
+			<div class="dropdown" style="margin-left: auto;">
+				<button class="btn " type="button"
+					id="dropdownMenuButton1" data-bs-toggle="dropdown"
+					aria-expanded="false" style="border: none;">
+					<i class="bi bi-exclamation-circle"></i>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/completeworkout/update?wnum=${article.wnum}">수정</a></li>
+					<li><a class="dropdown-item" href="#">삭제</a></li>
+				</ul>
+			</div>
+		</c:if>
 	</div>
+	<div style="margin-top: 10px; display: block; 14 px; font-weight: 600;">${article.content}</div>
 	<hr>
 	<!-- 댓글 목록 -->
-	<div class="comments-section" style="min-height: 450px; max-height: 450px; overflow-y: auto; font-size: 14px; font-weight: 300;">
+	<div class="comments-section"
+		style="min-height: 450px; max-height: 450px; overflow-y: auto; font-size: 14px; font-weight: 300;">
 		<c:choose>
 			<c:when test="${fn:length(commentlist) == 0}">
 				<div class="empty">등록된 댓글이 없습니다</div>
@@ -57,7 +71,7 @@
 								style="width: 40px; height: 40px; border-radius: 50%;"> <span
 								style="margin-left: 10px; font-weight: bold;">${commentdto.writernickname}</span>
 						</div>
-						<div style="margin-left: 50px; margin-top: 5px; ">
+						<div style="margin-left: 50px; margin-top: 5px;">
 							<span style="font-size: 14px; font-weight: 300;">${commentdto.innercontent}</span>
 						</div>
 					</div>
@@ -68,8 +82,10 @@
 	</div>
 	<!-- 댓글 입력란 -->
 	<div class="input-container">
-		<input type="text" class="contents" name="commentcontents" placeholder="댓글을 남겨보세요">
+		<input type="text" class="contents" name="commentcontents"
+			placeholder="댓글을 남겨보세요">
 		<button type="button" class="btn btn-primary btn-answer">등록</button>
-		<input type="hidden" name="wnum" class="getwnum" value="${article.wnum}">
+		<input type="hidden" name="wnum" class="getwnum"
+			value="${article.wnum}">
 	</div>
 </div>

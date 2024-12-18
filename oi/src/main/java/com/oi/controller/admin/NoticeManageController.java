@@ -8,6 +8,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import com.oi.dao.NoticeDAO;
+import com.oi.dto.LoginDTO;
 import com.oi.dto.MemberDTO;
 import com.oi.dto.NoticeDTO;
 import com.oi.mvc.annotation.Controller;
@@ -30,8 +31,8 @@ public class NoticeManageController {
 	@RequestMapping(value = "/admin/notice/list")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		ModelAndView mav = new ModelAndView("/admin/notice/list");
-		
+		ModelAndView mav = new ModelAndView("admin/notice/list");
+
 		NoticeDAO dao = new NoticeDAO();
 		MyUtil util = new MyUtilBootstrap();
 		
@@ -113,7 +114,7 @@ public class NoticeManageController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return mav;
 	}
 	
@@ -122,7 +123,7 @@ public class NoticeManageController {
 		
 		String size = req.getParameter("size");
 		
-		ModelAndView mav = new ModelAndView("/admin/notice/write");
+		ModelAndView mav = new ModelAndView("admin/notice/write");
 		
 		mav.addObject("size", size);
 		mav.addObject("mode", "write");
@@ -134,7 +135,7 @@ public class NoticeManageController {
 	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		HttpSession session = req.getSession();
-		MemberDTO meto = (MemberDTO)session.getAttribute("member");
+		LoginDTO meto = (LoginDTO)session.getAttribute("member");
 		
 		FileManager fileManager = new FileManager();
 		
@@ -148,13 +149,16 @@ public class NoticeManageController {
 		try {
 			NoticeDTO dto = new NoticeDTO();
 			
-			dto.setMemberId(meto.getMemberId());
-
-			dto.setNoticeTitle(req.getParameter("noticeTitle"));
-			dto.setNoticeContent(req.getParameter("noticeContent"));
+			dto.setMemberId(meto.getUserId());
+			if(req.getParameter("notice") != null) {
+				dto.setNotice(Integer.parseInt(req.getParameter("notice")));
+			}
+			dto.setNoticeTitle(req.getParameter("subject"));
+			dto.setNoticeContent(req.getParameter("content"));
 		
 			List<MyMultipartFile> listFile = fileManager.doFileUpload(req.getParts(), pathname);
 			dto.setListFile(listFile);
+			
 			dao.insertNotice(dto);
 		
 		} catch (Exception e) {
@@ -173,7 +177,7 @@ public class NoticeManageController {
 		NoticeDAO dao = new NoticeDAO();
 		
 		try {
-			long noticeNum = Long.parseLong(req.getParameter("noticeNum"));
+			long noticeNum = Long.parseLong(req.getParameter("num"));
 			
 			String schType = req.getParameter("schType");
 			String kwd = req.getParameter("kwd");
@@ -201,9 +205,9 @@ public class NoticeManageController {
 			
 			List<NoticeDTO> listFile = dao.listNoticeFile(noticeNum);
 			
-			ModelAndView mav = new ModelAndView("/admin/notice/article");
+			ModelAndView mav = new ModelAndView("admin/notice/article");
 			
-			mav.addObject("dao", dao);
+			mav.addObject("dto", dto);
 			mav.addObject("preDto", preDto);
 			mav.addObject("nexDto", nexDto);
 			mav.addObject("listFile", listFile);
@@ -236,7 +240,7 @@ public class NoticeManageController {
 		boolean b = false;
 		
 		try {
-			long noticeFileNum = Long.parseLong(req.getParameter("noticeFileNum"));
+			long noticeFileNum = Long.parseLong(req.getParameter("filenum"));
 			
 			NoticeDTO dto = dao.findById(noticeFileNum);
 			if(dto != null) {
@@ -262,7 +266,7 @@ public class NoticeManageController {
 		String size = req.getParameter("size");
 		
 		try {
-			long noticeNum = Long.parseLong(req.getParameter("noticeNum"));
+			long noticeNum = Long.parseLong(req.getParameter("num"));
 			
 			NoticeDTO dto = dao.findById(noticeNum);
 			if(dto == null) {
@@ -312,9 +316,9 @@ public class NoticeManageController {
 		try {
 			NoticeDTO dto = new NoticeDTO();
 			
-			dto.setNoticeNum(Long.parseLong(req.getParameter("noticeNum")));
-			dto.setNoticeTitle(req.getParameter("noticeTitle"));
-			dto.setNoticeContent(req.getParameter("noticeContent"));
+			dto.setNoticeNum(Long.parseLong(req.getParameter("num")));
+			dto.setNoticeTitle(req.getParameter("subject"));
+			dto.setNoticeContent(req.getParameter("content"));
 			
 			List<MyMultipartFile> listFile = fileManager.doFileUpload(req.getParts(), pathname);
 			dto.setListFile(listFile);
@@ -345,8 +349,8 @@ public class NoticeManageController {
 		String size = req.getParameter("size");
 		
 		try {
-			long noticeNum = Long.parseLong(req.getParameter("noticeNum"));
-			long noticeFileNum = Long.parseLong(req.getParameter("noticeFileNum"));
+			long noticeNum = Long.parseLong(req.getParameter("num"));
+			long noticeFileNum = Long.parseLong(req.getParameter("filenum"));
 			
 			NoticeDTO dto = dao.findById(noticeFileNum);
 			if(dto != null) {
@@ -380,7 +384,7 @@ public class NoticeManageController {
 	String query = "page=" + page + "&size=" + size;
 	
 	try {
-		long noticeNum = Long.parseLong(req.getParameter("noticeNum"));
+		long noticeNum = Long.parseLong(req.getParameter("num"));
 		
 		String schType = req.getParameter("schType");
 		String kwd = req.getParameter("kwd");
@@ -410,7 +414,7 @@ public class NoticeManageController {
 	return new ModelAndView("redirect:/admin/notice/list?" + query);
 	}	
 	
-	@RequestMapping(value = "/admin/notice/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/notice/deleteList", method = RequestMethod.POST)
 	public ModelAndView deleteList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		HttpSession session = req.getSession();

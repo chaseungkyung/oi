@@ -13,8 +13,8 @@
 <jsp:include page="/WEB-INF/views/layout/headimported.jsp" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/wtd/wtdmain.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/wtd/mine.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/wtd/mine.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/wtd/mine.js"></script>
 </head>
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
@@ -26,34 +26,57 @@
 			<div class="container" style="width: 100%;">
 				<div class="row profile-header">
 					<div class="col-md-4 d-flex justify-content-center">
-						<img src="#" alt="Profile" class="profile-img">
+						<c:set var="defaultprofile"
+							value="${pageContext.request.contextPath}/resources/images/blank-profile.png" />
+						<c:set var="photo"
+							value="${pageContext.request.contextPath}/uploads/photo/${sessionScope.member.saveprofile}" />
+						<img
+							src="${sessionScope.member.saveprofile ? photo : defaultprofile }"
+							alt="Profile" class="profile-img">
 					</div>
 					<div class="col-md-8 d-flex flex-column justify-content-center">
 						<div class="profile-info d-flex align-items-center">
-							<h2 class="me-3">username</h2>
+							<h2 class="me-3">${sessionScope.member.nickname}</h2>
 							<button class="btn btn-outline-secondary btn-sm">프로필 편집</button>
 						</div>
 						<div class="profile-stats">
 							<div>
-								<span>10</span> 게시물
+								<span id="dataCount"></span> 게시물
 							</div>
 						</div>
 						<div class="profile-bio">
-							<strong>닉네임</strong> <br /> 여기에 소개 문구를 넣을 수 있습니다. <br /> 예: 여행
-							좋아하는 개발자, 맛집 탐방러
+							<strong>${sessionScope.member.nickname}</strong>
 						</div>
 					</div>
 				</div>
 				<hr>
-				<div class="profile-posts row">
-					<!-- 3열 그리드 예시 -->
-					<div class="col-4">
-						<div class="post post1"></div>
-					</div>
-					<!--  반복  -->
-				</div>
+				<div class="profile-posts row" data-page="0" data-total="0"></div>
+				<button class="btn seemore" style="display: none;">더보기</button>
 			</div>
 		</div>
 	</main>
+
+
+	<div class="modal fade" id="modal" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="display: flex; min-height: 600px;">
+					<!-- 여기 -->
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<footer>
+		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
+		<jsp:include page="/WEB-INF/views/layout/footerimported.jsp" />
+	</footer>
 </body>
 </html>

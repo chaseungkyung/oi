@@ -82,6 +82,33 @@ public class CompleteTodayDAO {
 		return result;
 	}
 	
+	// 데이터 개수 byid
+	public int DataCount(String memberid) {
+		int result = 0;
+		PreparedStatement pt = null;
+		ResultSet rs = null;
+		String sql; 
+		
+		try {
+			sql = "SELECT COUNT(*) FROM wotd WHERE todayblind = 1 AND memberid = ?";
+			pt = conn.prepareStatement(sql);
+			
+			pt.setString(1, memberid);
+			
+			rs = pt.executeQuery();
+			
+			if(rs.next()) result = rs.getInt(1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pt);
+		}
+		return result;
+	}
+	
+	
 	// 데이터 불러오기 
 	public List<CompleteTodayDTO> getData(int offset, int size) {
 		List<CompleteTodayDTO> list = new ArrayList<CompleteTodayDTO>();
@@ -125,6 +152,73 @@ public class CompleteTodayDAO {
 		}
 		return list;
 	}
+
+	// 아이디 별 게시글 받기 
+	public List<CompleteTodayDTO> getDataById(int offset, int size, String memberId){
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<CompleteTodayDTO> list = new ArrayList<CompleteTodayDTO>();
+		String sql;
+		try {
+			sql = "SELECT wnum, todayCon,TO_CHAR(todayUpdate,'YYYY-MM-DD')todayUpdate FROM wotd WHERE memberid = ? AND todayBlind = 1 ORDER BY todayUpdate DESC OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, memberId);
+			ps.setLong(2, offset);
+			ps.setLong(3, size);
+			
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				CompleteTodayDTO dto = new CompleteTodayDTO();
+				
+				dto.setWnum(rs.getLong("wnum"));
+				dto.setContent(rs.getString("todayCon"));
+				dto.setUpdatedate(rs.getString("todayUpdate"));
+				
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(ps);
+			DBUtil.close(rs);
+		}
+		
+		return list;
+	}
+	
+	// 파일 불러오기 by id 
+	public void getFilesById(CompleteTodayDTO dto, String memberId) {
+		List<String> list = new ArrayList<String>();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql; 
+		
+		try {
+			sql = "SELECT wp.wnum, wp.wpfile FROM wotdphoto wp JOIN wotd w ON w.wnum = wp.wnum\r\n"
+					+ "WHERE w.memberid = ? AND wp.wnum = ?  FETCH FIRST 1 ROWS ONLY";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, memberId);
+			ps.setLong(2, dto.getWnum());
+			
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				dto.getFile().setParentnum(rs.getLong("wNum"));
+				list.add(rs.getString("wpfile"));
+				dto.getFile().setSaveFileName(list.toArray(new String [list.size()]));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(ps);
+		}
+	}
+	
 	
 	// 파일 불러오기 
 	public void getFiles(CompleteTodayDTO dto) {

@@ -1,116 +1,88 @@
-document.addEventListener("DOMContentLoaded", function() {
-  const startOfWeek = new Date('${startOfWeek}');
-  const endOfWeek = new Date('${endOfWeek}');
-  
-  // 주의 첫 날(일요일)부터 토요일까지의 날짜를 생성
-  let currentDate = new Date(startOfWeek);
-  const calendarBody = document.getElementById("calendarBody");
-  
-  let row = document.createElement("tr");
-  
-  // 일요일부터 토요일까지 반복
-  for (let i = 0; i < 7; i++) {
-    const cell = document.createElement("td");
-    cell.classList.add("day");
-    cell.textContent = currentDate.getDate();
-    calendarBody.appendChild(row);
-    
-    // 다음 날짜로 이동
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-  
-  // 현재 주의 날짜 출력
-  document.querySelector("label").textContent = `${startOfWeek.toLocaleDateString()} ~ ${endOfWeek.toLocaleDateString()}`;
-});
+function mealInsertOk() {
+    const f = document.mealForm;
+	    const mealTime = f.mealTime.value.trim();
+    if (!mealTime) {
+        alert("식사 시간을 선택하세요");
+        return;
+    }
+	    const mealName = f.mealName.value.trim();
+    if (!mealName) {
+        alert("식단 이름을 입력해주세요");
+        return;
+    }
+	const mealDate = f.mealDate.value.trim();
+    const mealCapacity = f.mealCapacity.value.trim();
+    const mealKcal = f.mealKcal.value.trim();
 
-function moveWeek(offset) {
-  // 서버에서 새로운 주의 시작일과 끝일을 받아오는 로직 필요
-  // fetch API를 사용하여 서버로부터 새로운 날짜 정보를 가져와 화면 갱신
-  fetch(`/updateWeek?offset=${offset}`)
-    .then(response => response.json())
-    .then(data => {
-      // 새로운 날짜로 달력 갱신
-      updateCalendar(data.startOfWeek, data.endOfWeek);
+    if (!mealDate ||  !mealCapacity || !mealKcal) {
+        alert("모든 필드를 입력해주세요.");
+        return;
+    }
+	    
+    console.log("Meal Time: ", mealTime);
+    console.log("Meal Name: ", mealName);
+    console.log("Meal Date: ", mealDate);
+    console.log("Meal Capacity: ", mealCapacity);
+    console.log("Meal Kcal: ", mealKcal);
+	
+	let url = '/oi/recordmeal/mealinsert';
+	
+	// Ajax로 데이터 전송
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: {
+            dietFoodTime: mealTime,
+            dietFoodName: mealName,
+            dietFoodDate: mealDate,
+            capacity: mealCapacity,
+            kcal: mealKcal
+        },
+		dataType: 'json',
+        success: function(response) {
+            if (response.state === "true") {
+                alert("식단이 등록되었습니다.");
+                closeModal(); 
+            } else {
+                alert("저장에 실패했습니다.");
+            }
+        },
+        error: function() {
+            alert("서버와의 연결에 문제가 발생했습니다.");
+        }
     });
 }
 
-function updateCalendar(startOfWeek, endOfWeek) {
-  // 새로운 주의 날짜로 달력 업데이트
-  const calendarBody = document.getElementById("calendarBody");
-  calendarBody.innerHTML = '';  // 기존 내용 제거
-  
-  let currentDate = new Date(startOfWeek);
-  let row = document.createElement("tr");
-  
-  // 일요일부터 토요일까지 날짜 추가
-  for (let i = 0; i < 7; i++) {
-    const cell = document.createElement("td");
-    cell.classList.add("day");
-    cell.textContent = currentDate.getDate();
-    row.appendChild(cell);
-    
-    // 날짜 증가
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-  
-  calendarBody.appendChild(row);
-  
-  // 주의 시작일과 끝일을 화면에 출력
-  document.querySelector("label").textContent = `${startOfWeek} ~ ${endOfWeek}`;
+
+function ajaxFun(url, method, formData, dataType, fn) {
+	
+	const settings = {
+		type: method,
+		data: formData,
+		dataType: dataType,
+		success: function(data) {
+			fn(data);
+		},
+		beforeSend: function(jqXHR) {
+			jqXHR.setRequestHeader('AJAX', true);		// 헤더한테 AJAX라고 넘김
+		}
+	};
+
+	$.ajax(url, settings);
 }
-
-
-
-
-
-// 아침, 점심, 저녁 추가 기능
-function addMealEntry(mealType) {
-  let mealTime = prompt("식사 시간을 입력하세요 (예: 7:00): ");
-  let mealMenu = prompt("식단을 입력하세요: ");
-  
-  if (mealTime && mealMenu) {
-    let table = document.getElementById(`${mealType}Table`);
-    let row = table.insertRow();
-    row.insertCell(0).textContent = mealTime;
-    row.insertCell(1).textContent = mealMenu;
-  }
-}
-
-// 메모 저장 및 표시
-function addMeal() {
-  let memoText = document.getElementById("memoInput").value;
-  if (memoText) {
-    alert("메모가 저장되었습니다: " + memoText);
-  }
-}
-
-
 
 // 모달창
 let currentMealType = ""; // 현재 추가할 식사 타입
 
- function openModal(mealType) {
-   currentMealType = mealType;
-   document.getElementById('mealModal').style.display = 'flex';
- }
+function openModal(mealType) {
+	currentMealType = mealType;
+	document.getElementById('mealModal').style.display = 'flex';
+}
 
- function closeModal() {
-   document.getElementById('mealModal').style.display = 'none';
-   document.getElementById('mealTime').value = "";
-   document.getElementById('mealMenu').value = "";
- }
 
- function addMeal() {
-   let mealTime = document.getElementById('mealTime').value;
-   let mealMenu = document.getElementById('mealMenu').value;
+function closeModal() {
+	document.getElementById('mealModal').style.display = 'none';
+	document.getElementById('mealTime').value = "";
+	document.getElementById('mealName').value = "";
+}
 
-   if (mealTime && mealMenu) {
-     let table = document.getElementById(`${currentMealType}Table`);
-     let row = table.insertRow();
-     row.insertCell(0).textContent = mealTime;
-     row.insertCell(1).textContent = mealMenu;
-     closeModal();
-   } else {
-     alert("모든 필드를 입력해주세요.");
-   }
- }
