@@ -178,6 +178,29 @@ public class QnaManageController {
 			dto.setAnsContent(req.getParameter("answer"));
 			dto.setAnswerId(info.getUserId());
 
+			dao.insertAnswer(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("redirect:/admin/qna/list?page=" + page);
+	}
+	@RequestMapping(value = "/admin/qna/answerupdate", method = RequestMethod.POST)
+	public ModelAndView UpdateAnswer(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 답변 완료
+		QnaDAO dao = new QnaDAO();
+
+		HttpSession session = req.getSession();
+		LoginDTO info = (LoginDTO) session.getAttribute("member");
+		
+		String page = req.getParameter("page");
+		try {
+			QnaDTO dto = new QnaDTO();
+			
+			dto.setQuestionNum(Long.parseLong(req.getParameter("num")));
+			dto.setAnsContent(req.getParameter("answer"));
+			dto.setAnswerId(info.getUserId());
+
 			dao.updateAnswer(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -185,6 +208,7 @@ public class QnaManageController {
 
 		return new ModelAndView("redirect:/admin/qna/list?page=" + page);
 	}
+	
 
 	@RequestMapping(value = "/admin/qna/delete", method = RequestMethod.GET)
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -217,7 +241,7 @@ public class QnaManageController {
 				dto.setQuestionNum(num);
 				dto.setAnsContent("");
 				dto.setAnswerId("");
-				dao.updateAnswer(dto);
+				dao.deleteAnswer(dto);
 			} else if(mode.equals("question")) {
 				// 질문 삭제
 				dao.deleteQuestion(num, info.getUserId(), Integer.parseInt(info.getUserLevel()));

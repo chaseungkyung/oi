@@ -107,11 +107,12 @@ public class QnaDAO {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append(" SELECT questionNum, q.memberId, nickName, questionTitle, ");
-			sb.append("       TO_CHAR(questionDate, 'YYYY-MM-DD') questionDate ");
+			sb.append(" SELECT q.questionNum, q.memberId questionId, nickName, questionTitle, ");
+			sb.append("       TO_CHAR(questionDate, 'YYYY-MM-DD') questionDate, a.memberId answerId ");
 			sb.append(" FROM question q ");
 			sb.append(" JOIN member m ON q.memberId = m.memberId ");
-			sb.append(" ORDER BY questionNum DESC ");
+			sb.append(" left outer join answer a on q.questionNum = a.questionNum ");
+			sb.append(" ORDER BY q.questionNum DESC ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 			pstmt = conn.prepareStatement(sb.toString());
@@ -125,10 +126,11 @@ public class QnaDAO {
 				QnaDTO dto = new QnaDTO();
 
 				dto.setQuestionNum(rs.getLong("questionNum"));
-				dto.setQuestionId(rs.getString("memberId"));
+				dto.setQuestionId(rs.getString("questionId"));
 				dto.setQuestionName(rs.getString("nickName"));
 				dto.setQuestionTitle(rs.getString("questionTitle"));
 				dto.setQuestionDate(rs.getString("questionDate"));
+				dto.setAnswerId(rs.getString("answerId"));
 
 				list.add(dto);
 			}
@@ -150,12 +152,13 @@ public class QnaDAO {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append(" SELECT questionNum, q.memberId , nickName, questionTitle, ");
-			sb.append("       TO_CHAR(questionDate, 'YYYY-MM-DD') questionDate ");
+			sb.append(" SELECT q.questionNum, q.memberId questionId, nickName, questionTitle, ");
+			sb.append("       TO_CHAR(questionDate, 'YYYY-MM-DD') questionDate, a.memberId answerId  ");
 			sb.append(" FROM question q ");
 			sb.append(" JOIN member m ON q.memberId = m.memberId ");
+			sb.append(" left outer join answer a on q.questionNum = a.questionNum ");
 			sb.append(" WHERE INSTR(questionTitle, ?) >= 1 OR INSTR(questionCon, ?) >= 1");
-			sb.append(" ORDER BY questionNum DESC ");
+			sb.append(" ORDER BY q.questionNum DESC ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 			pstmt = conn.prepareStatement(sb.toString());
@@ -175,6 +178,7 @@ public class QnaDAO {
 				dto.setQuestionName(rs.getString("nickName"));
 				dto.setQuestionTitle(rs.getString("questionTitle"));
 				dto.setQuestionDate(rs.getString("questionDate"));
+				dto.setAnswerId(rs.getString("answerId"));
 
 				list.add(dto);
 			}
@@ -361,8 +365,7 @@ public class QnaDAO {
 			DBUtil.close(pstmt);
 		}
 	}
-
-	public void updateAnswer(QnaDTO dto) throws SQLException {
+	public void insertAnswer(QnaDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 
@@ -386,21 +389,98 @@ public class QnaDAO {
 		}
 
 	}
-	
-	// 게시물 삭제
-	public void deleteQuestion(long num, String userId, int userLevel) throws SQLException {
+
+	public void updateAnswer(QnaDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 
 		try {
+			sql = "update answer set ansContent = ? where questionNum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getAnsContent());
+			pstmt.setLong(2, dto.getQuestionNum());
+			
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+
+	}
+	
+	public void deleteAnswer(QnaDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+
+		try {
+			sql = "delete from answer where questionNum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, dto.getQuestionNum());
+			
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+
+	}
+	
+	// 게시물 삭제
+	public void deleteQuestion(long num, String userId, int userLevel) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
 			if (userLevel >= 51) {
+				sql = "select ansNum from answer where questionNum=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setLong(1, num);
+				rs  = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					sql = "DELETE FROM answer WHERE ansNum=?";
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setLong(1, rs.getLong("ansNum"));
+					
+					pstmt.executeUpdate();
+				}
+				
 				sql = "DELETE FROM question WHERE questionNum=?";
+				
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setLong(1, num);
 				
 				pstmt.executeUpdate();
+				
 			} else {
+				
+				sql = "select ansNum from answer a join question q on a.questionNum = q.questionNum where q.questionNum=? and q.memberId = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setLong(1, num);
+				pstmt.setString(2, userId);
+				rs  = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					sql = "DELETE FROM answer WHERE ansNum=?";
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setLong(1, rs.getLong("ansNum"));
+					
+					pstmt.executeUpdate();
+				}
 				sql = "DELETE FROM question WHERE questionNum=? AND memberId=?";
 				
 				pstmt = conn.prepareStatement(sql);

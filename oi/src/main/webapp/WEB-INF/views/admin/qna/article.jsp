@@ -15,8 +15,8 @@
 	max-width: 800px;
 }
 </style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/findgym/boot-board.css" type="text/css">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
 <script type="text/javascript">
 	function deleteOk(mode) {
@@ -49,20 +49,7 @@
 		});
 	});
 	
-	$(function(){
-		$('.btnUpdateAnswer').click(function(){
-			let mode = $(this).attr('data-mode');
-			if(mode === 'update') {
-				$('.answer-container').show();
-				$(this).text('답변 수정 취소');
-				$(this).attr('data-mode', 'cancel');
-			} else {
-				$('.answer-container').hide();
-				$(this).attr('data-mode', 'update');
-				$(this).text('답변 수정');
-			}
-		});
-	});
+
 </script>
 
 </head>
@@ -172,9 +159,6 @@
 						<td width="50%">
 			    			<button type="button" class="btn btn-light" onclick="deleteOk('question');">질문삭제</button>
 				    		
-							<c:if test="${not empty dto.ansContent and sessionScope.member.userId==dto.answerId}">
-								<button type="button" class="btn btn-light btnUpdateAnswer" data-mode="update">답변수정</button>
-							</c:if>
 							<c:if test="${not empty dto.ansContent && (sessionScope.member.userId==dto.answerId || sessionScope.member.userLevel == 99)}">
 								<button type="button" class="btn btn-light" onclick="deleteOk('answer');">답변삭제</button>
 							</c:if>

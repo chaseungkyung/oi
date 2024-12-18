@@ -15,8 +15,7 @@
 }
 </style>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/findgym/boot-board.css" type="text/css">
 <script type="text/javascript">
 function searchList() {
 	const f = document.searchForm;

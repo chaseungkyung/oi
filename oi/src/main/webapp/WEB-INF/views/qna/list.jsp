@@ -5,16 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주변 헬스장</title>
+<title>OI</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/layout/footer_layout.css">
 <jsp:include page="/WEB-INF/views/layout/headimported.jsp" />
 <jsp:include page="/WEB-INF/views/layout/footerimported.jsp" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/calendar/calendarmain.css">
 	<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/findgym/findGym.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/findgym/boot-board.css" type="text/css">
 </head>
 <body>
 	
