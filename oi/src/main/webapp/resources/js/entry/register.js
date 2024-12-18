@@ -16,8 +16,44 @@ $(function() {
 	});
 
 	// 아이디 중복검사
-	const idbtn = document.querySelector('#checkIdBtn');
-	$(idbtn).click(function() {
+	const idbtn = document.querySelector('.checkbtn');
+	$(idbtn).each( function(index,item){
+			let text = $(this).prev().val();
+			let url = cp + '/access/idcheck';
+
+			if (!idtext) {
+				$(this).prev().focus();
+				return false;
+			}
+
+			$.ajax({
+				type: 'get',
+				url: url,
+				data: { id: text },
+				dataType: 'json',
+				success: function(data) {
+					$('#idFeedback').html(data.state);
+					if (data.result == 'true') {
+						$('#idFeedback').attr('data-valid', "true");
+						document.getElementById('idFeedback').style.color = "blue";
+						$('#idFeedback').show();
+					} else {
+						$('#idFeedback').attr('data-valid', "false");
+						$('#idFeedback').css('color', 'red').show();
+					}
+				},
+				beforeSend: function(jqXHR) {
+					jqXHR.setRequestHeader('AJAX', true);
+				},
+				error: function(e) {
+					console.log(e.responseText);
+				}
+			});
+
+		})
+	
+	/*
+	click(function() {
 		let idtext = $(this).prev().val();
 		let url = cp + '/access/idcheck';
 
@@ -51,6 +87,7 @@ $(function() {
 		});
 
 	});
+	*/
 });
 
 function submitOk(){
@@ -69,7 +106,20 @@ function submitOk(){
 		alert('아이디 중복검사를 진행해주세요');
 		return;
 	}
-	if(! $form.dob.value){
+	
+	if(! $form.password.value){
+		$form.password.focus();
+		return;
+	}
+
+	if($form.password.value !== $form.confirmpassword.value){
+		$('#confirm-password-feedback').show();
+		return;
+	}else {
+		$('#confirm-password-feedback').hide();
+	}
+
+		if(! $form.dob.value){
 		$form.dob.focus();
 		return;
 	}

@@ -74,7 +74,12 @@ public class LoginDAO {
 		String sql;
 		try {
 			conn.setAutoCommit(false);
-	//		sql = "INSERT INTO member (memberid,mem) VALUES ()";
+			sql = "INSERT INTO member (memberid,memberpw,nickname,memebersignup,loginok,userlevel) VALUES (?,?,?,SYSDATE,1,1)";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, dto.getUserid());
+			ps.setString(2, dto.getPwd());
+			ps.setString(3, dto.getUsername());
 			
 			conn.commit();
 		} catch (SQLException e) {

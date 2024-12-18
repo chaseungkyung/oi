@@ -89,7 +89,7 @@ public class LoginController {
 		
 		try {
 			dto.setUsername(req.getParameter("username"));
-			dto.setUserid(req.getParameter("userid"));
+			dto.setPwd(req.getParameter("password"));
 			dto.setDob(req.getParameter("dob"));
 			
 			tel.append(req.getParameter("phone1"));

@@ -36,6 +36,7 @@
 .form-group input[type="text"],
 .form-group input[type="date"],
 .form-group input[type="tel"],
+.form-group input[type="password"],
 .form-group select {
     width: 100%;
     padding: 8px 10px;
@@ -129,7 +130,7 @@
     background: #a8e063;
 }
 
-button[type="submit"] {
+button[name="submitbtn"] {
     width: 100%;
     padding: 10px;
     background: #56ab2f;
@@ -141,7 +142,29 @@ button[type="submit"] {
     transition: background 0.3s;
 }
 
-button[type="submit"]:hover {
+button[name="submitbtn"]:hover {
+    background: #a8e063;
+}
+.nickname-group .nickname-input {
+    display: flex;
+}
+
+.nickname-group .nickname-input input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.nickname-group .nickname-input button {
+    padding: 8px 12px;
+    background: #56ab2f;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.nickname-group .nickname-input button:hover {
     background: #a8e063;
 }
 

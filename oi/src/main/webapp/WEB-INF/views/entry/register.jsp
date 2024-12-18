@@ -18,7 +18,8 @@
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include></header>
 	<div class="registercontainer">
-		<form name="signupForm" class="signup-form" id="signupForm" method="post">
+		<form name="signupForm" class="signup-form" id="signupForm"
+			method="post">
 			<h2>회원가입</h2>
 
 			<!-- 이름 입력칸 -->
@@ -26,16 +27,42 @@
 				<label for="username">이름</label> <input type="text" id="username"
 					name="username" placeholder="이름을 입력하세요" required>
 			</div>
-
+			
+			<div class="form-group nickname-group">
+				<label for="nickname">닉네임</label>
+				<div class="nickname-input">
+					<input type="text" id="nickname" name="nickname"
+						placeholder="닉네임을 입력하세요" required>
+					<button type="button" id="checkNicknameBtn" class="checbtn">중복검사</button>
+				</div>
+				<small id="nicknameFeedback" class="feedback" data-valid="false"></small>
+			</div>
+			
 			<!-- 아이디 입력칸과 중복검사 버튼 -->
 			<div class="form-group id-group">
 				<label for="userid">아이디</label>
 				<div class="id-input">
 					<input type="text" id="userid" name="userid"
 						placeholder="아이디를 입력하세요" required>
-					<button type="button" id="checkIdBtn">중복검사</button>
+					<button type="button" id="checkIdBtn" class="checkbtn">중복검사</button>
 				</div>
 				<small id="idFeedback" class="feedback" data-valid="false"></small>
+			</div>
+
+
+			<div class="form-group">
+				<label for="password">비밀번호</label> <input type="password"
+					id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+				<div class="feedback" id="password-feedback">비밀번호는 최소 8자 이상이어야
+					합니다.</div>
+			</div>
+
+			<div class="form-group">
+				<label for="confirmpassword">비밀번호 확인</label> <input type="password"
+					id="confirmpassword" name="confirmpassword"
+					placeholder="비밀번호를 다시 입력하세요" required>
+				<div class="feedback" id="confirm-password-feedback"
+					style="color: red;">비밀번호가 일치하지 않습니다.</div>
 			</div>
 
 			<!-- 생년월일 -->
@@ -85,13 +112,12 @@
 				<div class="address-input">
 					<input type="text" id="zipcode" name="zipcode" placeholder="우편번호"
 						readonly required>
-					<button name="findZipBtn" type="button" id="findZipBtn" onclick="searchPost();">우편번호
-						찾기</button>
+					<button name="findZipBtn" type="button" id="findZipBtn"
+						onclick="searchPost();">우편번호 찾기</button>
 				</div>
-				<input type="text" id="address1" name="address1"
-					 readonly required> <input
-					type="text" id="address2" name="address2" placeholder="상세주소를 입력하세요"
-					required>
+				<input type="text" id="address1" name="address1" readonly required>
+				<input type="text" id="address2" name="address2"
+					placeholder="상세주소를 입력하세요" required>
 			</div>
 
 			<button type="button" name="submitbtn" onclick="submitOk();">가입하기</button>
@@ -103,6 +129,7 @@
 	</footer>
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/entry/post.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/entry/post.js"></script>
 </body>
 </html>

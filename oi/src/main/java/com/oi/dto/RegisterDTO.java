@@ -3,6 +3,7 @@ package com.oi.dto;
 public class RegisterDTO {
 	private String username;
 	private String userid;
+	private String pwd;
 	private String dob;
 	private String tel;
 	private String email;
@@ -20,6 +21,13 @@ public class RegisterDTO {
 	}
 	public void setUserid(String userid) {
 		this.userid = userid;
+	}
+	
+	public String getPwd() {
+		return pwd;
+	}
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 	public String getDob() {
 		return dob;
