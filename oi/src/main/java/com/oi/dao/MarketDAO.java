@@ -145,7 +145,7 @@ return list;
         ResultSet rs = null;
         String sql;
         try {
-            sql = " SELECT GOODSLISTNUM, p.memberId,categorynum,nickname,goodsPrice,goodsexp,goodsdate" +
+            sql = " SELECT GOODSLISTNUM, p.memberId,categorynum,nickname,goodsPrice,goodsExp,goodsDate" +
                     " FROM GOODS p JOIN member m ON p.memberId=m.memberId " +
                     " WHERE GOODSLISTNUM =? ";
             pstmt = conn.prepareStatement(sql);
@@ -154,11 +154,11 @@ return list;
 
             if (rs.next()){
                 dto = new MarketDTO();
-                dto.setGoodsListNum(rs.getLong("num"));
+                dto.setGoodsListNum(rs.getLong("GOODSLISTNUM"));
                 dto.setMemberId(rs.getString("memberId"));
-                dto.setGoodsExp("goodsexp");
-                dto.setGoodsPrice(Integer.parseInt("goodsPrice"));
-                dto.setGoodsDate(rs.getString("goodsdate"));
+                dto.setGoodsExp(rs.getString("goodsExp"));
+                dto.setGoodsPrice(rs.getInt("goodsPrice"));
+                dto.setGoodsDate(rs.getString("goodsDate"));
             }
 
 
@@ -207,7 +207,7 @@ return dto;
 
          while (rs.next()){
              MarketDTO dto = new MarketDTO();
-             dto.setFileNum(rs.getLong("fileNum"));
+             dto.setFileNum(rs.getLong("GPNum"));
              dto.setGoodsListNum(rs.getLong("GPlistnum"));
              dto.setImageFilename(rs.getString("Gpname"));
              list.add(dto);
