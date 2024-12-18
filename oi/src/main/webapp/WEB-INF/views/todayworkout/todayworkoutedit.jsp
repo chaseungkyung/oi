@@ -19,8 +19,8 @@
     <header>
         <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     </header>
-   <main>
-        <h1>Today Workout Main</h1>
+        <main>
+        <h1>운동 기록 수정</h1>
         
         <!-- 메시지 출력 -->
         <c:if test="${not empty message}">
@@ -29,8 +29,11 @@
             </p>
         </c:if>
 
-        <!-- 운동 기록 입력 폼 -->
-        <form action="${pageContext.request.contextPath}/todayworkout/insertRecord" method="post">
+        <!-- 운동 기록 수정 폼 -->
+        <form action="${pageContext.request.contextPath}/todayworkout/updateRecord" method="post">
+            <!-- 운동 기록 번호 (숨김 필드) -->
+            <input type="hidden" name="exerciseNum" value="${recordWorkDTO.exerciseNum}">
+            
             <table>
                 <tr>
                     <td><label for="exerciseDate">운동 날짜:</label></td>
@@ -61,15 +64,17 @@
                     <td><input type="text" id="exerciseunit" name="exerciseunit" value="${recordWorkDTO.exerciseunit}" required></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><button type="submit">운동 등록</button></td>
+                    <td colspan="2">
+                        <button type="submit">수정 완료</button>
+                        <a href="${pageContext.request.contextPath}/todayworkout/list">취소</a>
+                    </td>
                 </tr>
             </table>
         </form>
-        <!-- 운동 기록 리스트 페이지로 이동하는 링크 추가 -->
-        <p><a href="${pageContext.request.contextPath}/todayworkout/list">운동 기록 리스트 보기</a></p>
     </main>
     <footer>
         <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
     </footer>
+
 </body>
 </html>

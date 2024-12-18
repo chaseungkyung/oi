@@ -45,14 +45,18 @@
 		<h2>찜한 게시물 목록</h2>
 
 		<c:forEach var="goods" items="${boardLikeMap.likedGoods}">
-    	<div>
-        <h3>${goods.goodsName}</h3>
-        <p><strong>가격:</strong> ${goods.goodsPrice} 원</p>
-        <p><strong>설명:</strong> ${goods.goodsExp}</p>
-        <p><strong>등록 날짜:</strong> ${goods.goodsDate}</p>
-        <hr>
-	    </div>
-		</c:forEach>
+                <div class="liked-goods-item">
+                    <h3>
+                        <a href="${pageContext.request.contextPath}/goods/detail?goodsListNum=${goods.goodsListNum}">
+                            ${goods.goodsName}
+                        </a>
+                    </h3>
+                    <p><strong>가격:</strong> ${goods.goodsPrice} 원</p>
+                    <p><strong>설명:</strong> ${goods.goodsExp}</p>
+                    <p><strong>등록 날짜:</strong> ${goods.goodsDate}</p>
+                    <hr>
+                </div>
+        </c:forEach>
 
 			<c:if test="${empty boardLikeMap.likedGoods}">
 			    <p>찜한 게시물이 없습니다.</p>
