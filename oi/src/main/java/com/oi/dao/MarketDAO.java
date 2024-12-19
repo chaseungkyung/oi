@@ -130,7 +130,7 @@ return list;
                 list.add(rs.getString("GPName"));
                 dto.getFile().setSaveFileName(list.toArray(new String[0]));
             }
-            System.out.println("test1"+dto.getFile().getSaveFileName());
+            
         }catch (Exception e){
             e.printStackTrace();
         }finally {

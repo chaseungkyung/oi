@@ -11,7 +11,7 @@
 <jsp:include page="/WEB-INF/views/layout/headimported.jsp" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/wtd/wtdmain.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/wtd/wtdmain.js"></script>
+<script type="text/javascript" src="/oi/resources/js/wtd/wtdmain.js"></script>
 </head>
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
@@ -35,7 +35,7 @@
 		</div>
 	</main>
 
-	
+
 	<div class="modal fade" id="modal" data-bs-backdrop="static"
 		data-bs-keyboard="false" tabindex="-1"
 		aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -57,7 +57,6 @@
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 		<jsp:include page="/WEB-INF/views/layout/footerimported.jsp" />
 	</footer>
-
 
 </body>
 </html>

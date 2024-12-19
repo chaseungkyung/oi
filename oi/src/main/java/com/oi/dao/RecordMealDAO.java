@@ -20,14 +20,15 @@ public class RecordMealDAO {
 
 		try {
 			sql = "INSERT INTO mealrecord(dietFoodNum, memberId, dietFoodTime, dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal)  "
-					+ " VALUES ( SEQ_MEALRECORD.NEXTVAL, ?, SYSDATE, SYSDATE, 1, ?, ?, ?)";
+					+ " VALUES ( SEQ_MEALRECORD.NEXTVAL, ?, SYSDATE, SYSDATE, ?, ?, ?, ?)";
 
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, dto.getMemberId());
-			pstmt.setString(2, dto.getDietFoodName());
-			pstmt.setInt(3, dto.getCapacity());
-			pstmt.setInt(4, dto.getKcal());
+			pstmt.setString(2, dto.getDietFoodTime());
+			pstmt.setString(3, dto.getDietFoodName());
+			pstmt.setInt(4, dto.getCapacity());
+			pstmt.setInt(5, dto.getKcal());
 
 			pstmt.executeUpdate();
 
@@ -97,8 +98,8 @@ public class RecordMealDAO {
 		
 		try {
 			sb.append("SELECT dietFoodNum, memberId, dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal ");
-			sb.append(" FROM mealrecord WHERE memberId = ? AND TRUNC(SYSDATE) = TRUNC(dietFoodDate) ORDER BY dietFoodDate DESC ");
-
+			sb.append(" FROM mealrecord WHERE memberId = ? AND TO_CHAR(SYSDATE,'YYYY-MM-DD') = TO_CHAR(dietFoodDate,'YYYY-MM-DD') ORDER BY dietFoodDate DESC ");
+			
 			pstmt = conn.prepareStatement(sb.toString());
 
 			pstmt.setString(1, memberId);

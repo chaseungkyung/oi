@@ -55,5 +55,5 @@
 	</div>
 </div>
 </c:forEach>
-<input type="hidden" class="total_page" value="${total_page}" style="display:none;">
-<input type="hidden" class="page" value="${page}" style="display:none;">
+<input type="hidden" class="total_page" value="${total_page}" >
+<input type="hidden" class="page" value="${page}" >

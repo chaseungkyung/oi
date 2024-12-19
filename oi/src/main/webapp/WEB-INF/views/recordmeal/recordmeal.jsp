@@ -83,11 +83,11 @@
 						<h2> 💟 전체 식단 </h2>
 							<c:forEach var="mealtotal" items="${mealTotal}">
 							<tr>
-								<td>${meal.dietFoodTime}</td>
-								<td>${meal.dietFoodDate}</td>
-								<td>${meal.dietFoodName}</td>
-								<td>${meal.capacity}</td>
-								<td>${meal.kcal}</td>
+								<td>${mealtotal.dietFoodTime}</td>
+								<td>${mealtotal.dietFoodDate}</td>
+								<td>${mealtotal.dietFoodName}</td>
+								<td>${mealtotal.capacity}</td>
+								<td>${mealtotal.kcal}<br></td>
 							</tr>
 							</c:forEach>
 					</div>
@@ -125,7 +125,7 @@
 						<input type="text" name="capacity" id="mealCapacity" placeholder="용량(g)"> 
 						<input type="text" name="kcal" id="mealKcal" placeholder="칼로리(Kcal)">
 					<button class="mealinsertbtn" type="button" id="mealinsertbtn" onclick="mealInsertOk()">등록</button>
-					<button class="mealinsertbtn" onclick="closeModal()">취소</button>
+					<button class="mealinsertbtn" type="button" onclick="closeModal()">취소</button>
 				</div>
 			</div>
 		</form>

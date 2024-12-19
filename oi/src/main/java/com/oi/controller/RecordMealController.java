@@ -35,11 +35,11 @@ public class RecordMealController {
 		
 		HttpSession session = req.getSession();
 	    LoginDTO log = (LoginDTO) session.getAttribute("member");
+	    ModelAndView mav = new ModelAndView("recordmeal/recordmeal");
 	    
 		try {
 			String memberId = log.getUserId();
 	        RecordMealDAO dao = new RecordMealDAO();
-	        ModelAndView mav = new ModelAndView("mealList");
 	        List<RecordMealDTO> mealList = dao.getMealListToday(memberId);
 	        List<RecordMealDTO> mealTotal = dao.getMealListByMemberId(memberId);
 	        
@@ -50,7 +50,6 @@ public class RecordMealController {
 			e.printStackTrace();
 		}
 		
-		ModelAndView mav = new ModelAndView("recordmeal/recordmeal");
 		mav.addObject("today", today);
 		return mav;
 	
@@ -66,8 +65,7 @@ public class RecordMealController {
 	    try {
 	        String memberId = log.getUserId();
 	        RecordMealDAO dao = new RecordMealDAO();
-	        List<RecordMealDTO> mealList = dao.getMealListByMemberId(memberId);
-
+	        List<RecordMealDTO> mealList = dao.getMealListToday(memberId);
 	        model.put("mealList", mealList);
 	        
 	    } catch (Exception e) {

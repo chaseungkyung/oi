@@ -536,4 +536,22 @@ public class CompleteTodayDAO {
 		}
 	}
 	
+	public void deleteFile(long wpphotonum) throws SQLException {
+		PreparedStatement ps = null;
+		String sql;
+		try {
+			sql = "DELETE FROM wotdphoto WHERE wpPhotoNum = ? ";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setLong(1, wpphotonum);
+			
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			DBUtil.close(ps);
+		}
+	}
 }

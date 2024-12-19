@@ -35,5 +35,7 @@ function sendUpdate(){
 		return;
 	}
 	
+	
+	
 	$form.submit();
 }

@@ -191,6 +191,14 @@ public class WorkToDayController {
 		return mav;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/completeworkout/deletefile", method = RequestMethod.GET)
+	public Map<String,Object> deletefile(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		return model;
+	}
 	
 	@RequestMapping(value = "/completeworkout/deletearticle", method = RequestMethod.GET)
 	public ModelAndView deleteArticle(HttpServletRequest req, HttpServletResponse resp)

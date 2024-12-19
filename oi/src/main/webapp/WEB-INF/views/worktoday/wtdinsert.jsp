@@ -18,7 +18,7 @@
 </head>
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
-
+	
 	<main>
 		<div class="container">
 			<form name="insertForm" method="post" enctype="multipart/form-data">
@@ -50,7 +50,11 @@
 									type="file" multiple name="fileinput" accept="image/*"></td>
 							</tr>
 							<c:if test="${mode == 'update'}">
-
+							<tr>
+								<td>
+									<img alt="사진" src="">
+								</td>
+							</tr>
 							</c:if>
 						</tbody>
 						<tfoot>

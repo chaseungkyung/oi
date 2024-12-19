@@ -8,17 +8,15 @@ function intotheForm() {
 	location.href = cp + "/completeworkout/insertwtd";
 }
 
-
-// AJAX 통신 성공했을때 콜백함수 
 const successFn = function(data) {
 
 	let $sensor = document.querySelector('#sensor');
 	let $contentcover = document.querySelector('#wtdmaincontent');
-	
+
 	document.querySelector('#wtdmaincontent').insertAdjacentHTML('beforeend', data);
 
-	total = $('#wtdmaincontent').find('input.total_page:last-child').attr('total_page');
-	page = $('#wtdmaincontent').find('input.page:last-child').attr('page');
+	let total = $('#wtdmaincontent').find('input.page:last-child').prev().val();
+	let page = $('#wtdmaincontent').find('input.page:last-child').val();
 
 	if (page === total) {
 		$sensor.style.display = 'none';
@@ -30,7 +28,6 @@ const successFn = function(data) {
 		$contentcover.innerHTML = '';
 	}
 
-
 	$('#wtdmaincontent').attr('data-page', page);
 	$('#wtdmaincontent').attr('data-total', total);
 	$('div#sensor').attr('data-loading', 'false');
@@ -38,9 +35,10 @@ const successFn = function(data) {
 
 //컨텐츠 불러오기 
 function loading($page) {
-	let url = cp + "/completeworkout/list";
-	let $sensor = document.querySelector('#sensor');
 
+	let url = cp + "/completeworkout/list";
+	//let url = "/oi/completeworkout/list";
+	let $sensor = document.querySelector('#sensor');
 	$.ajax({
 		type: 'get',
 		url: url,
@@ -48,6 +46,7 @@ function loading($page) {
 			page: $page
 		},
 		success: function(data) {
+
 			successFn(data);
 		},
 		beforeSend: function(jqXHR) {
@@ -65,6 +64,7 @@ function loading($page) {
 const callback = (entries, io) => {
 
 	let $sensor = document.querySelector('#sensor');
+
 	let $contentcover = document.querySelector('#wtdmaincontent');
 
 	entries.forEach((entry) => {
@@ -86,16 +86,10 @@ const callback = (entries, io) => {
 	});
 };
 
-
-// 처음 로딩 
-$(function() {
-	loading(1);
-
-	// 감지 등록 
-
 	var io = new IntersectionObserver(callback);
 	io.observe(document.querySelector("#sensor"));
-});
+
+
 
 
 $(function() {

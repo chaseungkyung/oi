@@ -17,10 +17,10 @@ public class CalendarController {
 	@RequestMapping(value = "/calendar/calendarmain")
 	public ModelAndView intomain(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
+			
 		// 메인에 달력 띄우기
 		ModelAndView mav = new ModelAndView("calendar/calendarmain");
-
+			
 		try {
 			Calendar cal = Calendar.getInstance();
 			int ty = cal.get(Calendar.YEAR);
