@@ -204,17 +204,48 @@ public class MyPageController {
         return mav;
     }
     
-    @RequestMapping("/mypage/mycomment")
-    public ModelAndView mycommentPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	
-    	HttpSession session = req.getSession();
-    	LoginDTO login = (LoginDTO) session.getAttribute("member");
-    	
-    	if (login == null) {
-    		return new ModelAndView("redirect:/access/login");
-    	}
-    	
-    	return new ModelAndView("mypage/mycomment");
+    @RequestMapping("/mypage/mygoods")
+    public ModelAndView myGoodsPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        LoginDTO login = (LoginDTO) session.getAttribute("member");
+
+        if (login == null) {
+            return new ModelAndView("redirect:/access/login");
+        }
+
+        String memberId = login.getUserId();
+        
+        int dataCount = myPageDAO.getMyPageListCount(memberId);
+        
+        int currentPage = 1;
+        int size = 10; // 한 페이지에 보여줄 항목 수
+        String pageParam = req.getParameter("page");
+        if (pageParam != null) {
+            currentPage = Integer.parseInt(pageParam);
+        }
+        
+        int pageCount = util.pageCount(dataCount, size);
+        if(currentPage > pageCount) {
+        	currentPage = pageCount;
+        }
+
+        int offset = (currentPage - 1) * size;
+        
+        List<MyPageGoodsDTO> myGoodsList = myPageDAO.getMyGoodsList(memberId, offset, size);
+        
+        Map<String, List<MyPageGoodsDTO>> goodsListMap = new HashMap<>();
+        goodsListMap.put("myGoodsList", myGoodsList);
+        
+        // 페이징
+        String paging = util.paging(currentPage, pageCount, req.getContextPath() + "/mypage/mygoods");
+        
+        ModelAndView mav = new ModelAndView("mypage/mygoods");
+        mav.addObject("myGoodsList", myGoodsList);
+        mav.addObject("pageCount", pageCount);
+        mav.addObject("size", size);
+        mav.addObject("paging", paging); // 페이징 객체 추가
+
+        return mav;
     }
     
     
@@ -267,17 +298,16 @@ public class MyPageController {
         return mav;
     }
     
-   
-    @RequestMapping("/mypage/todayworklike")
-    public ModelAndView todayworkLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	
-    	HttpSession session = req.getSession();
-    	LoginDTO login = (LoginDTO) session.getAttribute("member");
-    	
-    	if (login == null) {
-    		return new ModelAndView("redirect:/access/login");
-    	}
-    	
-    	return new ModelAndView("mypage/todayworklike");
+    @RequestMapping("/mypage/redirectArticle")
+    public ModelAndView redirectToArticle(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // goodsListNum 파라미터 확인
+        String goodsListNum = req.getParameter("goodsListNum");
+
+        if (goodsListNum == null) {
+            // 예외 처리: goodsListNum이 없을 경우 메인 페이지로 리다이렉트
+            return new ModelAndView("redirect:/marketplace/main");
+        }
+
+        return new ModelAndView("redirect:/marketplace/article?goodsListNum=" + goodsListNum);
     }
 }

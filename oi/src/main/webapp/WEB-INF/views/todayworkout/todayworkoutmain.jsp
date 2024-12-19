@@ -5,8 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>OI - Today Workout Main</title>
-   <title>OI</title>
+    <title>OI</title>
 <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -19,17 +18,14 @@
     <header>
         <jsp:include page="/WEB-INF/views/layout/header.jsp" />
     </header>
-    <main class="container my-5">
         <!-- 메시지 출력 -->
-        <c:if test="${not empty message}">
-            <div class="alert ${messageType == 'error' ? 'alert-danger' : 'alert-success'}" role="alert">
-                ${message}
-            </div>
-        </c:if>
+<main class="container my-5">
+    
+    <div id="alertContainer" class="alert alert-danger d-none" role="alert">운동 시작시간이 종료시간보다 더 늦을수 없습니다.</div>
 
-        <!-- 운동 기록 입력 폼 -->
-        <form action="${pageContext.request.contextPath}/todayworkout/insertRecord" method="post">
-            <div class="mb-3">
+    <!-- 운동 기록 입력 폼 -->
+    <form action="${pageContext.request.contextPath}/todayworkout/insertRecord" method="post">
+             <div class="mb-3">
                 <label for="exerciseDate" class="form-label">운동 날짜</label>
                 <input type="date" class="form-control" id="exerciseDate" name="exerciseDate" value="${recordWorkDTO.exerciseDate}" required>
             </div>
@@ -54,13 +50,13 @@
                 <input type="number" class="form-control" id="exercisecnt" name="exercisecnt" value="${recordWorkDTO.exercisecnt}" required>
             </div>
             <div class="mb-3">
-                <label for="exerciseunit" class="form-label">운동 단위</label>
+                <label for="exerciseunit" class="form-label">운동 단위(SET)</label>
                 <input type="text" class="form-control" id="exerciseunit" name="exerciseunit" value="${recordWorkDTO.exerciseunit}" required>
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">운동 등록</button>
             </div>
-        </form>
+    </form>
         <!-- 운동 기록 리스트 페이지로 이동하는 링크 추가 -->
         <div class="d-flex justify-content-center mt-4">
     	<a href="${pageContext.request.contextPath}/todayworkout/list" class="btn btn-success btn-lg">
@@ -72,5 +68,6 @@
         <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
     </footer>
     <jsp:include page="/WEB-INF/views/layout/footerimported.jsp" />
+<script src="${pageContext.request.contextPath}/resources/js/mypage/workvaild.js"></script>
 </body>
 </html>

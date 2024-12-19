@@ -24,6 +24,8 @@
             <div>
             	<c:set var="fileroot" value="${pageContext.request.contextPath}/uploads/photo/${sessionScope.member.saveprofile}" />
                	<c:set var="defaultfile" value="${pageContext.request.contextPath}/resources/images/blank-profile.png"/>
+               	<c:set var="today" value="<%= new java.util.Date() %>" />
+				<fmt:formatDate var="formattedToday" value="${today}" pattern="yyyy-MM-dd" />
             	<img src="${sessionScope.member.saveprofile == 'default' ? defaultfile: fileroot }" alt="프로필 사진" class="mypage-profile" style="height: 40px; width: auto;">
             </div>
             <p>
@@ -33,11 +35,9 @@
             <p>
                 <i class="fa-solid fa-user"></i><span>나의 내역</span>
             </p>
-            <a href="#"><i class="fa-solid fa-cart-shopping"></i><span>판매내역</span></a> 
             <a href="${pageContext.request.contextPath}/mypage/comment"><i class="fa-solid fa-pen"></i><span>댓글 내역</span></a> 
-            <a href="${pageContext.request.contextPath}/mypage/mycomment"><i class="fa-solid fa-circle-user"></i><span>내가 쓴 글 내역</span></a> 
-            <a href="${pageContext.request.contextPath}/mypage/boardlike"><i class="fa-solid fa-thumbs-up"></i><span>게시글 찜 내역</span></a> 
-            <a href="${pageContext.request.contextPath}/mypage/todayworklike"><i class="fa-solid fa-heart"></i><span>오운완 좋아요 내역</span></a>
+            <a href="${pageContext.request.contextPath}/mypage/mygoods"><i class="fa-solid fa-circle-user"></i><span>내가 쓴 글 내역</span></a> 
+            <a href="${pageContext.request.contextPath}/mypage/mygoods"><i class="fa-solid fa-thumbs-up"></i><span>게시글 찜 내역</span></a> 
         </nav>
 
         <main>
@@ -121,26 +121,26 @@
 
                     <!-- Collapse 영역 -->
                     <div class="collapse" id="physicalInfoCollapse">
-                        <div class="physical-gender mb-3">
-                            <label class="form-label">성별</label>
-                            <div class="d-inline-flex align-items-center gap-3">
-                                <div class="form-check ms-3">
-                                    <input class="form-check-input" type="radio" id="male"
-                                        name="gender" value="male" checked> 
-                                    <label class="form-check-label" for="male">남성</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="female"
-                                        name="gender" value="female"> 
-                                    <label class="form-check-label" for="female">여성</label>
-                                </div>
-                            </div>
-                        </div>
+						<div class="physical-gender mb-3">
+						    <label class="form-label">성별</label>
+						    <div class="d-inline-flex align-items-center gap-3">
+						        <div class="form-check ms-3">
+						            <input class="form-check-input" type="radio" id="male" name="gender" value="M" 
+						                ${bodyRecord.gender == 'M' ? 'checked' : ''}>
+						            <label class="form-check-label" for="male">남성</label>
+						        </div>
+						        <div class="form-check">
+						            <input class="form-check-input" type="radio" id="female" name="gender" value="F" 
+						                ${bodyRecord.gender == 'F' ? 'checked' : ''}>
+						            <label class="form-check-label" for="female">여성</label>
+						        </div>
+						    </div>
+						</div>
                         <div class="physical-date mb-3">
-                            <label for="registerDate" class="form-label">등록날짜</label> 
-                            <input type="date" id="registerDate" name="registerDate" class="form-control"
-                                value="${bodyRecord.bodyRecordDate}">
-                        </div>
+						    <label for="registerDate" class="form-label">등록날짜</label>
+						    <input type="date" id="registerDate" name="registerDate" class="form-control"
+						        value="${bodyRecord.bodyRecordDate != null ? bodyRecord.bodyRecordDate : formattedToday}">
+						</div>
                         <div class="physical-height mb-3">
                             <label for="height" class="form-label">키(cm)</label> 
                             <input type="number" id="height" name="height" class="form-control"
@@ -150,10 +150,6 @@
                             <label for="weight" class="form-label">몸무게(kg)</label> 
                             <input type="number" id="weight" name="weight" class="form-control"
                                 value="${bodyRecord.weight}">
-                        </div>
-                        <div class="physical-bmr mb-3">
-                            <label for="bmr" class="form-label">기초대사량</label> 
-                            <input type="number" id="bmr" name="bmr" class="form-control" value="1500">
                         </div>
                         <div class="physical-bmi mb-3">
                             <label for="bmi" class="form-label">체지방률(%)</label> 

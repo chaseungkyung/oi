@@ -175,6 +175,7 @@
 			    return mList;
 			}
 			
+			// 찜한 게시물 총 개수
 			public int getMyPageListCount(String memberId) {
 			    int totalCount = 0;
 			    PreparedStatement pstmt = null;
@@ -239,6 +240,7 @@
 			    return commentList;
 			}
 			
+			// 오운완 댓글 총 개수
 			public int getWotdCommentsCount(String memberId) {
 			    int totalCount = 0;
 			    PreparedStatement pstmt = null;
@@ -270,7 +272,7 @@
 			    String sql = null;
 	
 			    try {
-			        sql = "SELECT m.memberId, c.gcComCon, c.gcInsertNum, g.goodsName " +
+			        sql = "SELECT m.memberId, c.gcComCon, c.gcInsertNum, g.goodsName, g.goodsListNum " +
 			              "FROM goodsComment c " +
 			              "JOIN goods g ON c.goodsListNum = g.goodsListNum " +
 			              "JOIN member m ON c.memberId = m.memberId " +
@@ -291,6 +293,7 @@
 			            dto.setCommentContent(rs.getString("gcComCon"));
 			            dto.setCommentDate(rs.getString("gcInsertNum"));
 			            dto.setPostTitle(rs.getString("goodsName"));
+			            dto.setGoodsListNum(rs.getInt("goodsListNum"));
 	
 			            commentList.add(dto);
 			        }
@@ -305,6 +308,7 @@
 			    return commentList;
 			}
 			
+			// 중고거래 댓글 총 개수
 			public int getGoodsCommentsCount(String memberId) {
 			    int totalCount = 0;
 			    PreparedStatement pstmt = null;
@@ -328,6 +332,7 @@
 			    return totalCount;
 			}
 			
+			// 댓글 단 게시물 find
 			public List<MyPageGoodsDTO> getGoodsWithCommentsByMember(String memberId, int offset, int size) {
 			    List<MyPageGoodsDTO> goodsList = new ArrayList<>();
 			    PreparedStatement pstmt = null;
@@ -372,6 +377,7 @@
 			    return goodsList;
 			}
 			
+			// 댓글 단 게시물 총 개수
 			public int getGoodsWithCommentsCount(String memberId) {
 			    int totalCount = 0;
 			    PreparedStatement pstmt = null;
@@ -397,6 +403,71 @@
 			        DBUtil.close(rs);
 			        DBUtil.close(pstmt);
 			    }
+			    return totalCount;
+			}
+			
+			// 내가 작성한 게시글
+			public List<MyPageGoodsDTO> getMyGoodsList(String memberId, int offset, int size) {
+			    List<MyPageGoodsDTO> goodsList = new ArrayList<>();
+			    PreparedStatement pstmt = null;
+			    ResultSet rs = null;
+			    String sql = null;
+
+			    try {
+			        sql = "SELECT goodsListNum, goodsName, goodsPrice, goodsExp, TO_CHAR(goodsDate, 'YYYY-MM-DD') AS goodsDate " +
+			              "FROM goods WHERE memberId = ? " +
+			              "ORDER BY goodsDate DESC " +
+			              "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+			        pstmt = conn.prepareStatement(sql);
+			        pstmt.setString(1, memberId);
+			        pstmt.setInt(2, offset);
+			        pstmt.setInt(3, size);
+
+			        rs = pstmt.executeQuery();
+
+			        while (rs.next()) {
+			            MyPageGoodsDTO dto = new MyPageGoodsDTO();
+			            dto.setGoodsListNum(rs.getInt("goodsListNum"));
+			            dto.setGoodsName(rs.getString("goodsName"));
+			            dto.setGoodsPrice(rs.getInt("goodsPrice"));
+			            dto.setGoodsExp(rs.getString("goodsExp"));
+			            dto.setGoodsDate(rs.getString("goodsDate"));
+
+			            goodsList.add(dto);
+			        }
+			    } catch (SQLException e) {
+			        e.printStackTrace();
+			    } finally {
+			        DBUtil.close(rs);
+			        DBUtil.close(pstmt);
+			    }
+
+			    return goodsList;
+			}
+			
+			// 내가 작성한 게시글 총 개수
+			public int getMyGoodsCount(String memberId) {
+			    int totalCount = 0;
+			    PreparedStatement pstmt = null;
+			    ResultSet rs = null;
+			    String sql = "SELECT COUNT(*) FROM goods WHERE memberId = ?";
+
+			    try {
+			        pstmt = conn.prepareStatement(sql);
+			        pstmt.setString(1, memberId);
+			        rs = pstmt.executeQuery();
+
+			        if (rs.next()) {
+			            totalCount = rs.getInt(1);
+			        }
+			    } catch (SQLException e) {
+			        e.printStackTrace();
+			    } finally {
+			        DBUtil.close(rs);
+			        DBUtil.close(pstmt);
+			    }
+
 			    return totalCount;
 			}
 		}

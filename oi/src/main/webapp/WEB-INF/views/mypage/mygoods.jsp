@@ -33,18 +33,56 @@
             <p>
                 <i class="fa-solid fa-user"></i><span>나의 내역</span>
             </p>
-            <a href="#"><i class="fa-solid fa-cart-shopping"></i><span>판매내역</span></a> 
             <a href="${pageContext.request.contextPath}/mypage/comment"><i class="fa-solid fa-pen"></i><span>댓글 내역</span></a> 
-            <a href="${pageContext.request.contextPath}/mypage/mycomment"><i class="fa-solid fa-circle-user"></i><span>내가 쓴 글 내역</span></a> 
+            <a href="${pageContext.request.contextPath}/mypage/mygoods"><i class="fa-solid fa-circle-user"></i><span>내가 쓴 글 내역</span></a> 
             <a href="${pageContext.request.contextPath}/mypage/boardlike"><i class="fa-solid fa-thumbs-up"></i><span>게시글 찜 내역</span></a> 
-            <a href="${pageContext.request.contextPath}/mypage/todayworklike"><i class="fa-solid fa-heart"></i><span>오운완 좋아요 내역</span></a>
         </nav>
         
         <!-- 메인 필드 -->
-		<main>
-		
+<main>
+    <h2 class="mb-4">나의 중고 게시글</h2>
+
+    <table border="1" class="table">
+        <thead>
+            <tr>
+                <th>글 번호</th>
+                <th>상품 이름</th>
+                <th>가격</th>
+                <th>작성 날짜</th>
+                <th>상세 보기</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="goods" items="${myGoodsList}">
+                <tr>
+                    <td>${goods.goodsListNum}</td>
+                    <td>${goods.goodsName}</td>
+                    <td><fmt:formatNumber value="${goods.goodsPrice}" type="number" />원</td>
+                    <td>${goods.goodsDate}</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/marketplace/article?goodsListNum=${goods.goodsListNum}"
+                           class="btn btn-primary btn-sm">
+                            상세 보기
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+            <c:if test="${empty myGoodsList}">
+                <tr>
+                    <td colspan="5" class="text-center">작성한 중고거래 게시물이 없습니다.</td>
+                </tr>
+            </c:if>
+        </tbody>
+    </table>
+
+    			<!-- 페이징 처리 부분 -->
+ 				<div class="page-navigation mt-4">
+                    <c:if test="${dataCount != 0}">${paging}</c:if>
+                    <c:if test="${dataCount == 0}"><p>페이지 정보가 없습니다.</p></c:if>
+                </div>
 		</main>
 	</div>
+ 	
  	<footer><jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include></footer>
     <script src="${pageContext.request.contextPath}/resources/js/mypage/mypage.js"></script>
 </body>

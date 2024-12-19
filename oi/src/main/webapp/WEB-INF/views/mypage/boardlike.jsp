@@ -33,16 +33,14 @@
             <p>
                 <i class="fa-solid fa-user"></i><span>나의 내역</span>
             </p>
-            <a href="#"><i class="fa-solid fa-cart-shopping"></i><span>판매내역</span></a> 
             <a href="${pageContext.request.contextPath}/mypage/comment"><i class="fa-solid fa-pen"></i><span>댓글 내역</span></a> 
-            <a href="${pageContext.request.contextPath}/mypage/mycomment"><i class="fa-solid fa-circle-user"></i><span>내가 쓴 글 내역</span></a> 
+            <a href="${pageContext.request.contextPath}/mypage/mygoods"><i class="fa-solid fa-circle-user"></i><span>내가 쓴 글 내역</span></a> 
             <a href="${pageContext.request.contextPath}/mypage/boardlike"><i class="fa-solid fa-thumbs-up"></i><span>게시글 찜 내역</span></a> 
-            <a href="${pageContext.request.contextPath}/mypage/todayworklike"><i class="fa-solid fa-heart"></i><span>오운완 좋아요 내역</span></a>
         </nav>
       
       	<!-- 메인 필드 -->
            <main class="col-md-9">
-                <h2 class="mb-4">찜한 게시물 목록</h2>
+                <h2 class="mb-4">찜한 중고거래 게시물 목록</h2>
 
                 <c:forEach var="goods" items="${boardLikeMap.likedGoods}">
                     <div class="border p-3 mb-3 rounded">

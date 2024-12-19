@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+	<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
@@ -33,42 +33,30 @@
             <p>
                 <i class="fa-solid fa-user"></i><span>나의 내역</span>
             </p>
-            <a href="#"><i class="fa-solid fa-cart-shopping"></i><span>판매내역</span></a> 
             <a href="${pageContext.request.contextPath}/mypage/comment"><i class="fa-solid fa-pen"></i><span>댓글 내역</span></a> 
-            <a href="${pageContext.request.contextPath}/mypage/mycomment"><i class="fa-solid fa-circle-user"></i><span>내가 쓴 글 내역</span></a> 
+            <a href="${pageContext.request.contextPath}/mypage/mygoods"><i class="fa-solid fa-circle-user"></i><span>내가 쓴 글 내역</span></a> 
             <a href="${pageContext.request.contextPath}/mypage/boardlike"><i class="fa-solid fa-thumbs-up"></i><span>게시글 찜 내역</span></a> 
-            <a href="${pageContext.request.contextPath}/mypage/todayworklike"><i class="fa-solid fa-heart"></i><span>오운완 좋아요 내역</span></a>
         </nav>
 		
 		<!-- 메인 필드 -->
 		<main class="col-md-9">
-                <h2 class="mb-4">작성한 댓글 목록</h2>
+                <h2 class="mb-4">중고 거래 게시판 댓글 목록</h2>
 
-                <h3 class="mt-3">WOTD 댓글</h3>
-                <c:forEach var="comment" items="${commentMap.wotdComments}">
-                    <div class="border p-3 mb-3 rounded">
-                        <p><strong>댓글 내용:</strong> ${comment.commentContent}</p>
-                        <p><strong>작성 날짜:</strong> ${comment.commentDate}</p>
-                    </div>
-                </c:forEach>
-
-				<h3 class="mt-4">중고거래 댓글</h3>
-				
 				<!-- 현재 페이지 파라미터의 기본값 설정 -->
 				<c:set var="currentPage" value="${empty param.page ? 1 : param.page}" />
 				
 				<c:forEach var="comment" items="${commentMap.goodsComments}">
 				    <div class="border p-3 mb-3 rounded">
-				        <a href="${pageContext.request.contextPath}/marketplace/article?page=${currentPage}&goodsListNum=${comment.goodsListNum}" 
-				           class="text-decoration-none fw-bold fs-5">
-				            ${comment.postTitle}
-				        </a>
+						<a href="${pageContext.request.contextPath}/marketplace/article?goodsListNum=${comment.goodsListNum}"
+						   class="text-decoration-none fw-bold fs-5">
+						    ${comment.postTitle}
+						</a>
 				        <p><strong>댓글 내용:</strong> ${comment.commentContent}</p>
 				        <p><strong>작성 날짜:</strong> ${comment.commentDate}</p>
 				    </div>
 				</c:forEach>
 
-                <c:if test="${empty commentMap.wotdComments && empty commentMap.goodsComments}">
+                <c:if test="${empty commentMap.goodsComments}">
                     <p class="text-center text-muted">작성한 댓글이 없습니다.</p>
                 </c:if>
 
