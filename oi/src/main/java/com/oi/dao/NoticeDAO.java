@@ -279,7 +279,7 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT noticeNum, notice, n.memberId, noticeTitle, noticeContent, noticeWriteDate, noticeUpdateDate FROM notice n JOIN member m ON n.memberId=m.memberId WHERE noticeNum = ?";
+			sql = "SELECT noticeNum, notice, n.memberId, noticeTitle, noticeContent, noticeWriteDate, noticeUpdateDate FROM notice n JOIN member m ON n.memberId = m.memberId WHERE noticeNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, noticeNum);
@@ -319,12 +319,12 @@ public class NoticeDAO {
 				sb.append(" SELECT noticeNum, noticeTitle ");
 				sb.append(" FROM notice n");
 				sb.append(" JOIN member m ON n.memberId = m.memberId ");
-				sb.append(" WHERE (noticeNum > ?) ");
+				sb.append(" WHERE (noticeNum > ? ) ");
 				if(schType.equals("all")) {
 					sb.append("  AND (INSTR(noticeTitle, ?) >= 1 OR INSTR(noticeContent, ?) >= 1) ");
 			} else if(schType.equals("noticeWriteDate")) {
 				kwd = kwd.replaceAll("\\-|\\/|\\.)", "");
-				sb.append("  AND ( TO_CHAR(noticeWriteDate, 'YYYYMMDD') = ?) ");
+				sb.append("  AND ( TO_CHAR(noticeWriteDate, 'YYYYMMDD') = ? ) ");
 			} else {
 				sb.append("  AND ( INSTR(" + schType + ", ?) >= 1 ) ");
 			}
@@ -340,7 +340,7 @@ public class NoticeDAO {
 			}	
 		} else {
 			sb.append(" SELECT noticeNum, noticeTitle FROM notice ");
-			sb.append(" WEHRE noticeNum > ? ");
+			sb.append(" WHERE noticeNum > ? ");
 			sb.append(" ORDER BY noticeNum ASC ");
 			sb.append(" FETCH FIRST 1 ROWS ONLY ");
 				
@@ -381,7 +381,7 @@ public class NoticeDAO {
 				sb.append(" JOIN member m ON n.memberId = m.memberId ");
 				sb.append(" WHERE (noticeNum < ? ) ");
 				if(schType.equals("all")) {
-					sb.append("  AND ( INSTR(noticeTitle, ?) >= ? OR INSTR(noticeContent, ?) >= 1) ");
+					sb.append("  AND ( INSTR(noticeTitle, ?) >= 1 OR INSTR(noticeContent, ?) >= 1 ) ");
 			} else if(schType.equals("noticeWriteDate")) {
 				kwd = kwd.replaceAll("\\-|\\/|\\.)", "");
 				sb.append("  AND ( TO_CHAR(noticeWriteDate, 'YYYYMMDD') = ? ) ");
@@ -433,14 +433,15 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
-			sql = "UPDATE notice SET notice=?, noticeTitle=?, noticeContent=?, noticeUpdateDate=SYSDATE WHERE noticeNum=?";
+			sql = "UPDATE notice SET notice=?,  noticeTitle=?, noticePhoto=?, noticeContent=?, noticeUpdateDate=SYSDATE WHERE noticeNum=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, dto.getNotice());
 			pstmt.setString(2, dto.getNoticeTitle());
-			pstmt.setString(3, dto.getNoticeContent());
-			pstmt.setLong(4, dto.getNoticeNum());
+			pstmt.setString(3, dto.getNoticePhoto());
+			pstmt.setString(4, dto.getNoticeContent());
+			pstmt.setLong(5, dto.getNoticeNum());
 			
 			pstmt.executeUpdate();
 			
@@ -448,7 +449,7 @@ public class NoticeDAO {
 			pstmt = null;
 			
 			if(dto.getListFile() != null  && dto.getListFile().size() != 0) {
-				sql = "INSERT INTO noticeFile(noticeFileNum, noticeNum, noticeSaveFileName, noticeOriFileName) VALUES (seq_notieFile.NEXTVAL, ?, ?, ?)";
+				sql = "INSERT INTO noticeFile(noticeFileNum, noticeNum, noticeSaveFileName, noticeOriFileName) VALUES (seq_noticeFile.NEXTVAL, ?, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 				
 				for(MyMultipartFile mf : dto.getListFile()) {

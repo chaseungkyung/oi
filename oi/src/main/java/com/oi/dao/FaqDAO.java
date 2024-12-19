@@ -229,9 +229,9 @@ public class FaqDAO {
 			sql = "SELECT COUNT(*) FROM faq f JOIN faqCategory c ON f.faqCateNum = c.faqCateNum WHERE c.enabled = 1 ";
 			
 			if(schType.equals("all")) {
-				sql += " AND ( INSTR(faqTitle, ?) >= 1 OR INSTR(faqContent, ?) >= 1)";
+				sql += " AND ( INSTR(faqTitle, ?) >= 1 OR INSTR(faqContent, ?) >= 1 )";
 			} else {
-				sql += " AND INSTR(" + schType + ", ?) >= 1";
+				sql += " AND INSTR(" + schType + ", ?) >= 1 ";
 			}
 			if(faqCateNum != 0) {
 				sql += " AND f.faqCateNum = ? ";
@@ -279,7 +279,7 @@ public class FaqDAO {
 			sb.append(" WHERE c.enabled = 1 ");
 			
 			if(schType.equals("all")) {
-				sb.append(" AND (INSTR(faqTitle, ?) >= 1 OR INSTR(faqContent, ?) >= 1 ");
+				sb.append(" AND (INSTR(faqTitle, ?) >= 1 OR INSTR(faqContent, ?) >= 1) ");
 			} else {
 				sb.append(" AND INSTR(" + schType + ", ?) >= 1");
 			}

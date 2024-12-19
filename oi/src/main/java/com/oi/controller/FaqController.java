@@ -44,7 +44,7 @@ public class FaqController {
 		FaqDAO dao = new FaqDAO();
 		
 		try {
-			int size = 0;
+			int size = 10;
 			int total_page = 0;
 			int dataCount = 0;
 			

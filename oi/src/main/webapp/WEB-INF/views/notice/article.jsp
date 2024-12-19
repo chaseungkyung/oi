@@ -82,7 +82,7 @@
 							<td colspan="2">
 								다음글 :
 								<c:if test="${not empty nexDto}">
-									<a href="${pageContext.request.contextPath}/notice/article?${query}&num=${nextDto.num}">${nextDto.subject}</a>
+									<a href="${pageContext.request.contextPath}/notice/article?${query}&noticeNum=${nexDto.noticeNum}">${nexDto.noticeTitle}</a>
 								</c:if>
 							</td>
 						</tr>

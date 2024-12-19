@@ -120,9 +120,9 @@ function searchList() {
 							<div class="col-auto p-1">
 								<select name="schType" class="form-select">
 									<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-									<option value="noticeWriteDate" ${schType=="reg_date"?"selected":""}>등록일</option>
-									<option value="noticeTitle" ${schType=="subject"?"selected":""}>제목</option>
-									<option value="noticeContent" ${schType=="content"?"selected":""}>내용</option>
+									<option value="noticeWriteDate" ${schType=="noticeWriteDate"?"selected":""}>등록일</option>
+									<option value="noticeTitle" ${schType=="noticeTitle"?"selected":""}>제목</option>
+									<option value="noticeContent" ${schType=="noticeContent"?"selected":""}>내용</option>
 								</select>
 							</div>
 							<div class="col-auto p-1">
