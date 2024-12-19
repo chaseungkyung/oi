@@ -67,30 +67,6 @@
 		<br>
 		<br>
 
-		<div class="menu-banner-container container">
-			<div class="row g-4">
-				<div class="menu-banner col">
-					<div class="menu-banner-photo"></div>
-					<div class="menu-banner-disc">러닝코스 추천</div>
-				</div>
-				<div class="menu-banner col">
-					<div class="menu-banner-photo"></div>
-					<div class="menu-banner-disc">러닝코스 추천</div>
-				</div>
-				<div class="menu-banner col">
-					<div class="menu-banner-photo"></div>
-					<div class="menu-banner-disc">러닝코스 추천</div>
-				</div>
-				<div class="menu-banner col">
-					<div class="menu-banner-photo"></div>
-					<div class="menu-banner-disc">러닝코스 추천</div>
-				</div>
-				<div class="menu-banner col">
-					<div class="menu-banner-photo"></div>
-					<div class="menu-banner-disc">러닝코스 추천</div>
-				</div>
-			</div>
-		</div>
 		<div class="product-header-container container">
 			<div class="row">
 				<div class="product-header-margin col-1"></div>
@@ -102,7 +78,7 @@
 				<c:forEach var="dto" items="${list}" varStatus="status" begin="0"
 					end="23">
 					<!-- 이 부분은 최대 24회 반복 -->
-					<div class="product col-2  col-sm-3 col-md-2 border rounded p-1 border-0 item"
+					<div class="product col-4  col-sm-3 col-md-2 border rounded p-1 border-0 item"
 						onclick="location.href='${articleUrl}&goodsListNum=${dto.goodsListNum}';">
 						<div class="product-photo">
 							<img

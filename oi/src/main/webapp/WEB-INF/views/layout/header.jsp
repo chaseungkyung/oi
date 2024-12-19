@@ -67,7 +67,6 @@
                <ul class="navbar-nav">
                   <li class="nav-item me-5 mt-3"><a class="nav-link" href="${pageContext.request.contextPath}/completeworkout/main">오운완</a></li>
                   <li class="nav-item me-5 mt-3"><a class="nav-link" href="${pageContext.request.contextPath}/findGymController/view">헬스장</a></li>
-                  <li class="nav-item me-5 mt-3"><a class="nav-link" href="#">러닝코스</a></li>
                   <li class="nav-item dropdown me-5 mt-3"><a
                      class="nav-link dropdown-toggle" href="#" id="dropdownMenu"
                      data-bs-toggle="dropdown" aria-expanded="false">문의</a>
@@ -82,10 +81,7 @@
                      class="nav-link dropdown-toggle" href="#" id="dropdownMenu"
                      data-bs-toggle="dropdown" aria-expanded="false">오이거래</a>
                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                        <li><a class="dropdown-item" href="#">같이운동해요</a></li>
                         <li><a class="dropdown-item" href="${pageContext.request.contextPath}/marketplace/main">중고거래</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something</a></li>
                      </ul></li>
                      <c:if test="${sessionScope.member.userLevel>=0}">
                         <li class="nav-item me-5 mt-3"><a class="nav-link" href="${pageContext.request.contextPath}/calendar/calendarmain">나의 기록</a></li>
