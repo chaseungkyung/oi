@@ -1,7 +1,7 @@
 @charset "UTF-8";
 * {
 	font-family: "Noto Sans KR";
-	font-weight: 900;
+	
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -11,4 +11,11 @@
 }
 .offcanvas-header-container{
 	border-bottom: 1px solid #eeeeee;
+}
+.nav-link {
+	font-weight: 900;
+}
+
+.dropdown-item {
+	font-weight: 900;
 }
