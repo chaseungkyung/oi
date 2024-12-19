@@ -88,6 +88,7 @@ public class LoginController {
 		StringBuilder address = new StringBuilder();
 		
 		try {
+			dto.setUserid(req.getParameter("userid"));
 			dto.setUsername(req.getParameter("username"));
 			dto.setNickname(req.getParameter("nickname"));
 			dto.setPwd(req.getParameter("password"));
@@ -110,9 +111,12 @@ public class LoginController {
 			}
 			dto.setAddress(address.toString());
 			
+			dao.insertMember(dto);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		
 		return mav;
 	}

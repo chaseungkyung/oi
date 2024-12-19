@@ -53,7 +53,7 @@ function sendOk() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">제 목</td>
 							<td>
-								<input type="text" name="title" class="form-control" value="${dto.title}">
+								<input type="text" name="title" class="form-control" value="${dto.questionTitle}">
 							</td>
 						</tr>
 	        

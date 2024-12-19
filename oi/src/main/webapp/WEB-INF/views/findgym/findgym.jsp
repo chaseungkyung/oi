@@ -80,7 +80,13 @@
 			});
 			
 			const fn = function(data) {
-				let address = data.address;
+				let address = "";
+				if(!data.address){
+					address = "서울 마포구 월드컵북로 21";
+				} else {
+					address = data.address;
+				}
+				
 				
 				naver.maps.Service.geocode({
 					query : address
@@ -99,7 +105,6 @@
 					var item = response.v2.addresses[0];
 					var lng = item.x;
 					var lat = item.y;
-
 					map.setCenter(new naver.maps.LatLng(lat, lng));
 					
 					let innerUrl = '${pageContext.request.contextPath}/findGymController/list';
