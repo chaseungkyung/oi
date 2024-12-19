@@ -73,7 +73,7 @@
 						<table class="table write-form mt-5">
 							<tr>
 								<td class="bg-light col-sm-2" scope="row">제 목</td>
-								<td><input type="text" name="subject" class="form-control"
+								<td><input type="text" name="noticeTitle" class="form-control"
 									value="${dto.noticeTitle}"></td>
 							</tr>
 
