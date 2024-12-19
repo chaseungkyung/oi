@@ -13,52 +13,18 @@
 	href="${pageContext.request.contextPath}/resources/css/findgym/findGym.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/findgym/boot-board.css" type="text/css">
 	
+	
+<c:if test="${sessionScope.member.userId==dto.questionId || sessionScope.member.userLevel >= 51}">
 	<script type="text/javascript">
-	function deleteOk(mode) {
-		let s = mode === 'question' ? '질문' : '답변';
-		
-		if(confirm(s + '을 삭제 하시 겠습니까 ? ')) {
-			let query = 'num=${dto.questionNum}&${query}&mode=' + mode;
-			let url = '${pageContext.request.contextPath}/admin/qna/delete?' + query;
-			location.href = url;
-		}
-	}
-
-	$(function(){
-		let answer = '${dto.ansContent}';
-		if(! answer) {
-			$('.answer-container').show();
-		}
-	});
-	
-	$(function(){
-		$('.btnSendAnswer').click(function(){
-			const f = document.answerForm;
-			if(! f.answer.value.trim()) {
-				f.answer.focus();
-				return false;
+		function deleteOk(mode) {
+			if(confirm('질문을 삭제 하시 겠습니까 ? ')) {
+				let query = 'num=${dto.questionNum}&${query}&mode=' + mode;
+				let url = '${pageContext.request.contextPath}/qna/delete?' + query;
+				location.href = url;
 			}
-			
-			f.action = '${pageContext.request.contextPath}/admin/qna/answer';
-			f.submit();
-		});
-	});
-	
-	$(function(){
-		$('.btnUpdateAnswer').click(function(){
-			let mode = $(this).attr('data-mode');
-			if(mode === 'update') {
-				$('.answer-container').show();
-				$(this).text('답변 수정 취소');
-				$(this).attr('data-mode', 'cancel');
-			} else {
-				$('.answer-container').hide();
-				$(this).attr('data-mode', 'update');
-				$(this).text('답변 수정');
-			}
-		});
-	});
-</script>
+		}
+	</script>
+</c:if>
 </head>
 <body>
 	

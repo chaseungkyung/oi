@@ -12,7 +12,7 @@
 	<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/findgym/findGym.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/findgym/boot-board.css" type="text/css">
-	<script type="text/javascript">
+<script type="text/javascript">
 function sendOk() {
     const f = document.questionForm;
 	let str;
@@ -63,23 +63,12 @@ function sendOk() {
 								<p class="form-control-plaintext">${sessionScope.member.nickname}</p>
 							</td>
 						</tr>
-	
-						<tr>
-							<td class="bg-light col-sm-2" scope="row">공개여부</td>
-							<td class="py-3"> 
-								<input type="radio" name="secret" id="secret1" class="form-check-input" 
-									value="0" ${empty dto || dto.secret==0?"checked='checked'":"" }>
-								<label class="form-check-label" for="secret1">공개</label>
-								<input type="radio" name="secret" id="secret2" class="form-check-input"
-									value="1" ${dto.secret==1?"checked='checked'":"" }>
-								<label class="form-check-label" for="secret2">비공개</label>
-							</td>
-						</tr>
+
 						
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">내 용</td>
 							<td>
-								<textarea name="question" class="form-control">${dto.question}</textarea>
+								<textarea name="question" class="form-control">${dto.questionCon}</textarea>
 							</td>
 						</tr>
 					</table>
@@ -91,7 +80,7 @@ function sendOk() {
 								<button type="reset" class="btn btn-light">다시입력</button>
 								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qna/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 								<c:if test="${mode=='update'}">
-									<input type="hidden" name="num" value="${dto.num}">
+									<input type="hidden" name="num" value="${dto.questionNum}">
 									<input type="hidden" name="page" value="${page}">
 								</c:if>
 							</td>

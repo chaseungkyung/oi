@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 * {
 	font-family: "Noto Sans KR";
 	font-weight: 900;
@@ -20,16 +21,14 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	
 }
 
 .menu-banner-container {
-	margin-bottom : 100px;
-	
+	margin-bottom: 100px;
 	font-size: 12px;
 }
 
-.product-photo{
+.product-photo {
 	width: 100px;
 	height: 100px;
 	background: #EBFDFE;
@@ -42,24 +41,23 @@
 	flex-direction: column;
 	align-items: center;
 	font-size: 12px;
+	min-width: 150px; /* 원하는 최소 너비 지정 */
 }
 
-.product-header-container{
+.product-header-container {
 	margin-bottom: 50px;
 }
 
-
 /* ad */
-
 .adimage {
 	object-fit: contain;
 	max-height: 450px;
 }
 
-.carousel-control-next{
+.carousel-control-next {
 	padding: 0.5rem 1rem;
 }
 
-.carousel-control-prev {	
-	left: 20px;	
+.carousel-control-prev {
+	left: 20px;
 }
