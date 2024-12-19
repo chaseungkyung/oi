@@ -57,7 +57,7 @@
 		<div class="mealTotal">
 			<div class="meal-record" id="mealRecord">
 				<div class="meal">
-					<h2> 🕒 식단 기록 </h2>
+					<h2> 🕒 오늘의 식단 기록 </h2>
 					<table id="mealTable">
 						<tr>
 							<th></th>
@@ -68,7 +68,7 @@
 						</tr>
 						<c:forEach var="meal" items="${mealList}">
 							<tr>
-								<td>${meal.dietFoodUnit}</td>
+								<td>${meal.dietFoodTime}</td>
 								<td>${meal.dietFoodDate}</td>
 								<td>${meal.dietFoodName}</td>
 								<td>${meal.capacity}</td>
@@ -79,6 +79,18 @@
 					</table>
 					<button class="btn mealinsertbtn" onclick="openModal()">➕ 추가</button>
 				</div>
+					<div class="meal">
+						<h2> 💟 전체 식단 </h2>
+							<c:forEach var="mealtotal" items="${mealTotal}">
+							<tr>
+								<td>${meal.dietFoodTime}</td>
+								<td>${meal.dietFoodDate}</td>
+								<td>${meal.dietFoodName}</td>
+								<td>${meal.capacity}</td>
+								<td>${meal.kcal}</td>
+							</tr>
+							</c:forEach>
+					</div>
 
 				<div class="memo">
 					<h2>메모</h2>

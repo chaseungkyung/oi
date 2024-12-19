@@ -41,8 +41,10 @@ public class RecordMealController {
 	        RecordMealDAO dao = new RecordMealDAO();
 	        ModelAndView mav = new ModelAndView("mealList");
 	        List<RecordMealDTO> mealList = dao.getMealListToday(memberId);
-	      
+	        List<RecordMealDTO> mealTotal = dao.getMealListByMemberId(memberId);
+	        
 	        mav.addObject("mealList", mealList);
+	        mav.addObject("mealTotal", mealTotal);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
