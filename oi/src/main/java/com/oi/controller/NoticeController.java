@@ -162,6 +162,7 @@ public class NoticeController {
 			mav.addObject("query", query);
 			mav.addObject("page", page);
 			mav.addObject("size", size);
+			mav.addObject("dto", dto);
 			
 			return mav;
 			

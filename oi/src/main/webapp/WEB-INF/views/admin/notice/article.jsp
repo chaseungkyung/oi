@@ -98,7 +98,7 @@
 				<table class="table table-borderless">
 					<tr>
 						<td width="50%"><c:choose>
-								<c:when test="${sesssinScope.member.memberId == dto.memberId }">
+								<c:when test="${sessionScope.member.userId == dto.memberId }">
 									<button type="button" class="btn btn-light"
 										onclick="location.href='${pageContext.request.contextPath}/admin/notice/update?noticeNum=${dto.noticeNum}&page=${page}&size=${size}';">수정</button>
 								</c:when>
