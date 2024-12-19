@@ -26,14 +26,12 @@
 		<div class="btn">
 			<div class="btn-record">
 				<button type="button" class="record"
-					onclick="location.href='${pageContext.request.contextPath}/recordmeal/mealmain';">식단기록</button>
+					onclick="location.href='${pageContext.request.contextPath}/recordmeal/mealmain';">식단 기록</button>
 				<button type="button" class="record"
-					onclick="location.href='${pageContext.request.contextPath}/todayworkout/main';">운동기록</button>
+					onclick="location.href='${pageContext.request.contextPath}/todayworkout/main';">운동 기록</button>
 			</div>
 
 			<div class="btn-other"><br>
-				<button type="button" class="btn2"
-					onclick="location.href= '${pageContext.request.contextPath}/calendar/putmeal' ">등록 모르겠다~</button>
 				<button type="button" class="btn2"
 					onclick="location.href='${pageContext.request.contextPath}/mypage/calendar/main'">TODAY</button>
 			</div>
@@ -41,7 +39,7 @@
 		
 		<div class="calendar1">
 			<div class= "ad-right" id="adbanner">
-				<a href="<%= adLink %>" target="_blank">
+				<a href="http://192.168.0.74:9090/ottss/main }" target="_blank">
    				 	<img src="${pageContext.request.contextPath}/resources/images/ad6.png" alt="광고 배너">
 				</a>
 			</div>

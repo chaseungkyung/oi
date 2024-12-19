@@ -12,6 +12,7 @@ import com.oi.dto.RecordMealDTO;
 import com.oi.mvc.annotation.Controller;
 import com.oi.mvc.annotation.RequestMapping;
 import com.oi.mvc.annotation.RequestMethod;
+import com.oi.mvc.annotation.ResponseBody;
 import com.oi.mvc.view.ModelAndView;
 
 import jakarta.servlet.ServletException;
@@ -32,15 +33,30 @@ public class RecordMealController {
 		
 		String today = String.format("%04d%02d%02d", year, month, date);
 		
+		HttpSession session = req.getSession();
+	    LoginDTO log = (LoginDTO) session.getAttribute("member");
+	    
+		try {
+			String memberId = log.getUserId();
+	        RecordMealDAO dao = new RecordMealDAO();
+	        ModelAndView mav = new ModelAndView("mealList");
+	        List<RecordMealDTO> mealList = dao.getMealListToday(memberId);
+	      
+	        mav.addObject("mealList", mealList);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		ModelAndView mav = new ModelAndView("recordmeal/recordmeal");
 		mav.addObject("today", today);
 		return mav;
 	
 	}
 	
-
+	@ResponseBody
 	@RequestMapping(value = "/recordmeal/mealList")
-	public ModelAndView mealList(HttpServletRequest req) {
+	public ModelAndView mealList(HttpServletRequest req, HttpServletResponse resp) {
 	    ModelAndView mav = new ModelAndView("mealList");
 	    HttpSession session = req.getSession();
 	    LoginDTO log = (LoginDTO) session.getAttribute("member");
@@ -51,6 +67,7 @@ public class RecordMealController {
 	        List<RecordMealDTO> mealList = dao.getMealListByMemberId(memberId);
 
 	        mav.addObject("mealList", mealList);
+	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        mav.addObject("error", "데이터를 불러오는 중 오류가 발생했습니다.");
@@ -59,7 +76,7 @@ public class RecordMealController {
 	    return mav;
 	}
 		
-		
+	@ResponseBody
 	@RequestMapping(value = "/recordmeal/mealinsert" , method =  RequestMethod.POST)
 	public Map<String, Object> mealinsert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		

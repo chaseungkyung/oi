@@ -1,29 +1,29 @@
 function mealInsertOk() {
     const f = document.mealForm;
-	    const mealTime = f.mealTime.value.trim();
-    if (!mealTime) {
+	    const dietFoodTime = f.dietFoodTime.value.trim();
+    if (! dietFoodTime) {
         alert("식사 시간을 선택하세요");
         return;
     }
-	    const mealName = f.mealName.value.trim();
-    if (!mealName) {
+	    const dietFoodName = f.dietFoodName.value.trim();
+    if (! dietFoodName) {
         alert("식단 이름을 입력해주세요");
         return;
     }
-	const mealDate = f.mealDate.value.trim();
-    const mealCapacity = f.mealCapacity.value.trim();
-    const mealKcal = f.mealKcal.value.trim();
+	const dietFoodDate = f.dietFoodDate.value.trim();
+    const capacity = f.capacity.value.trim();
+    const kcal = f.kcal.value.trim();
 
-    if (!mealDate ||  !mealCapacity || !mealKcal) {
+    if (! dietFoodDate ||  ! capacity || ! kcal) {
         alert("모든 필드를 입력해주세요.");
         return;
     }
 	    
-    console.log("Meal Time: ", mealTime);
-    console.log("Meal Name: ", mealName);
-    console.log("Meal Date: ", mealDate);
-    console.log("Meal Capacity: ", mealCapacity);
-    console.log("Meal Kcal: ", mealKcal);
+    console.log("Meal Time: ", dietFoodTime);
+    console.log("Meal Name: ", dietFoodName);
+    console.log("Meal Date: ", dietFoodDate);
+    console.log("Meal Capacity: ", capacity);
+    console.log("Meal kcal: ", kcal);
 	
 	let url = '/oi/recordmeal/mealinsert';
 	
@@ -32,25 +32,40 @@ function mealInsertOk() {
         url: url,
         type: 'POST',
         data: {
-            dietFoodTime: mealTime,
-            dietFoodName: mealName,
-            dietFoodDate: mealDate,
-            capacity: mealCapacity,
-            kcal: mealKcal
+            dietFoodTime: dietFoodTime,
+            dietFoodName: dietFoodName,
+            dietFoodDate: dietFoodDate,
+            capacity: capacity,
+            kcal: kcal
         },
 		dataType: 'json',
-        success: function(response) {
-            if (response.state === "true") {
+        success: function(data) {
+            if (data.state === "true") {
                 alert("식단이 등록되었습니다.");
                 closeModal(); 
+				
 				$.ajax({
 				    url: '/oi/recordmeal/mealList',
 				    type: 'GET',
-				    dataType: 'html',
+				    dataType: 'json',
 				    success: function(data) {
-				        $('#calendarBody').html($(data).find('#calendarBody').html());
-				        // 'calendarBody'는 출력할 테이블 ID에 맞게 수정
-				    },
+						const mealList = data.mealList;
+				        const $table = $('#mealTable');
+						
+						$table.find('tr:gt(0)').remove(); 
+						
+						let text;
+						mealList.forEach(meal => {
+							text += `<tr>`;
+							text += `<td>${meal.dietFoodUnit}</td>`;
+							text += `<td>${meal.dietFoodDate}</td>`;
+							text += `<td>${meal.dietFoodName}</td>`;
+							text += `<td>${meal.capacity}</td>`;
+							text += `<td>${meal.kcal}</td>`;
+							text += `</tr>`;
+							$table.append(text);
+				    });
+					},
 				    error: function(err) {
 				        console.error("리스트 갱신 실패: ", err);
 				    }
@@ -108,6 +123,7 @@ function ajaxFun(url, method, formData, dataType, fn, file = false) {
 	$.ajax(url, settings);
 }
 
+// API
 $(function(){
 	$('.btn-search').click(function(){
 	let kwd = $('#keyword').val().trim();
