@@ -30,19 +30,43 @@
             background-repeat : no-repeat;
             background-size : cover;
         }
-        .img-grid img {
-            width: 100px; /* 원하는 이미지 너비 */
-            height: 100px; /* 원하는 이미지 높이 */
-            object-fit: cover; /* 이미지 비율을 유지하면서 잘 맞게 자름 */
-            margin: 5px; /* 이미지 간의 여백 */
-            border: 1px solid #ddd; /* 테두리 추가 */
-            border-radius: 8px; /* 둥근 모서리 */
-            cursor: pointer; /* 마우스 커서 변경 */
+        .img-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 65px);
+            grid-gap: 5px;
+        }
+
+        .img-grid .item {
+            object-fit: cover; /* 가로세로 비율은 유지하면서 컨테이너에 꽉 차도록 설정 */
+            width: 65px;
+            height: 65px;
+            cursor: pointer;
+        }
+
+        .img-box {
+            max-width: 600px;
+
+            box-sizing: border-box;
+            display: flex; /* 자손요소를 flexbox로 변경 */
+            flex-direction: row; /* 정방향 수평나열 */
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+        .img-box img {
+            width: 65px; height: 65px;
+            margin-right: 5px;
+            flex: 0 0 auto;
+            cursor: pointer;
         }
 
     </style>
 
     <script type="text/javascript">
+        window.onload = function () {
+            document.getElementById("childCategory").disabled = false;
+
+        }
+
         function sendOk() {
             const f = document.photoForm;
             let str;
@@ -62,32 +86,51 @@
             }
 
             let mode = '${mode}';
-            if ((mode === 'write') && (!f.selectFile.value)) {
+            if ((mode === 'registration') && (!f.selectFile.value)) {
                 alert('이미지 파일을 추가 하세요. ');
                 f.selectFile.focus();
                 return;
             }
 
+
+            f.action = '${pageContext.request.contextPath}/marketplace/${mode}';
+            f.submit();
+
+            <%--수정해야함--%>
             <c:if test="${mode=='update'}">
-<%--수정해야함--%>
+
             function deleteFile(fileNum) {
                 if (!confirm('이미지를 삭제 하시겠습니까 ? ')) {
                     return;
                 }
 
-                let query = 'num=${dto.num}&fileNum=' + fileNum + '&page=${page}';
-                let url = '${pageContext.request.contextPath}/album/deleteFile?' + query;
+                let query = 'num=${dto.goodsListNum}&fileNum=' + fileNum + '&page=${page}';
+                let url = '${pageContext.request.contextPath}/marketplace/deleteFile?' + query;
                 location.href = url;
             }
 
             </c:if>
             // 자식카테고리 활성화
-            document.getElementById("childCategory").disabled = false;
 
-            f.action = 'registration';
+
+            // f.action = 'registration';
             console.log(f.action)
-            f.submit();
+            // f.submit();
         }
+
+        <c:if test="${mode=='update'}">
+
+        function deleteFile(fileNum) {
+            if (!confirm('이미지를 삭제 하시겠습니까 ? ')) {
+                return;
+            }
+
+            let query = 'num=${dto.goodsListNum}&fileNum=' + fileNum + '&page=${page}';
+            let url = '${pageContext.request.contextPath}/marketplace/deleteFile?' + query;
+            location.href = url;
+        }
+
+        </c:if>
 
 
         // 카테고리 데이터 (ID, 이름, 부모 ID)
@@ -96,34 +139,34 @@
             {id: 2, name: "보호대", parentId: null},
             {id: 3, name: "회원권/e-ticket", parentId: null},
             {id: 4, name: "남성의류", parentId: null},
-            { id: 5, name: "여성의류", parentId: null },
-            { id: 6, name: "용품", parentId: null },
-            { id: 7, name: "단백질 보충제", parentId: 1 },
-            { id: 8, name: "비타민", parentId: 1 },
-            { id: 9, name: "부스터", parentId: 1 },
-            { id: 10, name: "스트랩", parentId: 2 },
-            { id: 11, name: "무릎/팔꿈치", parentId: 2 },
-            { id: 12, name: "리프팅벨트", parentId: 2 },
-            { id: 13, name: "횟수권", parentId: 3 },
-            { id: 14, name: "기간권", parentId: 3 },
-            { id: 15, name: "신발", parentId: 4 },
-            { id: 16, name: "상의", parentId: 4 },
-            { id: 17, name: "하의", parentId: 4 },
-            { id: 18, name: "레깅스", parentId: 4 },
-            { id: 19, name: "아우터", parentId: 4 },
-            { id: 20, name: "이너웨어", parentId: 4 },
-            { id: 21, name: "러닝라인", parentId: 4 },
-            { id: 22, name: "신발", parentId: 5 },
-            { id: 23, name: "상의", parentId: 5 },
-            { id: 24, name: "하의", parentId: 5 },
-            { id: 25, name: "레깅스", parentId: 5 },
-            { id: 26, name: "아우터", parentId: 5 },
-            { id: 27, name: "이너웨어", parentId: 5 },
-            { id: 28, name: "러닝라인", parentId: 5 },
-            { id: 29, name: "헬스용품", parentId: 6 },
-            { id: 30, name: "크로스핏 용품", parentId: 6 },
-            { id: 31, name: "필라테스/요가 용품", parentId: 6 },
-            { id: 32, name: "기타", parentId: null },
+            {id: 5, name: "여성의류", parentId: null},
+            {id: 6, name: "용품", parentId: null},
+            {id: 7, name: "단백질 보충제", parentId: 1},
+            {id: 8, name: "비타민", parentId: 1},
+            {id: 9, name: "부스터", parentId: 1},
+            {id: 10, name: "스트랩", parentId: 2},
+            {id: 11, name: "무릎/팔꿈치", parentId: 2},
+            {id: 12, name: "리프팅벨트", parentId: 2},
+            {id: 13, name: "횟수권", parentId: 3},
+            {id: 14, name: "기간권", parentId: 3},
+            {id: 15, name: "신발", parentId: 4},
+            {id: 16, name: "상의", parentId: 4},
+            {id: 17, name: "하의", parentId: 4},
+            {id: 18, name: "레깅스", parentId: 4},
+            {id: 19, name: "아우터", parentId: 4},
+            {id: 20, name: "이너웨어", parentId: 4},
+            {id: 21, name: "러닝라인", parentId: 4},
+            {id: 22, name: "신발", parentId: 5},
+            {id: 23, name: "상의", parentId: 5},
+            {id: 24, name: "하의", parentId: 5},
+            {id: 25, name: "레깅스", parentId: 5},
+            {id: 26, name: "아우터", parentId: 5},
+            {id: 27, name: "이너웨어", parentId: 5},
+            {id: 28, name: "러닝라인", parentId: 5},
+            {id: 29, name: "헬스용품", parentId: 6},
+            {id: 30, name: "크로스핏 용품", parentId: 6},
+            {id: 31, name: "필라테스/요가 용품", parentId: 6},
+            {id: 32, name: "기타", parentId: null},
         ];
 
         // 부모 카테고리 선택 시 자식 옵션 업데이트
@@ -169,17 +212,18 @@
 
             console.log("Child Category Value to Submit:", childSelect.value);
         }
-        $(function(){
+
+        $(function () {
             var sel_files = [];
 
-            $('.write-form').on('click', '.img-add', function(event){
+            $('.write-form').on('click', '.img-add', function (event) {
                 $('form[name=photoForm] input[name=selectFile]').trigger('click');
             });
 
-            $('form[name=photoForm] input[name=selectFile]').change(function(){
-                if(! this.files) {
+            $('form[name=photoForm] input[name=selectFile]').change(function () {
+                if (!this.files) {
                     let dt = new DataTransfer();
-                    for(let file of sel_files) {
+                    for (let file of sel_files) {
                         dt.items.add(file);
                     }
                     document.photoForm.selectFile.files = dt.files;
@@ -187,11 +231,11 @@
                     return false;
                 }
 
-                for(let file of this.files) {
+                for (let file of this.files) {
                     sel_files.push(file);
 
                     const reader = new FileReader();
-                    const $img = $('<img>', {class:'item img-item'});
+                    const $img = $('<img>', {class: 'item img-item'});
                     $img.attr('data-filename', file.name);
                     reader.onload = e => {
                         $img.attr('src', e.target.result);
@@ -202,29 +246,29 @@
                 }
 
                 let dt = new DataTransfer();
-                for(let file of sel_files) {
+                for (let file of sel_files) {
                     dt.items.add(file);
                 }
                 document.photoForm.selectFile.files = dt.files;
 
             });
 
-            $('.write-form').on('click', '.img-item', function(event) {
-                if(! confirm("선택한 파일을 삭제 하시겠습니까 ?")) {
+            $('.write-form').on('click', '.img-item', function (event) {
+                if (!confirm("선택한 파일을 삭제 하시겠습니까 ?")) {
                     return false;
                 }
 
                 let filename = $(this).attr('data-filename');
 
-                for(let i = 0; i < sel_files.length; i++) {
-                    if(filename === sel_files[i].name){
+                for (let i = 0; i < sel_files.length; i++) {
+                    if (filename === sel_files[i].name) {
                         sel_files.splice(i, 1);
                         break;
                     }
                 }
 
                 let dt = new DataTransfer();
-                for(let file of sel_files) {
+                for (let file of sel_files) {
                     dt.items.add(file);
                 }
                 document.photoForm.selectFile.files = dt.files;
@@ -248,8 +292,7 @@
                 return;
             }
 
-            input.value = new Intl.NumberFormat().format(value); // 3자리마다 쉼표 추가
-         // 3자리마다 쉼표 추가
+            // 3자리마다 쉼표 추가
             document.getElementById("priceInWords").textContent = convertToKoreanWon(value); // 한글 금액 변환
         }
 
@@ -296,7 +339,8 @@
                         <td>
                             <div class="img-grid">
 
-                                <img class="item img-add rounded" src="${pageContext.request.contextPath}/resources/images/add_photo.png"> </div>
+                                <img class="item img-add rounded" src="${pageContext.request.contextPath}/resources/images/add_photo.png">
+                            </div>
                                 <input type="file" id="selectFile" name="selectFile" accept="image/*" multiple="multiple" style="display: none;" class="form-control">
 
                         </td>
@@ -315,7 +359,6 @@
                         </tr>
                     </c:if>
 
-                    <!-- 카테고리 선택 -->
                     <tr>
                         <th scope="row" class="text-secondary">카테고리</th>
                         <td>
@@ -339,7 +382,7 @@
                     <tr>
                         <th scope="row" class="text-secondary">상품 명</th>
                         <td>
-                            <input type="text" id="subject" name="subject" class="form-control" value="${dto.goodsname}">
+                            <input type="text" id="subject" name="subject" class="form-control" value="${dto.goodsName}">
                         </td>
                     </tr>
 
@@ -353,6 +396,7 @@
                             <div id="priceInWords" style="margin-top: 8px; font-size: 14px; color: gray;"></div> <!-- 금액 표시 -->
                         </td>
                     </tr>
+
 
 
                     <!-- 작성자 명 -->
@@ -371,6 +415,8 @@
                         </td>
                     </tr>
                 </table>
+
+
                     <!-- 버튼 -->
                 <table class="table table-borderless">
                     <tr>
@@ -383,8 +429,8 @@
                                 ${mode=='update'?'수정취소':'등록취소'} &nbsp;<i class="bi bi-x"></i>
                             </button>
                             <c:if test="${mode=='update'}">
-                                <input type="hidden" name="num" value="${dto.num}">
-                                <input type="hidden" name="page"value="${page}">
+                                <input type="hidden" name="num" value="${dto.goodsListNum}">
+                                <input type="hidden" name="page" value="${page}">
                             </c:if>
                         </td>
                     </tr>

@@ -71,7 +71,7 @@
     <div class="container">
         <div class="body-container">
             <div class="body-title">
-                <h3><i class="bi bi-image"></i> 오이 거래 </h3>
+                <h3> 오이 거래 </h3>
             </div>
 
             <div class="body-main">
@@ -82,7 +82,7 @@
 <%--                        </p>--%>
                     </div>
                     <div class="col-auto">
-                        <button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/marketplace/registration';">사진올리기</button>
+                        <button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/marketplace/registration';">판매하기</button>
                     </div>
 
                 </div>
@@ -95,6 +95,7 @@
                                     <img src="${pageContext.request.contextPath}/uploads/photo/${dto.file.saveFileName[0]}">
                                 </div>
                                 <p class="item-title">${dto.goodsName}</p>
+                                <fmt:formatNumber value="${dto.goodsPrice}" type="number" groupingUsed="true" />원
                             </div>
                         </div>
                     </c:forEach>

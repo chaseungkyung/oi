@@ -29,8 +29,8 @@
             text-overflow: ellipsis;
         }
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+            font-family : 'Arial', sans-serif; !important;
+            background-color: #f8f9fa;!important;
         }
 
         .main-image img {
@@ -74,32 +74,52 @@
 
     <main class="container mt-4">
         <div class="row">
-            <!-- 이미지 슬라이더 -->
+
             <div class="col-md-6">
-                <div class="main-image mb-3">
-                    <img id="mainImg" src="https://via.placeholder.com/500" alt="상품 이미지" class="img-fluid rounded">
+                <div id="carouselExampleIndicators" class="carousel slide">
+                   <div class="carousel-indicators">
+                       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                   </div>
+
+                <div class="carousel-inner">
+                    <c:forEach var="dto" items="${listFile}" varStatus="status">
+                        <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+                                <img src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}"
+                                     class="d-block w-100 h-70 img-fluid rounded" style="max-height: 450px;" alt="상품 이미지">
+                        </div>
+                    </c:forEach>
+
                 </div>
-                <div class="thumbnail-images d-flex">
-                    <img src="https://via.placeholder.com/100" class="thumb-img me-2" onclick="changeImage(this)">
-                    <img src="https://via.placeholder.com/100" class="thumb-img me-2" onclick="changeImage(this)">
-                    <img src="https://via.placeholder.com/100" class="thumb-img me-2" onclick="changeImage(this)">
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
                 </div>
             </div>
+
+
 
             <!-- 상품 정보 -->
             <div class="col-md-6">
                 <h2 class="fw-bold">${dto.goodsName}</h2>
-                <p class="text-danger fs-4 fw-bold">${dto.goodsPrice}</p>
+                <p class="text-danger fs-4 fw-bold"><fmt:formatNumber value="${dto.goodsPrice}" type="number" groupingUsed="true" />원</p>
                 <p class="text-muted">작성자:${dto.memberId}</p>
                 <p class="mt-3">${dto.goodsExp}</p>
                 <i id="heartIcon" class="bi bi-suit-heart heart-icon fs-4 me-3" onclick="toggleHeart()"></i>
 <%--                <i class="bi bi-suit-heart-fill heart-icon fs-4 me-3"></i>--%>
-                <button class="btn btn-dark w-30 mb-2">댓글달기</button>
+
 
 
                 <c:choose>
                     <c:when test="${sessionScope.member.userId==dto.memberId}">
-                        <button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/album/update?num=${dto.goodsListNum}&page=${page}';">수정</button>
+                        <button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/marketplace/update?num=${dto.goodsListNum}&page=${page}';">수정</button>
                     </c:when>
                     <c:otherwise>
                         <button type="button" class="btn btn-light" disabled>수정</button>
@@ -117,6 +137,34 @@
 
             </div>
         </div>
+
+
+        <div class="reply">
+            <div class="form-header">
+                <span class="bold">댓글</span>
+                <span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요.</span>
+                <button id="toggleReplyBtn" type="button" class="btn btn-primary btn-outline-secondary btn-sm ms-3">댓글 숨기기</button>
+            </div>
+
+            <div id="replyContent">
+                <form name="replyForm" method="post">
+                    <table class="table table-borderless reply-form">
+                        <tr>
+                            <td><textarea class="form-control" name="content"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <button type="button" class="btn btn-light btnSendReply">댓글 등록</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+                <div id="listReply"></div>
+            </div>
+        </div>
+
+
 
         <!-- 관련 상품 추천 섹션 -->
         <section class="mt-5">
@@ -145,6 +193,19 @@
         </section>
     </main>
 <script type="text/javascript">
+    $(function () {
+        $('#toggleReplyBtn').click(function () {
+            const $replyContent = $('#replyContent');
+            if ($replyContent.is(':visible')) {
+                $replyContent.hide(); // 댓글 영역 숨기기
+                $(this).text('댓글 보기'); // 버튼 텍스트 변경
+            } else {
+                $replyContent.show(); // 댓글 영역 보이기
+                $(this).text('댓글 숨기기'); // 버튼 텍스트 변경
+            }
+        });
+    });
+
     function toggleHeart() {
         const heartIcon = document.getElementById("heartIcon");
         if (heartIcon.classList.contains("bi-suit-heart")) {
@@ -155,6 +216,199 @@
             heartIcon.classList.add("bi-suit-heart");
         }
     }
+    function login() {
+        location.href = '${pageContext.request.contextPath}/member/login'; //수정해야함
+    }
+    function ajaxFun(url, method, formData, dataType, fn, file=false) {
+        const settings = {
+
+            type: method,
+            data: formData,
+            dataType: dataType,
+            success: function(data) {
+                fn(data);
+            },
+            beforeSend: function(jqXHR) {
+                jqXHR.setRequestHeader('AJAX', true);
+            },
+            complete:function(){
+            },
+            error: function(jqXHR) {
+                if(jqXHR.status === 403) {
+                    login();
+                    return false;
+                } else if(jqXHR.status === 406 ){
+                    alert('요청 처리 실패');
+                    return false;
+                }
+                console.log(jqXHR.responseText);
+            }
+        };
+        if(file) {
+            settings.processData = false;
+            settings.contentType = false;
+
+        }
+        $.ajax(url, settings);
+    }
+
+    $(function (){
+        $('.btnSendReply').click(function (){
+            const $tb = $(this).closest('table');
+            let content = $tb.find('textarea').val().trim();
+            if (!content){
+                $tb.find('textarea').focus();
+                return false;
+            }
+            let num = ${dto.goodsListNum}; // 서버 값에서 goodsListNum을 받아옴
+            let url = '${pageContext.request.contextPath}/marketplace/insertReply';
+            let query = { num: num, content: content, parentNum: 0 };
+
+            const fn = function (data){
+                if (data.state==='true'){
+                    $tb.find('textarea').val('');
+                    listPage(1);
+                }else {
+                    alert("댓글 등록이 실패했습니다");
+                }
+            };
+            ajaxFun(url,'post',query,'json',fn);
+        })
+    })
+    $(function (){
+        listPage(1);
+    });
+    function listPage(page){
+        let url ='${pageContext.request.contextPath}/marketplace/listReply';
+        let query = 'num=${dto.goodsListNum}&pageNo='+page;
+        let selector = '#listReply';
+        const fn = function (data){
+            $(selector).html(data);
+        };
+        ajaxFun(url,'GET',query,'text',fn);
+    }
+    // 댓글별 답글 리스트
+    function listReplyAnswer(parentNum) {
+        let url = '${pageContext.request.contextPath}/marketplace/listReplyAnswer';
+        let query = 'parentNum=' + parentNum;
+        let selector = '#listReplyAnswer' + parentNum;
+
+        const fn = function (data) {
+            $(selector).html(data);
+        };
+
+        ajaxFun(url, 'get', query, 'text', fn);
+    }
+    // 댓글별 답글 개수
+    function countReplyAnswer(parentNum) {
+        let url = '${pageContext.request.contextPath}/marketplace/listReplyAnswer';
+        let query = 'parentNum=' + parentNum;
+
+        const fn = function (data) {
+            let count = data.count;
+            let selector = '#answerCount' + parentNum;
+            $(selector).html(count);
+        };
+        ajaxFun(url,'post',query,'json',fn);
+    }
+    // 답글 버튼
+    $(function () {
+        $('#listReply').on('click','.btnReplyAnswerLayout',function () {
+            let replyNum = $(this).attr('data-replyNum');
+            const $trAnswer = $(this).closest('tr').next();
+            let isVisible = $trAnswer.is(':visible');
+
+            if(isVisible){
+                $trAnswer.hide();
+            }else {
+                $trAnswer.show();
+
+                // 답글 리스트
+                listReplyAnswer(replyNum);
+
+                // 답글 개수
+                countReplyAnswer(replyNum);
+            }
+        });
+    });
+    //답글등록
+    $(function () {
+        $('#listReply').on('click','.btnSendReplyAnswer', function () {
+            let num = '${dto.goodsListNum}';
+            let replyNum = $(this).attr('data-replyNum');
+            const $td = $(this).closest('td');
+
+            let content = $td.find('textarea').val().trim();
+            if(! content ){
+                $td.find('textarea').focus();
+                return false;
+            }
+
+            let url = '${pageContext.request.contextPath}/marketplace/insertReply';
+            let formData = {num:num,content:content,parentNum:replyNum};
+
+            const fn = function (data) {
+                $td.find('textarea').val('');
+
+                if(data.state === 'true'){
+                    listReplyAnswer(replyNum);
+                    countReplyAnswer(replyNum);
+                }
+            };
+
+            ajaxFun(url,'post',formData,'json',fn);
+        });
+    });
+    // 댓글 삭제
+    $(function () {
+        $('#listReply').on('click','.deleteReply', function () {
+            if(! confirm('게시글을 삭제 하시겠습니까 ? ')){
+                return false;
+            }
+            let replyNum = $(this).attr('data-replyNum');
+            let page = $(this).attr('data-pageNo');
+
+            let url = '${pageContext.request.contextPath}/marketplace/deleteReply';
+            let query = 'replyNum='+replyNum;
+
+            const fn = function () {
+                listPage(page);
+            }
+
+            ajaxFun(url,'post',query,'json',fn);
+        });
+    });
+    // 댓글의 답글 삭제
+    $(function () {
+        $('#listReply').on('click','.deleteReplyAnswer', function () {
+            if(! confirm('게시글을 삭제 하시겠습니까 ? ')){
+                return false;
+            }
+            let replyNum = $(this).attr('data-replyNum');
+            let parentNum = $(this).attr('data-parentNum');
+
+            let url = '${pageContext.request.contextPath}/marketplace/deleteReply';
+            let query = 'replyNum='+replyNum;
+
+            const fn = function () {
+                listReplyAnswer(parentNum);
+                countReplyAnswer(parentNum);
+            }
+
+            ajaxFun(url,'post',query,'json',fn);
+        });
+    });
+
+
+    function deleteOk(){
+        if (confirm('게시글을 삭제 하시 겠습니까?')){
+            let query = 'num=${dto.goodsListNum}&page=${page}';
+            let url = '${pageContext.request.contextPath}/marketplace/delete?' + query;
+            location.href=url;
+        }
+    }
+
+
 </script>
 <footer>
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

@@ -4,9 +4,11 @@ import com.oi.dao.MarketDAO;
 import com.oi.dto.LoginDTO;
 import com.oi.dto.MarketDTO;
 import com.oi.dto.Marketfile;
+import com.oi.dto.ReplyDTO;
 import com.oi.mvc.annotation.Controller;
 import com.oi.mvc.annotation.RequestMapping;
 import com.oi.mvc.annotation.RequestMethod;
+import com.oi.mvc.annotation.ResponseBody;
 import com.oi.mvc.view.ModelAndView;
 import com.oi.util.*;
 import jakarta.servlet.ServletException;
@@ -17,9 +19,7 @@ import jakarta.servlet.http.Part;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -33,6 +33,7 @@ public class OimarketController {
     public ModelAndView writeForm(HttpServletRequest req , HttpServletResponse resp)throws ServletException, IOException{
         //글쓰기 폼
         ModelAndView mav = new ModelAndView("oimarket/write");
+        mav.addObject("mode","registration");
 
 
 
@@ -69,8 +70,7 @@ public class OimarketController {
             filedto.setSaveFileName(names);
             dto.setMemberId(login.getUserId());
             String childCategoryParam = req.getParameter("childCategory");
-            int childCategoryNum = Integer.parseInt(childCategoryParam);
-            dto.setCategoryNum(childCategoryNum);
+            dto.setCategoryNum( Integer.parseInt(childCategoryParam));
             String sb=null;
 
             sb=req.getParameter("subject");
@@ -167,18 +167,19 @@ e.printStackTrace();
 
 
 
-    @RequestMapping(value = "/marketplace/productupdate",method = RequestMethod.GET)
+    @RequestMapping(value = "/marketplace/update",method = RequestMethod.GET)
     public ModelAndView updategoods(HttpServletRequest req , HttpServletResponse resp)throws ServletException, IOException{
-
+//수정폼
         MarketDAO dao = new MarketDAO();
         HttpSession  session = req.getSession();
         //넘어올 파라미터 : 페이지
-//        SessionInfo info =  (SessionInfo) session.getAttribute("member");
+        LoginDTO info = (LoginDTO) session.getAttribute("member");
+
         String page= req.getParameter("page");
 
         try {
-            long goodslistnum = Long.parseLong(req.getParameter("GoodsListNum"));
-            MarketDTO dto =  dao.findById(goodslistnum);
+            long GoodsListNum = Long.parseLong(req.getParameter("num"));
+            MarketDTO dto =  dao.findById(GoodsListNum);
             if (dto ==null){
                 return new ModelAndView("redirect:/marketplace/main?page="+page);
             }
@@ -187,7 +188,7 @@ e.printStackTrace();
 //            if (!dto.getMemberId().equals(info.getMemberId())){
 //                return new ModelAndView("redirect:/marketplace/main?page="+page);
 //            }
-            List<MarketDTO> listFile = dao.listMarketFile(goodslistnum);
+            List<MarketDTO> listFile = dao.listMarketFile(GoodsListNum);
 
             ModelAndView mav = new ModelAndView("oimarket/write");
             mav.addObject("dto",dto);
@@ -213,7 +214,7 @@ e.printStackTrace();
     }
 
     //수정 제출
-    @RequestMapping(value = "/marketplace/productupdate",method = RequestMethod.POST)
+    @RequestMapping(value = "/marketplace/update",method = RequestMethod.POST)
     public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp)throws ServletException,IOException{
         MarketDAO dao = new MarketDAO();
         HttpSession session = req.getSession();
@@ -225,7 +226,10 @@ e.printStackTrace();
 
         try {
             MarketDTO dto = new MarketDTO();
-            dto.setGoodsListNum(Long.parseLong(req.getParameter("GoodsListNum")));
+            System.out.println(req.getParameter("childCategory"));
+
+            dto.setCategoryNum(Integer.parseInt(req.getParameter("childCategory")));
+            dto.setGoodsListNum(Long.parseLong(req.getParameter("num")));
             dto.setGoodsPrice(Integer.parseInt(req.getParameter("price")));
             dto.setGoodsName(req.getParameter("subject"));
             dto.setGoodsExp(req.getParameter("content"));
@@ -243,14 +247,14 @@ e.printStackTrace();
         }
 
 
-        return null;
+        return new ModelAndView("redirect:/marketplace/main?page="+page);
     }
 
 
 
     //글보기
-    @RequestMapping(value = "/marketplace/article", method = RequestMethod.GET)
-    public ModelAndView articlegoods(HttpServletRequest req , HttpServletResponse resp) throws ServletException,IOException {
+    @RequestMapping(value = "/marketplace/article",method = RequestMethod.GET)
+    public ModelAndView articlegoods(HttpServletRequest req , HttpServletResponse resp)throws ServletException,IOException{
         HttpSession session = req.getSession();
         LoginDTO info = (LoginDTO) session.getAttribute("member");
         MarketDAO dao = new MarketDAO();
@@ -261,7 +265,7 @@ e.printStackTrace();
             if (dto ==null){
                 return new ModelAndView("redirect:/marketplace/main?page="+page);
             }
-//            dto.setGoodsExp(dto.getGoodsExp().replaceAll("\n","<br>"));
+            dto.setGoodsExp(dto.getGoodsExp().replaceAll("\n","<br>"));
 
             List<MarketDTO> listFile = dao.listMarketFile(goodsListNum);
 
@@ -281,6 +285,179 @@ e.printStackTrace();
        return  new ModelAndView("redirect:/marketplace/main?page="+page);
 
 }
+
+@RequestMapping(value = "/marketplace/deleteFile")
+public ModelAndView deleteFile(HttpServletRequest req,HttpServletResponse resp)throws ServletException,IOException{
+        //수정에서 파일만 삭제
+    MarketDAO  dao= new MarketDAO();
+    HttpSession session = req.getSession();
+    LoginDTO info = (LoginDTO) session.getAttribute("member");
+    FileManager fileManager =new FileManager();
+
+    //파일 저장 경로
+    String root = session.getServletContext().getRealPath("/");
+    String pathname = root + "uploads" + File.separator + "photo";
+
+    String page = req.getParameter("page");
+
+    try {
+        long num = Long.parseLong(req.getParameter("num"));
+        long fileNum = Long.parseLong(req.getParameter("fileNum"));
+
+        MarketDTO dto = dao.findById(num);
+
+        if (dto == null){
+            return new ModelAndView("redirect:/marketplace/main?page="+page);
+        }
+
+        if (!info.getUserId().equals(dto.getMemberId())){
+            return new ModelAndView("redirect:/marketplace/main?page="+page);
+        }
+
+        MarketDTO vo = dao.findByFileId(fileNum);
+        if (vo != null){
+            fileManager.doFiledelete(pathname,vo.getImageFilename());
+            dao.deleteMarketFile("one",fileNum);
+        }
+        return new ModelAndView("redirect:/marketplace/update?num="+num+"&page="+page);
+
+
+    }catch (Exception e){
+        e.printStackTrace();
+    }
+
+
+    return  new ModelAndView("redirect:/marketplace/main?page="+page);
+
+}
+
+      @RequestMapping(value = "/marketplace/delete")
+      public ModelAndView delete(HttpServletRequest req,HttpServletResponse resp)throws ServletException,IOException{
+        //삭제 완료
+          MarketDAO dao = new MarketDAO();
+          HttpSession session = req.getSession();
+          LoginDTO info = (LoginDTO) session.getAttribute("member");
+          FileManager fileManager=new FileManager();
+
+          //파일 저장 경로
+          String root = session.getServletContext().getRealPath("/");
+          String pathname = root + "uploads" + File.separator + "photo";
+
+          String page = req.getParameter("page");
+
+          try {
+              long  num = Long.parseLong(req.getParameter("num"));
+              MarketDTO dto = dao.findById(num);
+              if (dto==null){
+                  return new ModelAndView("redirect:/marketplace/main?page="+page);
+              }
+              //게시물을 올린 사용자가 아니면
+              if (!info.getUserId().equals(dto.getMemberId())){
+                  return new ModelAndView("redirect:/marketplace/main?page="+page);
+              }
+              //이미지 파일 지우기
+              List<MarketDTO> listFile =dao.listMarketFile(num);
+              for (MarketDTO vo : listFile){
+                  fileManager.doFiledelete(pathname,vo.getImageFilename());
+
+              }
+              dao.deleteMarketFile("all",num);
+
+              //테이블 데이터 삭제
+              dao.deletephoto(num);
+              dao.deletegoods(num);
+
+          }catch (Exception e){
+              e.printStackTrace();
+          }
+
+        return new ModelAndView("redirect:/marketplace/main?page="+page);
+      }
+
+      @ResponseBody
+      @RequestMapping(value = "/marketplace/insertReply",method = RequestMethod.POST)
+     public Map<String,Object> insertReply(HttpServletRequest req,HttpServletResponse resp)throws ServletException{
+          Map<String, Object> model = new HashMap<String, Object>();
+          String state = "false";
+          MarketDAO dao = new MarketDAO();
+          HttpSession session = req.getSession();
+          try {
+              LoginDTO info = (LoginDTO) session.getAttribute("member");
+              ReplyDTO dto = new ReplyDTO();
+
+              dto.setNum(Long.parseLong(req.getParameter("num")));
+              dto.setContent(req.getParameter("content"));
+              dto.setParentNum(Long.parseLong(req.getParameter("parentNum")));
+
+              dto.setUserId(info.getUserId());
+
+              dao.insertReply(dto);
+              state="true";
+
+
+
+
+          }catch (Exception e){
+              e.printStackTrace();
+          }
+
+          model.put("state",state);
+
+          return model;
+
+      }
+
+      @RequestMapping(value = "/marketplace/listReply",method = RequestMethod.GET)
+      public ModelAndView listReply(HttpServletRequest req, HttpServletResponse resp)throws ServletException,IOException{
+        MarketDAO dao = new MarketDAO();
+        MyUtil util = new MyUtilBootstrap();
+        HttpSession session = req.getSession();
+        LoginDTO info = (LoginDTO) session.getAttribute("member");
+
+        try {
+            long num = Long.parseLong(req.getParameter("num"));
+            String pageNo= req.getParameter("pageNo");
+            int current_page=1;
+            if (pageNo != null) {
+                current_page = Integer.parseInt(pageNo);
+            }
+
+            int size = 5;
+            int total_page = 0;
+            int replyCount = 0;
+
+            replyCount = dao.dataCountReply(num);
+            total_page = util.pageCount(replyCount, size);
+            if (current_page > total_page)
+                current_page = total_page;
+
+            int offset = (current_page - 1) * size;
+            if (offset < 0)
+                offset = 0;
+
+            List<ReplyDTO> list = dao.listReply(num, offset, size);
+
+            for (ReplyDTO dto : list) {
+                dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+            }
+            String paging = util.pagingMethod(current_page,total_page,"listPage");
+            ModelAndView mav = new ModelAndView("oimarket/listReply");
+
+            mav.addObject("listReply",list);
+            mav.addObject("pageNo", current_page);
+            mav.addObject("replyCount", replyCount);
+            mav.addObject("total_page", total_page);
+            mav.addObject("paging", paging);
+
+return mav;
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.sendError(406);
+            throw e;
+        }
+
+
+      }
 
 
 
