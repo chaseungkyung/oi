@@ -130,5 +130,24 @@ public class RecordMealDAO {
 
 		return mealList;
 	}
-
+	
+	
+	
+	public void deleteMeal(int dietFoodNum) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql = "DELETE FROM mealrecord WHERE dietFoodNum = ? ";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dietFoodNum);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
 }
+	
+	

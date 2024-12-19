@@ -40,7 +40,7 @@
 		<div class="calendar1">
 			<div class= "ad-right" id="adbanner">
 				<a href="http://192.168.0.74:9090/ottss/main }" target="_blank">
-   				 	<img src="${pageContext.request.contextPath}/resources/images/ad6.png" alt="광고 배너">
+   				 	<img src="${pageContext.request.contextPath}/resources/images/ad7.gif" alt="광고 배너">
 				</a>
 			</div>
 			<div class="title">
@@ -87,9 +87,6 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
-		<div class="btn-right">
-			<button type="button" class="btn" onclick="">전체 삭제</button>
 		</div>
 	</main>
 

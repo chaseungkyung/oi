@@ -115,16 +115,24 @@ public class RecordMealController {
 		return model;
 	}
 	
-	
-	@RequestMapping(value = "/recordmeal/mealupdate")
-	public ModelAndView mealupdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		return new ModelAndView("recordmeal/");
+	@ResponseBody
+	@RequestMapping(value = "/recordmeal/mealdelete", method =RequestMethod.GET)
+	public ModelAndView mealdelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ModelAndView mav = new ModelAndView("redirect:/recordmeal/mealmain");
+			
+		RecordMealDAO dao = new RecordMealDAO();
+		
+		try {
+			int dietFoodNum = Integer.parseInt(req.getParameter("dietFoodNum"));
+			dao.deleteMeal(dietFoodNum);
+			
+			
+		} catch (Exception e) {
+		}
+		
+		return mav;
 	}
 	
-	@RequestMapping(value = "/recordmeal/mealdelete")
-	public ModelAndView mealdelete(HttpServletRequest req, HttpServletResponse resp)  throws ServletException, IOException {
-		return new ModelAndView("recordmeal/");
-	}
-	
+
 	
 }
