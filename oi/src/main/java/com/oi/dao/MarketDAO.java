@@ -2,6 +2,7 @@ package com.oi.dao;
 
 import com.oi.dto.MarketDTO;
 import com.oi.dto.Marketfile;
+import com.oi.dto.ReplyDTO;
 import com.oi.util.DBConn;
 import com.oi.util.DBUtil;
 import oracle.jdbc.proxy.annotation.Pre;
@@ -60,6 +61,34 @@ public class MarketDAO {
 return result;
 
     }
+
+    //상품삭제
+    public void deletegoods(long num)throws SQLException{
+PreparedStatement pstmt = null;
+String sql;
+try {
+    conn.setAutoCommit(false);
+    sql="DELETE FROM GOODSCOMMENT WHERE  GOODSLISTNUM=?";
+    pstmt=conn.prepareStatement(sql);
+         pstmt.setLong(1,num);
+            pstmt.executeUpdate();
+            pstmt=null;
+
+    sql="DELETE FROM GOODS WHERE GOODSLISTNUM=?";
+    pstmt=conn.prepareStatement(sql);
+    pstmt.setLong(1,num);
+    pstmt.executeUpdate();
+}catch (SQLException e){
+    e.printStackTrace();
+    throw e;
+}finally {
+    conn.setAutoCommit(true);
+    DBUtil.close(pstmt);
+}
+    }
+
+
+
 public int dataCount(){
         int result = 0;
         PreparedStatement pstmt = null;
@@ -130,7 +159,7 @@ return list;
                 list.add(rs.getString("GPName"));
                 dto.getFile().setSaveFileName(list.toArray(new String[0]));
             }
-            
+
         }catch (Exception e){
             e.printStackTrace();
         }finally {
@@ -211,6 +240,7 @@ return dto;
              dto.setGoodsListNum(rs.getLong("GPlistnum"));
              dto.setImageFilename(rs.getString("Gpname"));
              list.add(dto);
+
          }
 
         }catch (SQLException e){
@@ -220,6 +250,7 @@ return dto;
         }
         return list;
     }
+
 
         public void updategoods(MarketDTO dto)throws SQLException{
             PreparedStatement pstmt = null;
@@ -262,11 +293,136 @@ return dto;
         }
 
 
+        public void deleteMarketFile(String mode, long num)throws SQLException{
+        PreparedStatement pstmt = null;
+        String sql;
+        try {
+            if (mode.equals("all")){
+                sql="DELETE  FROM GOODSPHOTO WHERE GPLISTNUM=? ";
+            }else {
+                sql="DELETE FROM GOODSPHOTO WHERE GPNUM=?";
+            }
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1,num);
+            pstmt.executeUpdate();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            throw  e;
+        }finally {
+            DBUtil.close(pstmt);
+        }
+        }
+
+        public void deletephoto(long num) throws SQLException{
+        PreparedStatement pstmt = null;
+        String sql;
+        try {
+            sql="DELETE FROM GOODSPHOTO WHERE GPLISTNUM=?";
+            pstmt=conn.prepareStatement(sql);
+            pstmt.setLong(1,num);
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            DBUtil.close(pstmt);
+        }
+        }
+
+//게시글의 답글 및 답글저장
+    public void insertReply(ReplyDTO dto)throws SQLException{
+        PreparedStatement pstmt =null;
+        String sql;
+        try {
+            sql="INSERT INTO" +
+                    "    GOODSCOMMENT(gcnum, memberid, goodslistnum, postcatenum, gcparcomnum, gccomcon, gcinsertnum, gcupdatenum, gcblind)" +
+                    " VALUES (SEQ_GOODSCOMMENT.nextval,?,?,31,?,?,SYSDATE,SYSDATE,0)";
+            pstmt=conn.prepareStatement(sql);
+            pstmt.setString(1,dto.getUserId());
+
+            pstmt.setLong(2,dto.getNum());
+            pstmt.setLong(3,dto.getParentNum());
+            pstmt.setString(4,dto.getContent());
+            pstmt.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+
+        }finally {
+            DBUtil.close(pstmt);
+        }
+
+    }
+    public int dataCountReply (long num ) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql;
+        try {
+            sql = "SELECT COUNT(*) FROM GOODSCOMMENT WHERE goodslistnum = ? AND gcparcomnum = 0 AND gcblind = 0";
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setLong(1, num);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()) result = rs.getInt(1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(rs);
+            DBUtil.close(pstmt);
+        }
+        return result;
+    }
+   public List<ReplyDTO> listReply(long num,int offset,int size){
+        List<ReplyDTO> list = new ArrayList<ReplyDTO>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StringBuilder sb = new StringBuilder();
 
 
 
+        try {
+            sb.append(" SELECT r.gcnum,r.memberid,m.NickName,goodslistnum,gccomcon, r.gcinsertnum,NVL(answerCount,0) answerCount  ");
+            sb.append("    FROM GOODSCOMMENT r ");
+            sb.append("     JOIN member m ON r.MEMBERID = m.MEMBERID  ");
+            sb.append("   Left OUTER JOIN (  ");
+            sb.append("   SELECT gcparcomnum,COUNT(*) answerCount ");
+            sb.append("    FROM GOODSCOMMENT ");
+            sb.append("    WHERE GCPARCOMNUM !=0 ");
+            sb.append(" GROUP BY gcparcomnum ");
+            sb.append("   ) a ON r.GCNUM = a.GCPARCOMNUM ");
+            sb.append("   WHERE  GOODSLISTNUM=? AND r.GCPARCOMNUM =0 AND r.GCBLIND=0 ");
+            sb.append("     ORDER BY  r.GCNUM DESC ");
+            sb.append("   OFFSET   ? ROWS FETCH FIRST ? ROWS ONLY ");
+
+         pstmt= conn.prepareStatement(sb.toString());
+         pstmt.setLong(1,num);
+         pstmt.setInt(2,offset);
+         pstmt.setInt(3,size);
+
+         rs = pstmt.executeQuery();
+         while (rs.next()){
+             ReplyDTO dto = new ReplyDTO();
+             dto.setGcNum(rs.getLong("gcnum"));
+             dto.setUserId(rs.getString("memberId"));
+             dto.setUserName(rs.getString("NickName"));
+             dto.setNum(rs.getLong("goodslistnum"));
+             dto.setContent(rs.getString("gccomcon"));
+             dto.setReg_date(rs.getString("gcinsertnum"));
+             list.add(dto);
+         }
 
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(rs);
+            DBUtil.close(pstmt);
+        }
+       return list;
+   }
 
 
 
