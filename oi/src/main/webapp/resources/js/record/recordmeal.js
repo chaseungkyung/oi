@@ -54,10 +54,10 @@ function mealInsertOk() {
 						
 						$table.find('tr:gt(0)').remove(); 
 						
-						let text;
-						mealList.forEach(meal => {
+						let text = "";
+						mealList.forEach((meal,index) => {
 							text += `<tr>`;
-							text += `<td>${meal.dietFoodUnit}</td>`;
+							text += `<td>${meal.dietFoodTime}</td>`;
 							text += `<td>${meal.dietFoodDate}</td>`;
 							text += `<td>${meal.dietFoodName}</td>`;
 							text += `<td>${meal.capacity}</td>`;
@@ -94,8 +94,8 @@ function openModal(mealType) {
 
 function closeModal() {
 	document.getElementById('mealModal').style.display = 'none';
-	document.getElementById('mealTime').value = "";
-	document.getElementById('mealName').value = "";
+	//document.getElementById('mealTime').value = "";
+	//document.getElementById('mealName').value = "";
 }
 
 function ajaxFun(url, method, formData, dataType, fn, file = false) {

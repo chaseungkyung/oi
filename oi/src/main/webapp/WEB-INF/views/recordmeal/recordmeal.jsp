@@ -102,17 +102,17 @@
 				<div class="modal-content">
 					<h3>식단 추가</h3>
 					<input type="hidden" name="content" id="mealNum"> 
-					<select name="mealTime" class="form-select">
+					<select name="dietFoodTime" class="form-select">
 						<option value="">선 택</option>
 						<option value="아침">아침</option>
 						<option value="점심">점심</option>
 						<option value="저녁">저녁</option>
 					</select> 
-						<input type="text" name="content" id="mealName" placeholder="메뉴명"> 
-						<input type="text" name="content" id="mealDate" placeholder="일자(20241220)"> 
-						<input type="text" name="content" id="mealCapacity" placeholder="용량(g)"> 
-						<input type="text" name="content" id="mealKcal" placeholder="칼로리(Kcal)">
-					<button class="mealinsertbtn" id="mealinsertbtn" onclick="mealInsertOk()">등록</button>
+						<input type="text" name="dietFoodName" id="mealName" placeholder="메뉴명"> 
+						<input type="text" name="dietFoodDate" id="mealDate" placeholder="일자(20241220)"> 
+						<input type="text" name="capacity" id="mealCapacity" placeholder="용량(g)"> 
+						<input type="text" name="kcal" id="mealKcal" placeholder="칼로리(Kcal)">
+					<button class="mealinsertbtn" type="button" id="mealinsertbtn" onclick="mealInsertOk()">등록</button>
 					<button class="mealinsertbtn" onclick="closeModal()">취소</button>
 				</div>
 			</div>

@@ -1,5 +1,4 @@
 
-
 var cp = "/oi";
 var $sensor = document.querySelector('#sensor');
 var $contentcover = document.querySelector('#wtdmaincontent');

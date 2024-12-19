@@ -55,9 +55,9 @@ public class RecordMealController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/recordmeal/mealList")
-	public ModelAndView mealList(HttpServletRequest req, HttpServletResponse resp) {
-	    ModelAndView mav = new ModelAndView("mealList");
+	@RequestMapping(value = "/recordmeal/mealList", method = RequestMethod.GET)
+	public Map<String, Object> mealList(HttpServletRequest req, HttpServletResponse resp) {
+		Map<String, Object> model = new HashMap<String, Object>();
 	    HttpSession session = req.getSession();
 	    LoginDTO log = (LoginDTO) session.getAttribute("member");
 
@@ -66,14 +66,14 @@ public class RecordMealController {
 	        RecordMealDAO dao = new RecordMealDAO();
 	        List<RecordMealDTO> mealList = dao.getMealListByMemberId(memberId);
 
-	        mav.addObject("mealList", mealList);
+	        model.put("mealList", mealList);
 	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        mav.addObject("error", "데이터를 불러오는 중 오류가 발생했습니다.");
+	        model.put("error", "데이터를 불러오는 중 오류가 발생했습니다.");
 	    }
 
-	    return mav;
+	    return model;
 	}
 		
 	@ResponseBody
