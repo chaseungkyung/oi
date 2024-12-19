@@ -79,13 +79,32 @@ public class LoginDAO {
 			
 			ps.setString(1, dto.getUserid());
 			ps.setString(2, dto.getPwd());
-			ps.setString(3, dto.getUsername());
+			ps.setString(3, dto.getNickname());
+			
+			ps.executeUpdate();
+			
+			ps = null;
+			
+			sql = "INSERT INTO memberDetails (memberId,birth,email,address,addressnum,name) VALUES (?,TO_DATE(?,'YYYY-MM-DD'),?,?,?,?)";
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, dto.getUserid());
+			ps.setString(2, dto.getDob());
+			ps.setString(3, dto.getEmail());
+			ps.setString(4, dto.getAddress());
+			ps.setInt(5, dto.getAddressnum());
+			ps.setString(6, dto.getUsername());
+			
+			ps.executeUpdate();
 			
 			conn.commit();
+			
 		} catch (SQLException e) {
 			try {
 				conn.rollback();
 			} catch (Exception e2) {
+				e2.printStackTrace();
 			}
 			e.printStackTrace();
 			throw e;

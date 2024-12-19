@@ -80,7 +80,7 @@ public class LoginController {
 	
 	@RequestMapping(value="/access/register" , method = RequestMethod.POST)
 	public ModelAndView registerSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("redirect:/main");
+		ModelAndView mav = new ModelAndView("redirect:/access/login");
 		
 		RegisterDTO dto = new RegisterDTO();
 		StringBuilder tel = new StringBuilder();
@@ -89,6 +89,7 @@ public class LoginController {
 		
 		try {
 			dto.setUsername(req.getParameter("username"));
+			dto.setNickname(req.getParameter("nickname"));
 			dto.setPwd(req.getParameter("password"));
 			dto.setDob(req.getParameter("dob"));
 			
@@ -108,8 +109,6 @@ public class LoginController {
 				address.append(req.getParameter("address2"));
 			}
 			dto.setAddress(address.toString());
-			
-			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

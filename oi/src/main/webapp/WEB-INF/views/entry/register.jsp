@@ -33,7 +33,6 @@
 				<div class="nickname-input">
 					<input type="text" id="nickname" name="nickname"
 						placeholder="닉네임을 입력하세요" required>
-					<button type="button" id="checkNicknameBtn" class="checbtn">중복검사</button>
 				</div>
 				<small id="nicknameFeedback" class="feedback" data-valid="false"></small>
 			</div>
@@ -53,7 +52,7 @@
 			<div class="form-group">
 				<label for="password">비밀번호</label> <input type="password"
 					id="password" name="password" placeholder="비밀번호를 입력하세요" required>
-				<div class="feedback" id="password-feedback">비밀번호는 최소 8자 이상이어야
+				<div class="feedback" id="password-feedback">비밀번호는 영어와 숫자만 가능하며, 최소 8자 이상, 12자 이하 이어야
 					합니다.</div>
 			</div>
 

@@ -1,6 +1,8 @@
 var cp = "/oi";
 
 $(function() {
+	let $form = document.signupForm;
+	
 	// 이메일 도메인 선택시 change 이벤트 등록 해땅
 	const domain = document.querySelector('#emailDomain');
 	$(domain).change(function() {
@@ -14,46 +16,17 @@ $(function() {
 			$(obj).prev().prop('readonly', false);
 		}
 	});
+	
+	// 아이디 입력칸에 이벤트 등록 
+	const idinput = $form.userid;
 
+	idinput.addEventListener('change',function(){
+		$('#idFeedback').attr('data-valid', "false");
+	});
+	
 	// 아이디 중복검사
 	const idbtn = document.querySelector('.checkbtn');
-	$(idbtn).each( function(index,item){
-			let text = $(this).prev().val();
-			let url = cp + '/access/idcheck';
-
-			if (!idtext) {
-				$(this).prev().focus();
-				return false;
-			}
-
-			$.ajax({
-				type: 'get',
-				url: url,
-				data: { id: text },
-				dataType: 'json',
-				success: function(data) {
-					$('#idFeedback').html(data.state);
-					if (data.result == 'true') {
-						$('#idFeedback').attr('data-valid', "true");
-						document.getElementById('idFeedback').style.color = "blue";
-						$('#idFeedback').show();
-					} else {
-						$('#idFeedback').attr('data-valid', "false");
-						$('#idFeedback').css('color', 'red').show();
-					}
-				},
-				beforeSend: function(jqXHR) {
-					jqXHR.setRequestHeader('AJAX', true);
-				},
-				error: function(e) {
-					console.log(e.responseText);
-				}
-			});
-
-		})
-	
-	/*
-	click(function() {
+	$(idbtn).click(function() {
 		let idtext = $(this).prev().val();
 		let url = cp + '/access/idcheck';
 
@@ -61,7 +34,6 @@ $(function() {
 			$(this).prev().focus();
 			return false;
 		}
-
 		$.ajax({
 			type: 'get',
 			url: url,
@@ -85,9 +57,7 @@ $(function() {
 				console.log(e.responseText);
 			}
 		});
-
 	});
-	*/
 });
 
 function submitOk(){
@@ -96,6 +66,10 @@ function submitOk(){
 	
 	if(! $form.username.value.trim()){
 		$form.username.focus();
+		return;
+	}
+	if(! $form.nickname.value.trim()){
+		$form.nickname.focus();
 		return;
 	}
 	if(! $form.userid.value.trim()){
@@ -110,6 +84,12 @@ function submitOk(){
 	if(! $form.password.value){
 		$form.password.focus();
 		return;
+	}else if(! /^[a-zA-Z0-9]{8,12}$/.test($form.password.value)){
+		$form.password.nextElementSibling.style.display = "block";
+		$form.password.focus();
+		return;
+	}else {
+		$form.password.nextElementSibling.style.display = "";
 	}
 
 	if($form.password.value !== $form.confirmpassword.value){

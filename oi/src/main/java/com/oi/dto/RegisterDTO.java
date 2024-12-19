@@ -2,6 +2,7 @@ package com.oi.dto;
 
 public class RegisterDTO {
 	private String username;
+	private String nickname;
 	private String userid;
 	private String pwd;
 	private String dob;
@@ -15,6 +16,12 @@ public class RegisterDTO {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	public String getUserid() {
 		return userid;
