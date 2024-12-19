@@ -6,8 +6,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap5/icon/bootstrap-icons.css" type="text/css">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layout/admin_layout.css">
-
 
 <!--  폰트 -->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">

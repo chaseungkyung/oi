@@ -31,7 +31,8 @@ public class NoticeManageController {
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		ModelAndView mav = new ModelAndView("admin/notice/list");
-
+		int size = 10;
+		
 		NoticeDAO dao = new NoticeDAO();
 		MyUtil util = new MyUtilBootstrap();
 		
@@ -54,7 +55,9 @@ public class NoticeManageController {
 			}
 			
 			String pageSize = req.getParameter("size");
-			int size = pageSize == null ? 10 : Integer.parseInt(pageSize);
+			if(pageSize != null) {
+				size = Integer.parseInt(pageSize);
+			}
 			
 			int dataCount, total_page;
 			
@@ -82,7 +85,7 @@ public class NoticeManageController {
 			
 			List<NoticeDTO> listNotice = null;
 			if(current_page == 1) {
-				listNotice = dao.listNotice(offset, size);
+				listNotice = dao.listNotice();
 			}
 			
 			String cp = req.getContextPath();
@@ -303,7 +306,7 @@ public class NoticeManageController {
 		String root = session.getServletContext().getRealPath("/");
 		String pathname = root + "uploads" + File.separator + "notice";
 		
-		if(Integer.parseInt(meto.getUserLevel()) < 100) {
+		if(Integer.parseInt(meto.getUserLevel()) < 51) {
 			return new ModelAndView("redirect:/");
 		}
 		

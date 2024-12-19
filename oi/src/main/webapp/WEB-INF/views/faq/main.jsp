@@ -46,7 +46,7 @@
 	<div class="container">
 		<div class="body-container">	
 			<div class="body-title">
-				<h3><i class="bi bi-question-octagon"></i> 자주하는 질문 </h3>
+				<h3><i class="bi bi-question-octagon"></i> FAQ </h3>
 			</div>
 			
 			<div class="body-main">
@@ -135,7 +135,7 @@ $(function(){
 	listPage(1);
 	
 	// 탭이 변경될 때 실행
-    $('button[role="tab"]').on('click', function(e){
+     $('button[role="tab"]').on('click', function(e){
     	resetSearch();
     	
     	listPage(1);

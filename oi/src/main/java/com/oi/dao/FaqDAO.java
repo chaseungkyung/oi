@@ -279,7 +279,7 @@ public class FaqDAO {
 			sb.append(" WHERE c.enabled = 1 ");
 			
 			if(schType.equals("all")) {
-				sb.append(" AND (INSTR(faqTitle, ?) >= 1 OR INSTR(content, ?) >= 1 ");
+				sb.append(" AND (INSTR(faqTitle, ?) >= 1 OR INSTR(faqContent, ?) >= 1 ");
 			} else {
 				sb.append(" AND INSTR(" + schType + ", ?) >= 1");
 			}

@@ -433,15 +433,14 @@ public class NoticeDAO {
 		String sql;
 		
 		try {
-			sql = "UPDATE notice SET notice=?, noticePhoto=?, noticeTitle=?, noticeContent=?, noticeUpdateDate=SYSDATE WHERE noticeNum=?";
+			sql = "UPDATE notice SET notice=?, noticeTitle=?, noticeContent=?, noticeUpdateDate=SYSDATE WHERE noticeNum=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, dto.getNotice());
 			pstmt.setString(2, dto.getNoticeTitle());
-			pstmt.setString(3, dto.getNoticePhoto());
-			pstmt.setString(4, dto.getNoticeContent());
-			pstmt.setLong(5, dto.getNoticeNum());
+			pstmt.setString(3, dto.getNoticeContent());
+			pstmt.setLong(4, dto.getNoticeNum());
 			
 			pstmt.executeUpdate();
 			

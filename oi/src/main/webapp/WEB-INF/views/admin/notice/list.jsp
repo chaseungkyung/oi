@@ -112,7 +112,7 @@
 										class="form-check-input" name="chkAll" id="chkAll"></th>
 									<th class="noticeNum">번호</th>
 									<th class="noticeTitle">제목</th>
-									<th class="name">작성자</th>
+									<th class="memberId">작성자</th>
 									<th class="noticeWriteDate">등록일</th>
 								</tr>
 							</thead>
@@ -171,12 +171,11 @@
 								<div class="col-auto p-1">
 									<select name="schType" class="form-select">
 										<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-										<option value="userName">관리자</option>
-										<option value="reg_date"
+										<option value="noticeWriteDate"
 											${schType=="noticeWriteDate"?"selected":""}>등록일</option>
-										<option value="subject"
+										<option value="noticeTitle"
 											${schType=="noticeTitle"?"selected":""}>제목</option>
-										<option value="content"
+										<option value="noticeContent"
 											${schType=="noticeContent"?"selected":""}>내용</option>
 									</select>
 								</div>

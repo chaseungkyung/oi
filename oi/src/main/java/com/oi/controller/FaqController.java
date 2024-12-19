@@ -48,7 +48,7 @@ public class FaqController {
 			int total_page = 0;
 			int dataCount = 0;
 			
-			String pageNo = req.getParameter("pageNO");
+			String pageNo = req.getParameter("pageNo");
 			int current_page = 1;
 			if(pageNo != null) {
 				current_page = Integer.parseInt(pageNo);
@@ -100,7 +100,7 @@ public class FaqController {
 			String paging = util.pagingMethod(current_page, total_page, "listPage");
 		
 			mav.addObject("list", list);
-			mav.addObject("current_page", current_page);
+			mav.addObject("pageNo", current_page);
 			mav.addObject("dataCount", dataCount);
 			mav.addObject("total_page", total_page);
 			mav.addObject("paging", paging);

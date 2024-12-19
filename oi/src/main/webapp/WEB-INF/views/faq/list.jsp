@@ -17,6 +17,8 @@
 							<div class="col">
 								분류 : ${dto.faqCateName}							
 							</div>
+							<div class="col-auto">
+							</div>
 						</div>
 						<div class="row">
 							<div class="col">${dto.faqContent}</div>

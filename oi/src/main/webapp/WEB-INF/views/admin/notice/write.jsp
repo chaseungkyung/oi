@@ -15,33 +15,34 @@
 	max-width: 800px;
 }
 </style>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/boot-board.css" type="text/css">
 
 <script type="text/javascript">
 	function sendOk() {
 		const f = document.noticeForm;
 		let str;
 
-		str = f.subject.value.trim();
+		str = f.noticeTitle.value.trim();
 		if (!str) {
 			alert('제목을 입력하세요. ');
-			f.subject.focus();
+			f.noticeTitle.focus();
 			return;
 		}
 
-		str = f.content.value.trim();
+		str = f.noticeContent.value.trim();
 		if (!str) {
 			alert('내용을 입력하세요. ');
-			f.content.focus();
+			f.noticeContent.focus();
 			return;
 		}
+		
 
 		f.action = '${pageContext.request.contextPath}/admin/notice/${mode}';
 		f.submit();
 	}
 
 	<c:if test="${mode=='update'}">
-	function deleteFile(fileNum) {
+	function deleteFile(noticeFileNum) {
 		if (!confirm('파일을 삭제 하시겠습니까 ? ')) {
 			return;
 		}
@@ -91,7 +92,7 @@
 
 							<tr>
 								<td class="bg-light col-sm-2" scope="row">내 용</td>
-								<td><textarea name="content" class="form-control">${dto.noticeContent}</textarea>
+								<td><textarea name="noticeContent" class="form-control">${dto.noticeContent}</textarea>
 								</td>
 							</tr>
 
@@ -125,7 +126,7 @@
 									<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/admin/notice/list?size=${size}';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button> 
 									<input type="hidden" name="size" value="${size}"> 
 									<c:if test="${mode=='update'}">
-										<input type="hidden" name="num" value="${dto.noticeNum}">
+										<input type="hidden" name="noticeNum" value="${dto.noticeNum}">
 										<input type="hidden" name="page" value="${page}">
 									</c:if>
 								</td>

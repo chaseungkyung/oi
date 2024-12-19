@@ -16,7 +16,7 @@
 }
 </style>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/boot-board.css"
+	href="${pageContext.request.contextPath}/resources/css/admin/boot-board.css"
 	type="text/css"/>
 
 <script type="text/javascript">
