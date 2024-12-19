@@ -1,50 +1,96 @@
 package com.oi.dto;
 
 public class MyPageGoodsDTO {
-	private int goodsListNum;
-	private String goodsName;
-	private int goodsPrice;
-	private String goodsExp;
-	private String goodsDate;
-	
-		public int getGoodsListNum() {
-	        return goodsListNum;
-	    }
+    private int goodsListNum;
+    private String goodsName;
+    private int goodsPrice;
+    private String goodsExp;
+    private String goodsDate;
+    private String goodsMemberId;
+   
+    private int gcNum;              // 댓글 번호
+    private String commentMemberId; // 댓글 작성자 ID
+    private String gcComCon;        // 댓글 내용
+    private String gcInsertNum;     // 댓글 작성일
 
-	    public void setGoodsListNum(int goodsListNum) {
-	        this.goodsListNum = goodsListNum;
-	    }
+    public int getGoodsListNum() {
+        return goodsListNum;
+    }
 
-	    public String getGoodsName() {
-	        return goodsName;
-	    }
+    public void setGoodsListNum(int goodsListNum) {
+        this.goodsListNum = goodsListNum;
+    }
 
-	    public void setGoodsName(String goodsName) {
-	        this.goodsName = goodsName;
-	    }
+    public String getGoodsName() {
+        return goodsName;
+    }
 
-	    public int getGoodsPrice() {
-	        return goodsPrice;
-	    }
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
 
-	    public void setGoodsPrice(int goodsPrice) {
-	        this.goodsPrice = goodsPrice;
-	    }
+    public int getGoodsPrice() {
+        return goodsPrice;
+    }
 
-	    public String getGoodsExp() {
-	        return goodsExp;
-	    }
+    public void setGoodsPrice(int goodsPrice) {
+        this.goodsPrice = goodsPrice;
+    }
 
-	    public void setGoodsExp(String goodsExp) {
-	        this.goodsExp = goodsExp;
-	    }
+    public String getGoodsExp() {
+        return goodsExp;
+    }
 
-	    public String getGoodsDate() {
-	        return goodsDate;
-	    }
+    public void setGoodsExp(String goodsExp) {
+        this.goodsExp = goodsExp;
+    }
 
-	    public void setGoodsDate(String goodsDate) {
-	        this.goodsDate = goodsDate;
-	    }
+    public String getGoodsDate() {
+        return goodsDate;
+    }
+
+    public void setGoodsDate(String goodsDate) {
+        this.goodsDate = goodsDate;
+    }
+
+    // 댓글 관련 Getter/Setter
+    public int getGcNum() {
+        return gcNum;
+    }
+
+    public void setGcNum(int gcNum) {
+        this.gcNum = gcNum;
+    }
+
+    public String getCommentMemberId() {
+        return commentMemberId;
+    }
+
+    public void setCommentMemberId(String commentMemberId) {
+        this.commentMemberId = commentMemberId;
+    }
+
+    public String getGcComCon() {
+        return gcComCon;
+    }
+
+    public void setGcComCon(String gcComCon) {
+        this.gcComCon = gcComCon;
+    }
+
+    public String getGcInsertNum() {
+        return gcInsertNum;
+    }
+
+    public void setGcInsertNum(String gcInsertNum) {
+        this.gcInsertNum = gcInsertNum;
+    }
+
+	public String getGoodsMemberId() {
+		return goodsMemberId;
 	}
 
+	public void setGoodsMemberId(String goodsMemberId) {
+		this.goodsMemberId = goodsMemberId;
+	}
+}

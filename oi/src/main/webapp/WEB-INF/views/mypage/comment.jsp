@@ -41,34 +41,43 @@
         </nav>
 		
 		<!-- 메인 필드 -->
-		<main>
-			<h2>작성한 댓글 목록</h2>
+		<main class="col-md-9">
+                <h2 class="mb-4">작성한 댓글 목록</h2>
 
-			<h3>오운완 댓글</h3>
-			<c:forEach var="comment" items="${commentMap.wotdComments}">
-				<p>
-					<strong>댓글 내용:</strong> ${comment.commentContent} <br> <strong>작성
-						날짜:</strong> ${comment.commentDate}
-				</p>
-				<hr>
-			</c:forEach>
+                <h3 class="mt-3">WOTD 댓글</h3>
+                <c:forEach var="comment" items="${commentMap.wotdComments}">
+                    <div class="border p-3 mb-3 rounded">
+                        <p><strong>댓글 내용:</strong> ${comment.commentContent}</p>
+                        <p><strong>작성 날짜:</strong> ${comment.commentDate}</p>
+                    </div>
+                </c:forEach>
 
-			<h3>중고거래 댓글</h3>
-			<c:forEach var="comment" items="${commentMap.goodsComments}">
-				<p>
-					<strong>게시물 이름:</strong> ${comment.postTitle} <br> <strong>댓글
-						내용:</strong> ${comment.commentContent} <br> <strong>작성 날짜:</strong>
-					${comment.commentDate}
-				</p>
-				<hr>
-			</c:forEach>
+				<h3 class="mt-4">중고거래 댓글</h3>
+				
+				<!-- 현재 페이지 파라미터의 기본값 설정 -->
+				<c:set var="currentPage" value="${empty param.page ? 1 : param.page}" />
+				
+				<c:forEach var="comment" items="${commentMap.goodsComments}">
+				    <div class="border p-3 mb-3 rounded">
+				        <a href="${pageContext.request.contextPath}/marketplace/article?page=${currentPage}&goodsListNum=${comment.goodsListNum}" 
+				           class="text-decoration-none fw-bold fs-5">
+				            ${comment.postTitle}
+				        </a>
+				        <p><strong>댓글 내용:</strong> ${comment.commentContent}</p>
+				        <p><strong>작성 날짜:</strong> ${comment.commentDate}</p>
+				    </div>
+				</c:forEach>
 
-			<c:if
-				test="${empty commentMap.wotdComments && empty commentMap.goodsComments}">
-				<p>작성한 댓글이 없습니다.</p>
-			</c:if>
-		</main>
-	</div>
+                <c:if test="${empty commentMap.wotdComments && empty commentMap.goodsComments}">
+                    <p class="text-center text-muted">작성한 댓글이 없습니다.</p>
+                </c:if>
+
+                <div class="page-navigation mt-4">
+                    <c:if test="${dataCount != 0}">${paging}</c:if>
+                    <c:if test="${dataCount == 0}"><p>페이지 정보가 없습니다.</p></c:if>
+                </div>
+            </main>
+        </div>
  	<footer><jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include></footer>
     <script src="${pageContext.request.contextPath}/resources/js/mypage/mypage.js"></script>
 </body>

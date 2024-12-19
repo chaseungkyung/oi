@@ -249,8 +249,8 @@ e.printStackTrace();
 
 
     //글보기
-    @RequestMapping(value = "/marketplace/article",method = RequestMethod.GET)
-    public ModelAndView articlegoods(HttpServletRequest req , HttpServletResponse resp)throws ServletException,IOException{
+    @RequestMapping(value = "/marketplace/article", method = RequestMethod.GET)
+    public ModelAndView articlegoods(HttpServletRequest req , HttpServletResponse resp) throws ServletException,IOException {
         HttpSession session = req.getSession();
         LoginDTO info = (LoginDTO) session.getAttribute("member");
         MarketDAO dao = new MarketDAO();
@@ -259,7 +259,7 @@ e.printStackTrace();
             long goodsListNum = Long.parseLong(req.getParameter("goodsListNum"));
             MarketDTO dto = dao.findById(goodsListNum);
             if (dto ==null){
-                return new ModelAndView("redirect:/Marketplace/main?page="+page);
+                return new ModelAndView("redirect:/marketplace/main?page="+page);
             }
 //            dto.setGoodsExp(dto.getGoodsExp().replaceAll("\n","<br>"));
 

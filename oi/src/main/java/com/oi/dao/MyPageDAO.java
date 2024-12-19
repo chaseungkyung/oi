@@ -124,7 +124,7 @@
 			        pstmt.setString(5, (member.getBodyRecord().getBodyRecordDate()));
 			        pstmt.setString(6, member.getMemberId()); // memberId 설정
 			        
-			        pstmt.executeUpdate();
+			        pstmt.executeUpdate(); 
 	
 			    } catch (SQLException e) {
 			        e.printStackTrace();
@@ -135,7 +135,7 @@
 			}
 			
 			// 찜한 게시물 보기
-			public List<MyPageGoodsDTO> getMyPageList(String memberId) {
+			public List<MyPageGoodsDTO> getMyPageList(String memberId, int offset, int size) {
 			    List<MyPageGoodsDTO> mList = new ArrayList<>();
 			    PreparedStatement pstmt = null;
 			    ResultSet rs = null;
@@ -145,10 +145,14 @@
 			        sql = "SELECT g.goodsListNum, g.goodsName, g.goodsPrice, g.goodsExp, g.goodsDate " +
 			              "FROM likePost lp " +
 			              "JOIN goods g ON lp.listNum = g.goodsListNum " +
-			              "WHERE lp.memberId = ?";
+			              "WHERE lp.memberId = ? " +
+			              "ORDER BY g.goodsDate DESC " +
+			              "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 	
 			        pstmt = conn.prepareStatement(sql);
 			        pstmt.setString(1, memberId);
+			        pstmt.setInt(2, offset);
+			        pstmt.setInt(3, size);
 	
 			        rs = pstmt.executeQuery();
 	
@@ -171,8 +175,31 @@
 			    return mList;
 			}
 			
+			public int getMyPageListCount(String memberId) {
+			    int totalCount = 0;
+			    PreparedStatement pstmt = null;
+			    ResultSet rs = null;
+			    String sql = "SELECT COUNT(*) FROM likePost WHERE memberId = ?";
+
+			    try {
+			        pstmt = conn.prepareStatement(sql);
+			        pstmt.setString(1, memberId);
+			        rs = pstmt.executeQuery();
+
+			        if (rs.next()) {
+			            totalCount = rs.getInt(1);
+			        }
+			    } catch (SQLException e) {
+			        e.printStackTrace();
+			    } finally {
+			        DBUtil.close(rs);
+			        DBUtil.close(pstmt);
+			    }
+			    return totalCount;
+			}
+			
 			// 오운완 댓글
-			public List<MyPageCommentDTO> getWotdComments(String memberId) {
+			public List<MyPageCommentDTO> getWotdComments(String memberId, int offset, int size) {
 			    List<MyPageCommentDTO> commentList = new ArrayList<>();
 			    PreparedStatement pstmt = null;
 			    ResultSet rs = null;
@@ -182,10 +209,14 @@
 			        sql = "SELECT m.memberId, c.wComCon, c.wComDate " +
 			              "FROM wotdComment c " +
 			              "JOIN member m ON c.memberId = m.memberId " +
-			              "WHERE c.memberId = ?";
+			              "WHERE c.memberId = ? " +
+			              "ORDER BY c.wComDate DESC " +
+			              "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 	
 			        pstmt = conn.prepareStatement(sql);
 			        pstmt.setString(1, memberId);
+			        pstmt.setInt(2, offset);
+			        pstmt.setInt(3, size);
 	
 			        rs = pstmt.executeQuery();
 	
@@ -208,8 +239,31 @@
 			    return commentList;
 			}
 			
+			public int getWotdCommentsCount(String memberId) {
+			    int totalCount = 0;
+			    PreparedStatement pstmt = null;
+			    ResultSet rs = null;
+			    String sql = "SELECT COUNT(*) FROM wotdComment WHERE memberId = ?";
+
+			    try {
+			        pstmt = conn.prepareStatement(sql);
+			        pstmt.setString(1, memberId);
+			        rs = pstmt.executeQuery();
+
+			        if (rs.next()) {
+			            totalCount = rs.getInt(1);
+			        }
+			    } catch (SQLException e) {
+			        e.printStackTrace();
+			    } finally {
+			        DBUtil.close(rs);
+			        DBUtil.close(pstmt);
+			    }
+			    return totalCount;
+			}
+			
 			// 중고거래 댓글
-			public List<MyPageCommentDTO> getGoodsComments(String memberId) {
+			public List<MyPageCommentDTO> getGoodsComments(String memberId, int offset, int size) {
 			    List<MyPageCommentDTO> commentList = new ArrayList<>();
 			    PreparedStatement pstmt = null;
 			    ResultSet rs = null;
@@ -220,10 +274,14 @@
 			              "FROM goodsComment c " +
 			              "JOIN goods g ON c.goodsListNum = g.goodsListNum " +
 			              "JOIN member m ON c.memberId = m.memberId " +
-			              "WHERE c.memberId = ?";
+			              "WHERE c.memberId = ? " +
+			              "ORDER BY c.gcInsertNum DESC " +
+			              "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 	
 			        pstmt = conn.prepareStatement(sql);
 			        pstmt.setString(1, memberId);
+			        pstmt.setInt(2, offset);
+			        pstmt.setInt(3, size);
 	
 			        rs = pstmt.executeQuery();
 	
@@ -245,6 +303,101 @@
 			    }
 	
 			    return commentList;
+			}
+			
+			public int getGoodsCommentsCount(String memberId) {
+			    int totalCount = 0;
+			    PreparedStatement pstmt = null;
+			    ResultSet rs = null;
+			    String sql = "SELECT COUNT(*) FROM goodsComments WHERE memberId = ?";
+
+			    try {
+			        pstmt = conn.prepareStatement(sql);
+			        pstmt.setString(1, memberId);
+			        rs = pstmt.executeQuery();
+
+			        if (rs.next()) {
+			            totalCount = rs.getInt(1);
+			        }
+			    } catch (SQLException e) {
+			        e.printStackTrace();
+			    } finally {
+			        DBUtil.close(rs);
+			        DBUtil.close(pstmt);
+			    }
+			    return totalCount;
+			}
+			
+			public List<MyPageGoodsDTO> getGoodsWithCommentsByMember(String memberId, int offset, int size) {
+			    List<MyPageGoodsDTO> goodsList = new ArrayList<>();
+			    PreparedStatement pstmt = null;
+			    ResultSet rs = null;
+			    String sql = null;
+
+			    try {
+			        sql = "SELECT g.goodsListNum, g.goodsName, g.goodsPrice, g.memberId AS goodsMemberId, " +
+			              "gc.gcNum, gc.memberId AS commentMemberId, gc.gcComCon, gc.gcInsertNum " +
+			              "FROM goods g " +
+			              "JOIN goodsComment gc ON g.goodsListNum = gc.goodsListNum " +
+			              "WHERE g.memberId = ? " +
+			              "ORDER BY g.goodsListNum DESC " +
+			              "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+			        pstmt = conn.prepareStatement(sql);
+			        pstmt.setString(1, memberId);
+			        pstmt.setInt(2, offset);
+			        pstmt.setInt(3, size);
+
+			        rs = pstmt.executeQuery();
+
+			        while (rs.next()) {
+			            MyPageGoodsDTO dto = new MyPageGoodsDTO();
+			            dto.setGoodsListNum(rs.getInt("goodsListNum"));
+			            dto.setGoodsName(rs.getString("goodsName"));
+			            dto.setGoodsPrice(rs.getInt("goodsPrice"));
+			            dto.setGoodsMemberId(rs.getString("goodsMemberId"));
+			            dto.setGcNum(rs.getInt("gcNum"));
+			            dto.setCommentMemberId(rs.getString("commentMemberId"));
+			            dto.setGcComCon(rs.getString("gcComCon"));
+			            dto.setGcInsertNum(rs.getString("gcInsertNum"));
+
+			            goodsList.add(dto);
+			        }
+			    } catch (SQLException e) {
+			        e.printStackTrace();
+			    } finally {
+			        DBUtil.close(rs);
+			        DBUtil.close(pstmt);
+			    }
+			    return goodsList;
+			}
+			
+			public int getGoodsWithCommentsCount(String memberId) {
+			    int totalCount = 0;
+			    PreparedStatement pstmt = null;
+			    ResultSet rs = null;
+			    String sql = null;
+
+			    try {
+			        sql = "SELECT COUNT(*) " +
+			              "FROM goods g " +
+			              "JOIN goodsComment gc ON g.goodsListNum = gc.goodsListNum " +
+			              "WHERE g.memberId = ?";
+
+			        pstmt = conn.prepareStatement(sql);
+			        pstmt.setString(1, memberId);
+			        rs = pstmt.executeQuery();
+
+			        if (rs.next()) {
+			            totalCount = rs.getInt(1);
+			        }
+			    } catch (SQLException e) {
+			        e.printStackTrace();
+			    } finally {
+			        DBUtil.close(rs);
+			        DBUtil.close(pstmt);
+			    }
+			    return totalCount;
 			}
 		}
 	

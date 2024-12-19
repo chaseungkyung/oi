@@ -41,29 +41,32 @@
         </nav>
       
       	<!-- 메인 필드 -->
-		<main>
-		<h2>찜한 게시물 목록</h2>
+           <main class="col-md-9">
+                <h2 class="mb-4">찜한 게시물 목록</h2>
 
-		<c:forEach var="goods" items="${boardLikeMap.likedGoods}">
-                <div class="liked-goods-item">
-                    <h3>
-                        <a href="${pageContext.request.contextPath}/goods/detail?goodsListNum=${goods.goodsListNum}">
-                            ${goods.goodsName}
-                        </a>
-                    </h3>
-                    <p><strong>가격:</strong> ${goods.goodsPrice} 원</p>
-                    <p><strong>설명:</strong> ${goods.goodsExp}</p>
-                    <p><strong>등록 날짜:</strong> ${goods.goodsDate}</p>
-                    <hr>
+                <c:forEach var="goods" items="${boardLikeMap.likedGoods}">
+                    <div class="border p-3 mb-3 rounded">
+                        <a href="${pageContext.request.contextPath}/marketplace/article?goodsListNum=${goods.goodsListNum}" 
+                           class="text-decoration-none fw-bold fs-5">${goods.goodsName}</a>
+                        <p><strong>등록 날짜:</strong> ${goods.goodsDate}</p>
+                    </div>
+                </c:forEach>
+
+                <c:if test="${empty boardLikeMap.likedGoods}">
+                    <p class="text-center text-muted">찜한 게시물이 없습니다.</p>
+                </c:if>
+
+                <div class="page-navigation mt-4">
+                    <c:if test="${dataCount != 0}">${paging}</c:if>
+                    <c:if test="${dataCount == 0}"><p>페이지 정보가 없습니다.</p></c:if>
                 </div>
-        </c:forEach>
+            </main>
+        </div>
 
-			<c:if test="${empty boardLikeMap.likedGoods}">
-			    <p>찜한 게시물이 없습니다.</p>
-			</c:if>
-		</main>
-	</div>
- 	<footer><jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include></footer>
+    <footer>
+        <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
+    </footer>
+
     <script src="${pageContext.request.contextPath}/resources/js/mypage/mypage.js"></script>
 </body>
 </html>

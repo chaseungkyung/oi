@@ -159,7 +159,6 @@ public class RecordWorkDAO {
                 dto.setExerciseEnd(rs.getString("exerciseEnd"));
                 dto.setExercisecnt(rs.getInt("exercisecnt"));
                 dto.setExerciseunit(rs.getString("exerciseunit"));
-                System.out.println("DAO - Retrieved DTO: " + dto); // 디버깅용 로그
             }
         } catch (SQLException e) {
             e.printStackTrace();

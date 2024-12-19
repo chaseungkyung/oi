@@ -10,6 +10,8 @@ import com.oi.dto.RecordWorkDTO;
 import com.oi.mvc.annotation.Controller;
 import com.oi.mvc.annotation.RequestMapping;
 import com.oi.mvc.view.ModelAndView;
+import com.oi.util.MyUtil;
+import com.oi.util.MyUtilBootstrap;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ public class RecordWorkController {
 	
 	// DAO 선언: 클래스 필드에 추가
     private RecordWorkDAO recordWorkDAO = new RecordWorkDAO();
+    MyUtil util = new MyUtilBootstrap();
 
 	// 운동 기록 메인 페이지로 이동
 	@RequestMapping("/todayworkout/main")

@@ -18,6 +18,8 @@ import com.oi.mvc.annotation.RequestMethod;
 import com.oi.mvc.view.ModelAndView;
 import com.oi.util.FileManager;
 import com.oi.util.MyMultipartFile;
+import com.oi.util.MyUtil;
+import com.oi.util.MyUtilBootstrap;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +32,8 @@ import jakarta.servlet.http.Part;
 public class MyPageController {
     
     private MyPageDAO myPageDAO = new MyPageDAO();
-
+    MyUtil util = new MyUtilBootstrap();
+   
     @RequestMapping(value = "/mypage/mypage", method = RequestMethod.GET)
     public ModelAndView mypage(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -161,10 +164,30 @@ public class MyPageController {
         }
 
         String memberId = login.getUserId();
+        
+        int dataCount = myPageDAO.getWotdCommentsCount(memberId);
 
-        // 댓글 목록 가져오기
-        List<MyPageCommentDTO> wotdComments = myPageDAO.getWotdComments(memberId);
-        List<MyPageCommentDTO> goodsComments = myPageDAO.getGoodsComments(memberId);
+        int currentPage = 1;
+        int size = 10; // 한 페이지에 보여줄 항목 수
+        String pageParam = req.getParameter("page");
+        if (pageParam != null) {
+            currentPage = Integer.parseInt(pageParam);
+        }
+        
+        int pageCount = util.pageCount(dataCount, size);
+        if(currentPage > pageCount) {
+        	currentPage = pageCount;
+        }
+        
+        
+        int offset = (currentPage - 1) * size;
+
+        // 페이징된 데이터 가져오기
+        List<MyPageCommentDTO> wotdComments = myPageDAO.getWotdComments(memberId, offset, size);
+        List<MyPageCommentDTO> goodsComments = myPageDAO.getGoodsComments(memberId, offset, size);
+        
+        // 페이징
+        String paging = util.paging(currentPage, pageCount, req.getContextPath() + "/mypage/comment");
 
         // Map에 댓글 목록 저장
         Map<String, List<MyPageCommentDTO>> commentMap = new HashMap<>();
@@ -174,6 +197,9 @@ public class MyPageController {
         // ModelAndView에 데이터와 뷰 이름 설정
         ModelAndView mav = new ModelAndView("mypage/comment");
         mav.addObject("commentMap", commentMap);
+        mav.addObject("pageCount", pageCount);
+        mav.addObject("size", size);
+        mav.addObject("paging", paging); // 페이징 객체 추가
 
         return mav;
     }
@@ -191,6 +217,7 @@ public class MyPageController {
     	return new ModelAndView("mypage/mycomment");
     }
     
+    
     @RequestMapping("/mypage/boardlike")
     public ModelAndView boardLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -202,10 +229,30 @@ public class MyPageController {
         }
 
         String memberId = login.getUserId();
+        
+        // 찜한 게시물 수 가져오기
+        int dataCount = myPageDAO.getMyPageListCount(memberId);
+        
+        int currentPage = 1;
+        int size = 10; // 한 페이지에 보여줄 항목 수
+        String pageParam = req.getParameter("page");
+        if (pageParam != null) {
+            currentPage = Integer.parseInt(pageParam);
+        }
+        
+        int pageCount = util.pageCount(dataCount, size);
+        if(currentPage > pageCount) {
+        	currentPage = pageCount;
+        }
+
+        int offset = (currentPage - 1) * size;
 
         // 찜한 게시물 목록 가져오기
-        List<MyPageGoodsDTO> likedGoods = myPageDAO.getMyPageList(memberId);
-
+        List<MyPageGoodsDTO> likedGoods = myPageDAO.getMyPageList(memberId, offset, size);
+        
+        // 페이징
+        String paging = util.paging(currentPage, pageCount, req.getContextPath() + "/mypage/boardlike");
+        
         // Map에 찜한 게시물 목록 저장
         Map<String, List<MyPageGoodsDTO>> boardLikeMap = new HashMap<>();
         boardLikeMap.put("likedGoods", likedGoods);
@@ -213,9 +260,13 @@ public class MyPageController {
         // ModelAndView에 데이터와 뷰 이름 설정
         ModelAndView mav = new ModelAndView("mypage/boardlike");
         mav.addObject("boardLikeMap", boardLikeMap);
+        mav.addObject("pageCount", pageCount);
+        mav.addObject("size", size);
+        mav.addObject("paging", paging); // 페이징 객체 추가
 
         return mav;
     }
+    
    
     @RequestMapping("/mypage/todayworklike")
     public ModelAndView todayworkLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
