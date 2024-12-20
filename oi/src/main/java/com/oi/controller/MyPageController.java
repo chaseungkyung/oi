@@ -33,7 +33,7 @@ public class MyPageController {
     
     private MyPageDAO myPageDAO = new MyPageDAO();
     MyUtil util = new MyUtilBootstrap();
-   
+    
     @RequestMapping(value = "/mypage/mypage", method = RequestMethod.GET)
     public ModelAndView mypage(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
