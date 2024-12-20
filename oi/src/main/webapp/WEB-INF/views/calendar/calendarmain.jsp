@@ -39,7 +39,7 @@
 		
 		<div class="calendar1">
 			<div class= "ad-right" id="adbanner">
-				<a href="http://192.168.0.74:9090/ottss/ }" target="_blank">
+				<a href="http://192.168.0.74:9090/ottss/" target="_blank">
    				 	<img src="${pageContext.request.contextPath}/resources/images/ad7.gif" alt="광고 배너">
 				</a>
 			</div>
