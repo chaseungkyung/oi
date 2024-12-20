@@ -82,7 +82,7 @@
 						onclick="location.href='${articleUrl}&goodsListNum=${dto.goodsListNum}';">
 						<div class="product-photo">
 							<img
-								src="${pageContext.request.contextPath}/uploads/photo/${dto.file.saveFileName[0]}">
+								src="${pageContext.request.contextPath}/uploads/photo/${dto.file.saveFileName[0]}" style="object-fit: cover; width: 100%; height: 100%;">
 						</div>
 						<div class="product-disc">${dto.goodsName}</div>
 					</div>

@@ -52,10 +52,11 @@
 							<c:if test="${mode == 'update'}">
 								<tr>
 									<c:forEach var="map" items="${dto.file.file}">
-										<td class="image-cell" style="width:50px;"><img class="image" alt="사진"
+										<td class="image-cell" style="width: 50px;"><img
+											class="image" alt="사진"
 											src="${pageContext.request.contextPath}/uploads/photo/${map.value}"
-											data-filenum="${map.key}" style="width:50px; object-fit: cover;"
-											data-valid="true"></td>
+											data-filenum="${map.key}"
+											style="width: 50px; object-fit: cover;" data-valid="true"></td>
 									</c:forEach>
 								</tr>
 							</c:if>
@@ -82,10 +83,12 @@
 	</footer>
 	<script type="text/javascript">
 		$tbody = document.querySelector('tbody');
-		
-		$($tbody).on('click','.image',function(){
-			$(this).attr('data-valid','false');
-			$(this).hide();
+
+		$($tbody).on('click', '.image', function() {
+			if (confirm('사진을 삭제하시겠습니까 ?')) {
+				$(this).attr('data-valid', 'false');
+				$(this).hide();
+			}
 		});
 	</script>
 </body>

@@ -57,7 +57,7 @@ $(function() {
 // 모달창 가져오기
 $(function() {
 	$('.profile-posts').on('click', '.articles', function() {
-		let url = cp +"/completeworkout/personalarticle";
+		let url = cp + "/completeworkout/personalarticle";
 		let wnum = $(this).attr('data-wnum');
 		console.log(wnum);
 		$.ajax({
@@ -90,20 +90,23 @@ function loadingcontent(data) {
 	$('#dataCount').html(dataCount);
 
 	if (page < totalpage) {
-		$('.seemore').show();
+		$('.seemore2').show();
+	}
+	if (page == totalpage) {
+		$('.seemore2').hide();
 	}
 	let text;
 	for (item of data.list) {
 		let filename = item.file.saveFileName;
 		text = '<div class="col-4 articles" data-bs-toggle="modal" data-bs-target="#modal" data-wnum="' + item.wnum + '">'
-		text += '<img class="post" alt="사진" src="'+cp+'/uploads/photo/' + filename + '">'
+		text += '<img class="post" alt="사진" src="' + cp + '/uploads/photo/' + filename + '">'
 		text += '</div>';
 		$('.profile-posts').append(text);
 	}
 }
-function goajax() {
-	let url = cp +"/completeworkout/personal";
-	let page = $('.profile-posts').attr('data-page') + 1;
+function goajax(page) {
+	let url = cp + "/completeworkout/personal";
+
 	$.ajax({
 		type: "get",
 		url: url,
@@ -121,9 +124,14 @@ function goajax() {
 	});
 }
 $(function() {
-	goajax();
-
-	$('.seemore').click(function() {
-		goajax();
+	goajax(1);
+	$('.seemore2').click(function() {
+		let page = $('.profile-posts').attr('data-page');
+		let total = $('.profile-posts').attr('data-total');
+		
+		if(parseInt(page) < parseInt(total)){
+			page++;
+			goajax(page);
+		}
 	});
 });

@@ -31,13 +31,13 @@
 						<c:set var="photo"
 							value="${pageContext.request.contextPath}/uploads/photo/${sessionScope.member.saveprofile}" />
 						<img
-							src="${sessionScope.member.saveprofile ? photo : defaultprofile }"
+							src="${sessionScope.member.saveprofile == 'default'? defaultprofile : photo }"
 							alt="Profile" class="profile-img">
 					</div>
 					<div class="col-md-8 d-flex flex-column justify-content-center">
 						<div class="profile-info d-flex align-items-center">
 							<h2 class="me-3">${sessionScope.member.nickname}</h2>
-							<button class="btn btn-outline-secondary btn-sm">프로필 편집</button>
+							<button class="btn btn-outline-secondary btn-sm" onclick="location.href='${pageContext.request.contextPath}/mypage/mypage'">프로필 편집</button>
 						</div>
 						<div class="profile-stats">
 							<div>
@@ -51,7 +51,7 @@
 				</div>
 				<hr>
 				<div class="profile-posts row" data-page="0" data-total="0"></div>
-				<button class="btn seemore" style="display: none;">더보기</button>
+				<div class="btn seemore2" style="display: none;">더보기</div>
 			</div>
 		</div>
 	</main>

@@ -18,7 +18,3 @@ div.infoData {
 div.infoData:hover {
 	background-color: #eeeeee;
 }
-
-div img {
-	object-fit: cover;
-}

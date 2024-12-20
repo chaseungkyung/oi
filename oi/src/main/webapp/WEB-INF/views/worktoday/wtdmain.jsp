@@ -78,7 +78,6 @@
 
 		let total = $('#wtdmaincontent').find('input.page:last-child').prev().val();
 		let page = $('#wtdmaincontent').find('input.page:last-child').val();
-
 		if (page === total) {
 			$sensor.style.display = 'none';
 		} else if (page < total) {
@@ -147,11 +146,9 @@
 		});
 	};
 	
-	$(function () {
 	var io = new IntersectionObserver(callback);
 	io.observe(document.querySelector("#sensor"));
-		
-	});
+	
 
 	$(function() {
 		$('#wtdmaincontent').on('click', '.emotion', function() {

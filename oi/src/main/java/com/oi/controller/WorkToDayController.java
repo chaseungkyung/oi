@@ -75,6 +75,7 @@ public class WorkToDayController {
 			int totalpage = util.pageCount(dataCount, 6);
 			
 			int offset = (int)(page - 1)* size;
+			
 			if(offset < 0) offset = 0;
 			
 			// 게시글 받아오기 
