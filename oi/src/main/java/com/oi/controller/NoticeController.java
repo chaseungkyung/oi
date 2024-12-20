@@ -80,7 +80,7 @@ public class NoticeController {
 			
 			List<NoticeDTO> listNotice = null;
 			if(current_page == 1) {
-				listNotice = dao.listNotice(offset, size);
+				listNotice = dao.listNotice();
 			}
 			
 			String cp = req.getContextPath();
@@ -155,7 +155,6 @@ public class NoticeController {
 			
 			ModelAndView mav = new ModelAndView("notice/article");
 			
-			mav.addObject("dao", dao);
 			mav.addObject("preDto", preDto);
 			mav.addObject("nexDto", nexDto);
 			mav.addObject("listFile", listFile);
