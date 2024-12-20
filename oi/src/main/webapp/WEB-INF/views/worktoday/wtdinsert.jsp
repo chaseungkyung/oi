@@ -18,7 +18,7 @@
 </head>
 <body>
 	<header><jsp:include page="/WEB-INF/views/layout/header.jsp" /></header>
-	
+
 	<main>
 		<div class="container">
 			<form name="insertForm" method="post" enctype="multipart/form-data">
@@ -50,11 +50,14 @@
 									type="file" multiple name="fileinput" accept="image/*"></td>
 							</tr>
 							<c:if test="${mode == 'update'}">
-							<tr>
-								<td>
-									<img alt="사진" src="">
-								</td>
-							</tr>
+								<tr>
+									<c:forEach var="map" items="${dto.file.file}">
+										<td class="image-cell" style="width:50px;"><img class="image" alt="사진"
+											src="${pageContext.request.contextPath}/uploads/photo/${map.value}"
+											data-filenum="${map.key}" style="width:50px; object-fit: cover;"
+											data-valid="true"></td>
+									</c:forEach>
+								</tr>
 							</c:if>
 						</tbody>
 						<tfoot>
@@ -78,12 +81,11 @@
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 	</footer>
 	<script type="text/javascript">
-		$(function() {
-			let mode = '${mode}';
-
-			if (mode == 'update') {
-
-			}
+		$tbody = document.querySelector('tbody');
+		
+		$($tbody).on('click','.image',function(){
+			$(this).attr('data-valid','false');
+			$(this).hide();
 		});
 	</script>
 </body>

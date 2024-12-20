@@ -197,6 +197,15 @@ public class WorkToDayController {
 			throws ServletException, IOException {
 		Map<String, Object> model = new HashMap<String, Object>();
 		
+		try {
+			long filenum = Long.parseLong(req.getParameter("filenum"));
+			
+			dao.deleteFile(filenum);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return model;
 	}
 	
