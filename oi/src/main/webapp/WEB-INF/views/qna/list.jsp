@@ -68,16 +68,6 @@
 					<div class="col">
 						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qna/list';"><i class="bi bi-arrow-clockwise"></i></button>
 					</div>
-					<div class="col-6 text-center">
-						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/qna/list" method="post">
-							<div class="col p-1">
-								<input type="text" name="kwd" value="${kwd}" class="form-control" placeholder="검색 키워드를 입력하세요">
-							</div>
-							<div class="col-auto p-1">
-								<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
-							</div>
-						</form>
-					</div>
 					<div class="col text-end">
 						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qna/write';">질문등록</button>
 					</div>
