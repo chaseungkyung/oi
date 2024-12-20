@@ -41,7 +41,7 @@
         <!-- 메인 필드 -->
 <main>
     <h2 class="mb-4">나의 중고 게시글</h2>
-
+	<c:set var="currentPage" value="${empty param.page ? 1 : param.page}" />
     <table border="1" class="table">
         <thead>
             <tr>

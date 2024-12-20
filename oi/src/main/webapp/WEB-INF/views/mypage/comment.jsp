@@ -41,7 +41,7 @@
 		<!-- 메인 필드 -->
 		<main class="col-md-9">
                 <h2 class="mb-4">중고 거래 게시판 댓글 목록</h2>
-
+				
 				<!-- 현재 페이지 파라미터의 기본값 설정 -->
 				<c:set var="currentPage" value="${empty param.page ? 1 : param.page}" />
 				
