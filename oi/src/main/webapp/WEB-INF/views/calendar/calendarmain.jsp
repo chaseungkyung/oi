@@ -33,13 +33,13 @@
 
 			<div class="btn-other"><br>
 				<button type="button" class="btn2"
-					onclick="location.href='${pageContext.request.contextPath}/mypage/calendar/main'">TODAY</button>
+					onclick="location.href='${pageContext.request.contextPath}/calendar/calendarmain'">TODAY</button>
 			</div>
 		</div>
 		
 		<div class="calendar1">
 			<div class= "ad-right" id="adbanner">
-				<a href="http://192.168.0.74:9090/ottss/main }" target="_blank">
+				<a href="http://192.168.0.74:9090/ottss/ }" target="_blank">
    				 	<img src="${pageContext.request.contextPath}/resources/images/ad7.gif" alt="광고 배너">
 				</a>
 			</div>

@@ -99,7 +99,15 @@
 						</c:forEach>
 					</table>
 				</div>
-
+		<form
+			action="${pageContext.request.contextPath}/recordmeal/mealdelete"
+			method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');"
+			style="display: inline;">
+			<input type="hidden" name="exerciseNum" value="${dietFoodNum}">
+			<button type="submit" class="btn btn-sm btn-danger" aria-label="삭제" >
+				<i class="fas fa-trash-alt"></i> 전체삭제
+			</button>
+		</form>
 				<div class="memo">
 					<h2>메모</h2>
 					<textarea id="memoInput" placeholder="MEMO"></textarea>
@@ -117,15 +125,6 @@
 				</div>
 			</div>
 		</div>
-		<form
-			action="${pageContext.request.contextPath}/recordmeal/mealdelete"
-			method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');"
-			style="display: inline;">
-			<input type="hidden" name="exerciseNum" value="${dietFoodNum}">
-			<button type="submit" class="btn btn-sm btn-danger" aria-label="삭제">
-				<i class="fas fa-trash-alt"></i> 삭제
-			</button>
-		</form>
 		<form name="mealForm" method="post">
 			<div id="mealModal" class="modal">
 				<div class="modal-content">

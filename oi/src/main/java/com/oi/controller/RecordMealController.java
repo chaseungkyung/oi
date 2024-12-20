@@ -116,21 +116,23 @@ public class RecordMealController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/recordmeal/mealdelete", method =RequestMethod.GET)
+	@RequestMapping(value = "/recordmeal/mealdelete", method = RequestMethod.POST)
 	public ModelAndView mealdelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ModelAndView mav = new ModelAndView("redirect:/recordmeal/mealmain");
-			
 		RecordMealDAO dao = new RecordMealDAO();
+		HttpSession session = req.getSession();
+		LoginDTO log = (LoginDTO)session.getAttribute("member");
+				
 		
 		try {
-			int dietFoodNum = Integer.parseInt(req.getParameter("dietFoodNum"));
-			dao.deleteMeal(dietFoodNum);
+			String memberId = log.getUserId();
+			dao.deleteMeal(memberId);
 			
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
-		return mav;
+		return new ModelAndView("redirect:/recordmeal/mealmain");
 	}
 	
 

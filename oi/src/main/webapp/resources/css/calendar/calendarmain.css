@@ -122,11 +122,12 @@ div .title {
 #adBanner img {
 	width: 100%;
 	height: auto;
+	display: flex;
+	justify-content: end;
 }
         
 .ad-right   {
 	display: flex;
 	justify-content: end;
-	max-width: 50px;
 }
 }

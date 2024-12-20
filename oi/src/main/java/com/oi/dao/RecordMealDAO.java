@@ -54,7 +54,7 @@ public class RecordMealDAO {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append("SELECT dietFoodNum, memberId, dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal ");
+			sb.append("SELECT dietFoodNum, memberId, TO_CHAR(dietFoodDate,'YYYY-MM-DD') dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal ");
 			sb.append(" FROM mealrecord WHERE memberId = ? ORDER BY dietFoodDate DESC ");
 
 			pstmt = conn.prepareStatement(sb.toString());
@@ -97,7 +97,7 @@ public class RecordMealDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT dietFoodNum, memberId, dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal ");
+			sb.append("SELECT dietFoodNum, memberId, TO_CHAR(dietFoodDate,'YYYY-MM-DD') dietFoodDate, dietFoodUnit, dietFoodName, capacity, kcal ");
 			sb.append(" FROM mealrecord WHERE memberId = ? AND TO_CHAR(SYSDATE,'YYYY-MM-DD') = TO_CHAR(dietFoodDate,'YYYY-MM-DD') ORDER BY dietFoodDate DESC ");
 			
 			pstmt = conn.prepareStatement(sb.toString());
@@ -133,13 +133,14 @@ public class RecordMealDAO {
 	
 	
 	
-	public void deleteMeal(int dietFoodNum) throws SQLException {
+	public void deleteMeal(String memberId) throws SQLException {
 		PreparedStatement pstmt = null;
-		String sql = "DELETE FROM mealrecord WHERE dietFoodNum = ? ";
+		String sql = "";
 		
 		try {
+			sql = "DELETE FROM mealrecord WHERE memberId = ? ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dietFoodNum);
+			pstmt.setString(1, memberId);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
