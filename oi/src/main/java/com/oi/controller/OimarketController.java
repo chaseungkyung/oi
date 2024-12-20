@@ -19,6 +19,7 @@ import jakarta.servlet.http.Part;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -458,13 +459,108 @@ return mav;
 
 
       }
+        @RequestMapping(value = "/marketplace/listReplyAnswer",method = RequestMethod.GET)
+      public  ModelAndView listReplyAnswer(HttpServletRequest req,HttpServletResponse resp) throws ServletException,IOException{
+        //넘어오는 파라미터 : parentNum
+        MarketDAO dao = new MarketDAO();
+        try{
+            long parentNum=Long.parseLong(req.getParameter("parentNum"));
+            List<ReplyDTO> list=dao.listReplyAnswer(parentNum);
+            for (ReplyDTO dto :list){
+                dto.setContent(dto.getContent().replaceAll("\n","<br>"));
+
+            }
+            ModelAndView mav = new ModelAndView("oimarket/listReplyAnswer");
+            mav.addObject("listReplyAnswer",list);
+            return mav;
 
 
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.sendError(406);
+            throw e;
+        }
+
+      }
+      @ResponseBody
+      @RequestMapping(value = "/marketplace/listReplyAnswer",method = RequestMethod.POST)
+    public Map<String,Object> countReplyAnswer(HttpServletRequest req,HttpServletResponse resp)throws ServletException,IOException{
+        Map<String,Object> model = new HashMap<String,Object>();
+        MarketDAO dao = new MarketDAO();
+        int count =0;
+        try {
+
+            long parentNum = Long.parseLong(req.getParameter("parentNum"));
+            count = dao.dataCountReplyAnswer(parentNum);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        model.put("count",count);
+        return model;
+
+      }
 
 
+      @ResponseBody
+    @RequestMapping(value = "/marketplace/deleteReply",method = RequestMethod.POST)
+    public Map<String,Object> deleteReply(HttpServletRequest req,HttpServletResponse resp)throws ServletException,IOException{
+
+        Map<String,Object> model = new HashMap<String,Object>();
+        MarketDAO dao =  new MarketDAO();
 
 
+        HttpSession session = req.getSession();
+        LoginDTO info = (LoginDTO) session.getAttribute("member");
+        String state = "false";
 
+        try {
+            long replyNum = Long.parseLong(req.getParameter("replyNum"));
+            dao.deleteReply(replyNum,info.getUserId(), Integer.parseInt(info.getUserLevel()));
+            state="true";
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        model.put("state",state);
+        return model;
+      }
+
+      @ResponseBody
+    @RequestMapping(value = "/marketplace/insertgoodsLike",method = RequestMethod.POST)
+    public Map<String,Object> insertgoodsLike(HttpServletRequest req,HttpServletResponse resp)throws ServletException,IOException{
+
+        Map<String,Object> model = new HashMap<String,Object>();
+
+        MarketDAO dao = new MarketDAO();
+        HttpSession session = req.getSession();
+        LoginDTO info = (LoginDTO) session.getAttribute("member");
+        String state="false";
+        int insertgoodsLike = 0;
+
+        try {
+            long num = Long.parseLong(req.getParameter("num"));
+            String userLiked=req.getParameter("userLiked");
+            String userId = info.getUserId();
+
+            if (userLiked.equals("true")) {
+                dao.deletegoodsLike(num, userId);
+            } else {
+                dao.insertgoodsLike(num, userId);
+            }
+            insertgoodsLike = dao.countgoodsLike(num);
+            state = "true";
+
+
+        }catch (SQLException e){
+            state="liked"; //?
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        model.put("state",state);
+        model.put("insertgoodsLike",insertgoodsLike);
+                return model;
+
+      }
 
 
 

@@ -15,6 +15,19 @@
     <jsp:include page="/WEB-INF/views/layout/headimported.jsp" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/record/recordmain.css">
     <style type="text/css">
+        .reply .form-header {
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        .reply .input-group textarea {
+            border-radius: 0.25rem 0 0 0.25rem;
+        }
+
+        .reply .btnSendReply {
+            border-radius: 0 0.25rem 0.25rem 0;
+        }
+
         .item {cursor: pointer; }
         .item img { display: block; width: 100%; height: 200px; border-radius: 5px; }
         .item img:hover { scale: 100.7%; }
@@ -30,7 +43,7 @@
         }
         body {
             font-family : 'Arial', sans-serif; !important;
-            background-color: #f8f9fa;!important;
+            background-color: #ffffff !important;
         }
 
         .main-image img {
@@ -114,7 +127,12 @@
                 <p class="mt-3">${dto.goodsExp}</p>
                 <i id="heartIcon" class="bi bi-suit-heart heart-icon fs-4 me-3" onclick="toggleHeart()"></i>
 <%--                <i class="bi bi-suit-heart-fill heart-icon fs-4 me-3"></i>--%>
-
+                <button type="button"
+                        class="btn btn-outline-primary btnSendBoardLike" title="좋아요">
+                    <i
+                            class="bi ${isUserLike ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up'}"></i>&nbsp;&nbsp;<span
+                        id="boardLikeCount">${dto.goodsHitCnt}</span>
+                </button>
 
 
                 <c:choose>
@@ -139,15 +157,15 @@
         </div>
 
 
-        <div class="reply">
-            <div class="form-header">
-                <span class="bold">댓글</span>
-                <span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요.</span>
-                <button id="toggleReplyBtn" type="button" class="btn btn-primary btn-outline-secondary btn-sm ms-3">댓글 숨기기</button>
+        <div class="reply mt-4">
+            <div class="form-header d-flex align-items-center justify-content-between">
+                <span class="bold fs-5">댓글</span>
+                <span class="text-muted small"> 거래용 댓글</span>
+                <button id="toggleReplyBtn" type="button" class="btn btn-sm btn-outline-secondary ms-3">댓글 숨기기</button>
             </div>
 
-            <div id="replyContent">
-                <form name="replyForm" method="post">
+            <div id="replyContent" class="mt-3">
+                <form name="replyForm" method="post" class="mb-4">
                     <table class="table table-borderless reply-form">
                         <tr>
                             <td><textarea class="form-control" name="content"></textarea></td>
@@ -206,16 +224,26 @@
         });
     });
 
-    function toggleHeart() {
-        const heartIcon = document.getElementById("heartIcon");
-        if (heartIcon.classList.contains("bi-suit-heart")) {
-            heartIcon.classList.remove("bi-suit-heart");
-            heartIcon.classList.add("bi-suit-heart-fill");
-        } else {
-            heartIcon.classList.remove("bi-suit-heart-fill");
-            heartIcon.classList.add("bi-suit-heart");
-        }
-    }
+    // function toggleHeart() {
+    //     const heartIcon = document.getElementById("heartIcon");
+    //     if (heartIcon.classList.contains("bi-suit-heart")) {
+    //         heartIcon.classList.remove("bi-suit-heart");
+    //         heartIcon.classList.add("bi-suit-heart-fill");
+    //     } else {
+    //         heartIcon.classList.remove("bi-suit-heart-fill");
+    //         heartIcon.classList.add("bi-suit-heart");
+    //     }
+    // }
+
+
+
+
+
+
+
+
+
+
     function login() {
         location.href = '${pageContext.request.contextPath}/member/login'; //수정해야함
     }
@@ -251,6 +279,42 @@
         }
         $.ajax(url, settings);
     }
+    $(function (){
+        $('.btnSendBoardLike').click(function (){
+            const $i = $(this).find('i');
+            let userLiked = $i.hasClass('bi-hand-thumbs-up-fill');
+            let  msg = userLiked ? "게시글 찜을 취소하시겠습니까?" :"게시글에 공감하시겠습니까?";
+
+            if (! confirm(msg)){
+                return false;
+            }
+
+            let  url = "${pageContext.request.contextPath}/marketplace/insertgoodsLike";
+            let query ="num=${dto.goodsListNum}&userLiked="+userLiked;
+
+            const fn = function (data){
+                console.log("AJAX 응답 데이터:", data);
+
+                let state = data.state;
+                if (state=='true'){
+                    if(userLiked){
+                        $i.removeClass('bi-hand-thumbs-up-fill').addClass('bi-hand-thumbs-up');
+                    }else {
+                        $i.removeClass('bi-hand-thumbs-up').addClass('bi-hand-thumbs-up-fill');
+                    }
+                    let count = data.goodsHitCnt;
+                    $('#boardLikeCount').text(count);
+
+                }else if (state=== 'liked'){
+                    alert('공감은 한번만 가능');
+                }else {
+                    alert('공감처리 실패~!');
+                }
+            };
+            ajaxFun(url,'post',query,'json',fn)
+
+        })
+    })
 
     $(function (){
         $('.btnSendReply').click(function (){

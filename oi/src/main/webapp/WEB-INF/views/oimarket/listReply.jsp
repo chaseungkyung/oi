@@ -27,7 +27,7 @@
             <td width="50%" align="right" class="align-middle"><span>${vo.reg_date}</span>
                 |
                 <c:choose>
-                    <c:when test="${vo.userId== sessionScope.member.userId || sessionScope.member.userLevel >= 51}">
+                    <c:when test="${vo.userId== sessionScope.member.userId || sessionScope.member.userLevel == 100}">
 						<span class="deleteReply" data-replyNum="${vo.gcNum}"
                               data-pageNo="${pageNo}">삭제</span>
                     </c:when>

@@ -423,10 +423,211 @@ return dto;
         }
        return list;
    }
+    public  List<ReplyDTO> listReplyAnswer(long parentNum){
+        List<ReplyDTO> list = new ArrayList<ReplyDTO>();
+        PreparedStatement pstmt = null;
+        ResultSet rs =null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            sb.append("  SELECT  GCNUM,GOODSLISTNUM,r.MEMBERID,NICKNAME,GCCOMCON,GCINSERTNUM,GCPARCOMNUM   ");
+            sb.append("  FROM GOODSCOMMENT r ");
+            sb.append(" JOIN MEMBER m ON r.MEMBERID = m.MEMBERID ");
+            sb.append("  WHERE GCPARCOMNUM=? AND GCBLIND =0 ORDER BY GCNUM DESC ");
+
+            pstmt = conn.prepareStatement(sb.toString());
+            pstmt.setLong(1,parentNum);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                ReplyDTO dto = new ReplyDTO();
+
+                dto.setGcNum(rs.getLong("GCNUM"));
+                dto.setUserId(rs.getString("memberId"));
+                dto.setUserName(rs.getString("NICKNAME"));
+                dto.setNum(rs.getLong("GOODSLISTNUM"));
+                dto.setContent(rs.getString("GCCOMCON"));
+                dto.setReg_date(rs.getString("GCINSERTNUM"));
+                dto.setParentNum(rs.getLong("GCPARCOMNUM"));
+                list.add(dto);
+            }
 
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(rs);
+            DBUtil.close(pstmt);
+        }
+        return list;
+    }
+
+    public int dataCountReplyAnswer(long parentNum){
+        int result = 0;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql;
+
+        try {
+        sql = "SELECT COUNT(*) FROM GOODSCOMMENT WHERE GCPARCOMNUM=? AND GCBLIND =0";
+        pstmt =conn.prepareStatement(sql);
+        pstmt.setLong(1, parentNum);
+        rs = pstmt.executeQuery();
 
 
+        if (rs.next()) result = rs.getInt(1);
+
+        }catch (Exception e){
+            e.printStackTrace();
+           }finally {
+            DBUtil.close(rs);
+            DBUtil.close(pstmt);
+
+        }
+        return  result;
+    }
+    public ReplyDTO findByReplyId(long replyNum){
+        ReplyDTO dto = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql;
+        try {
+            sql = "SELECT GCNUM,GOODSLISTNUM, r.MEMBERID,NICKNAME,GCCOMCON,r.GCINSERTNUM,GCBLIND FROM GOODSCOMMENT r " +
+                    "JOIN MEMBER m ON r.MEMBERID=m.MEMBERID WHERE GCNUM=? ";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1,replyNum);
+            rs=pstmt.executeQuery();
+            if(rs.next()) {
+                dto = new ReplyDTO();
+
+                System.out.println("2");
+                dto.setGcNum(rs.getLong("GCNUM"));
+                dto.setNum(rs.getLong("GOODSLISTNUM"));
+                dto.setUserId(rs.getString("MEMBERID"));
+                dto.setUserName(rs.getString("NICKNAME"));
+                dto.setContent(rs.getString("GCCOMCON"));
+                dto.setReg_date(rs.getString("reg_date"));
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(rs);
+            DBUtil.close(pstmt);
+        }
+        return dto;
+    }
+
+   //게시글의 댓글 삭제
+    public void deleteReply(long replyNum,String userId,int userLevel)throws SQLException{
+        PreparedStatement pstmt = null;
+        String sql;
+        if (userLevel <51){
+            ReplyDTO dto = findByReplyId(replyNum);
+            if (dto==null||(! userId.equals(dto.getUserId()))){
+                return;
+            }
+        }
+
+        try {
+            sql=" DELETE FROM GOODSCOMMENT WHERE GCNUM IN (SELECT GCNUM FROM GOODSCOMMENT START WITH GCNUM=? CONNECT BY  Prior GCNUM=GCPARCOMNUM) ";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1,replyNum);
+            pstmt.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            DBUtil.close(pstmt);
+        }
+
+    }
+
+    public void insertgoodsLike(long num,String userId)throws SQLException{
+        PreparedStatement pstmt = null;
+        String sql;
+        try {
+            sql = "INSERT INTO LIKEPOST(LIKEPOSTNUM,MEMBERID,POSTCATENUM,Listnum) values (SEQ_LIKEPOST.nextval,?,20,?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1,userId);
+
+            pstmt.setLong(2,num);
+
+            pstmt.executeUpdate();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+
+        }finally {
+            DBUtil.close(pstmt);
+        }
+    }
+    public void deletegoodsLike(long num, String userId) throws SQLException {
+        PreparedStatement pstmt = null;
+        String sql;
+
+        try {
+            sql = "DELETE FROM LIKEPOST WHERE Listnum = ? AND MEMBERID = ?";
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setLong(1, num);
+            pstmt.setString(2, userId);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            DBUtil.close(pstmt);
+        }
+    }
+
+    public int countgoodsLike(long num) {
+        int result = 0;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql;
+
+        try {
+            sql = "SELECT count(*)cnt FROM LIKEPOST WHERE LIKEPOSTNUM = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, num);
+
+            rs = pstmt.executeQuery();
+
+            if(rs.next()) result = rs.getInt("cnt");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(rs);
+            DBUtil.close(pstmt);
+        }
+        return result ;
+    }
+    //로그인 유저의 게시글 좋아요 유무
+    public  boolean isUsergoodsLike(long num,String userId){
+        boolean result = false;
+        PreparedStatement pstmt=null;
+        ResultSet rs = null;
+        String sql;
+        try {
+            sql = "SELECT LIKEPOSTNUM,MEMBERID FROM LIKEPOST WHERE LIKEPOSTNUM=? AND MEMBERID=?";
+                    pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1,num);
+            pstmt.setString(2,userId);
+            rs=pstmt.executeQuery();
+            if (rs.next()) result = true;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(rs);
+            DBUtil.close(pstmt);
+        }
+        return result;
+    }
 
 
 
