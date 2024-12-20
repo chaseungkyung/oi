@@ -125,7 +125,7 @@
                 <p class="text-danger fs-4 fw-bold"><fmt:formatNumber value="${dto.goodsPrice}" type="number" groupingUsed="true" />원</p>
                 <p class="text-muted">작성자:${dto.memberId}</p>
                 <p class="mt-3">${dto.goodsExp}</p>
-                <i id="heartIcon" class="bi bi-suit-heart heart-icon fs-4 me-3" onclick="toggleHeart()"></i>
+              
 <%--                <i class="bi bi-suit-heart-fill heart-icon fs-4 me-3"></i>--%>
                 <button type="button"
                         class="btn btn-outline-primary btnSendBoardLike" title="좋아요">

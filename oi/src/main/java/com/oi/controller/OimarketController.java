@@ -118,7 +118,7 @@ public class OimarketController {
             int dataCount = dao.dataCount();
 
             // 전체페이지수
-            int size = 12;
+            int size = 15;
             int total_page = util.pageCount(dataCount, size);
             if (current_page > total_page) {
                 current_page = total_page;
