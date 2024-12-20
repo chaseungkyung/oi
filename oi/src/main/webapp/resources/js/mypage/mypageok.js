@@ -2,9 +2,9 @@ $(document).ready(function () {
   // 비밀번호 검증 (최소 8자, 대소문자, 숫자, 특수문자 포함)
   function validatePassword() {
     const password = $('#userPwd').val().trim();
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!passwordPattern.test(password)) {
-      showError('#userPwd', '비밀번호는 대소문자, 숫자, 특수문자를 포함해 8자 이상이어야 합니다.');
+      showError('#userPwd', '비밀번호는 대소문자, 숫자를 포함해 8자 이상이어야 합니다.');
       return false;
     } else {
       hideError('#userPwd');

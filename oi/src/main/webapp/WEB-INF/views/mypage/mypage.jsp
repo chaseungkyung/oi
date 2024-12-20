@@ -90,7 +90,7 @@
                             <div class="personal-address mb-3">
                                 <label for="address" class="form-label">주소</label> 
                                 <input type="text" id="address" name="address" class="form-control"
-                                    value="이태원2동 221-1 3층">
+                                    value="${memberDetails.address}">
                                 <button class="btn btn-primary btn-zipcode mt-2" type="button"
                                     onclick="daumPostcode();">우편번호 검색</button>
                             </div>
