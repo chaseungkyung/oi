@@ -31,6 +31,9 @@
 		src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=7vmwl6ghhv&submodules=geocoder"></script>
 	<script type="text/javascript">
 	function ajaxFun(url, method, formData, dataType, fn, file=false) {
+		$('.info').hide();
+		$('.info').show();
+		
 		const sentinelNode = document.querySelector('.sentinel');
 		
 		const settings = {
