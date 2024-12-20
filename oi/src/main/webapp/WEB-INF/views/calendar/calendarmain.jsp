@@ -44,8 +44,8 @@
 				</a>
 			</div>
 			<div class="title">
-				<a href="recordmeal.jsp?year=${year}&month=${month-1}">&lt;</a> <label>${year}년
-					${month}월</label> <a href="recordmeal.jsp?year=${year}&month=${month+1}">&gt;</a>
+				<a href="${pageContext.request.contextPath}/calendar/calendarmain?year=${year}&month=${month-1}">&lt;</a> <label>${year}년
+					${month}월</label> <a href="${pageContext.request.contextPath}/calendar/calendarmain?year=${year}&month=${month+1}">&gt;</a>
 			</div>
 			<br><br>
 			<table class="ctable1">
