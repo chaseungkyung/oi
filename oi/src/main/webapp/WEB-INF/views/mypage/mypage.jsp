@@ -125,7 +125,7 @@
 						    <label class="form-label">성별</label>
 						    <div class="d-inline-flex align-items-center gap-3">
 						        <div class="form-check ms-3">
-						            <input class="form-check-input" type="radio" id="male" name="gender" value="M" 
+						            <input class="form-check-input" type="radio" id="male" name="gender" value="M"
 						                ${bodyRecord.gender == 'M' ? 'checked' : ''}>
 						            <label class="form-check-label" for="male">남성</label>
 						        </div>

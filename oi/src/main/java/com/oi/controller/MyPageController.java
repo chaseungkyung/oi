@@ -175,10 +175,13 @@ public class MyPageController {
         }
         
         int pageCount = util.pageCount(dataCount, size);
+        if (pageCount == 0) {
+            pageCount = 1;
+        }
+
         if(currentPage > pageCount) {
         	currentPage = pageCount;
         }
-        
         
         int offset = (currentPage - 1) * size;
 
