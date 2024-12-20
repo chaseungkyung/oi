@@ -216,7 +216,7 @@ public class MyPageController {
 
         String memberId = login.getUserId();
         
-        int dataCount = myPageDAO.getMyPageListCount(memberId);
+        int dataCount = myPageDAO.getMyGoodsCount(memberId);
         
         int currentPage = 1;
         int size = 10; // 한 페이지에 보여줄 항목 수
@@ -238,16 +238,13 @@ public class MyPageController {
         int offset = (currentPage - 1) * size;
         
         List<MyPageGoodsDTO> myGoodsList = myPageDAO.getMyGoodsList(memberId, offset, size);
-        
-        Map<String, List<MyPageGoodsDTO>> goodsListMap = new HashMap<>();
-        goodsListMap.put("myGoodsList", myGoodsList);
-        
-        // 페이징
+         // 페이징
         String paging = util.paging(currentPage, pageCount, req.getContextPath() + "/mypage/mygoods");
         
         ModelAndView mav = new ModelAndView("mypage/mygoods");
         mav.addObject("myGoodsList", myGoodsList);
         mav.addObject("pageCount", pageCount);
+        mav.addObject("dataCount", dataCount);
         mav.addObject("size", size);
         mav.addObject("paging", paging); // 페이징 객체 추가
 
