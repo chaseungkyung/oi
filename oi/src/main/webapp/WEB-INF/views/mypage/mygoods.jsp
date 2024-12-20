@@ -39,25 +39,29 @@
         </nav>
         
         <!-- 메인 필드 -->
-<main>
+<main class="col-md-9">
     <h2 class="mb-4">나의 중고 게시글</h2>
-	<c:set var="currentPage" value="${empty param.page ? 1 : param.page}" />
+    <c:set var="currentPage" value="${empty param.page ? 1 : param.page}" />
     <table border="1" class="table">
         <thead>
             <tr>
                 <th>글 번호</th>
                 <th>상품 이름</th>
                 <th>가격</th>
+                <th>카테고리</th>
+                <th>게시판 분류</th>
                 <th>작성 날짜</th>
                 <th>상세 보기</th>
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="goods" items="${myGoodsList}">
+            <c:forEach var="goods" items="${goodsListMap.myGoodsList}">
                 <tr>
                     <td>${goods.goodsListNum}</td>
                     <td>${goods.goodsName}</td>
                     <td><fmt:formatNumber value="${goods.goodsPrice}" type="number" />원</td>
+                    <td>${goods.categoryName}</td>
+                    <td>${goods.postCateName}</td>
                     <td>${goods.goodsDate}</td>
                     <td>
                         <a href="${pageContext.request.contextPath}/marketplace/article?goodsListNum=${goods.goodsListNum}"
@@ -67,20 +71,20 @@
                     </td>
                 </tr>
             </c:forEach>
-            <c:if test="${empty myGoodsList}">
+            <c:if test="${empty goodsListMap.myGoodsList}">
                 <tr>
-                    <td colspan="5" class="text-center">작성한 중고거래 게시물이 없습니다.</td>
+                    <td colspan="7" class="text-center">작성한 중고거래 게시물이 없습니다.</td>
                 </tr>
             </c:if>
         </tbody>
     </table>
 
-    			<!-- 페이징 처리 부분 -->
- 				<div class="page-navigation mt-4">
-                    <c:if test="${dataCount != 0}">${paging}</c:if>
-                    <c:if test="${dataCount == 0}"><p>페이지 정보가 없습니다.</p></c:if>
-                </div>
-		</main>
+    <!-- 페이징 처리 부분 -->
+    <div class="page-navigation mt-4">
+        <c:if test="${dataCount != 0}">${paging}</c:if>
+        <c:if test="${dataCount == 0}"><p>페이지 정보가 없습니다.</p></c:if>
+    </div>
+</main>
 	</div>
  	
  	<footer><jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include></footer>

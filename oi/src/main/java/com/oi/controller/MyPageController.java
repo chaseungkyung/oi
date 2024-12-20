@@ -186,7 +186,6 @@ public class MyPageController {
         int offset = (currentPage - 1) * size;
 
         // 페이징된 데이터 가져오기
-        List<MyPageCommentDTO> wotdComments = myPageDAO.getWotdComments(memberId, offset, size);
         List<MyPageCommentDTO> goodsComments = myPageDAO.getGoodsComments(memberId, offset, size);
         
         // 페이징
@@ -194,7 +193,6 @@ public class MyPageController {
 
         // Map에 댓글 목록 저장
         Map<String, List<MyPageCommentDTO>> commentMap = new HashMap<>();
-        commentMap.put("wotdComments", wotdComments);
         commentMap.put("goodsComments", goodsComments);
 
         // ModelAndView에 데이터와 뷰 이름 설정
@@ -228,6 +226,11 @@ public class MyPageController {
         }
         
         int pageCount = util.pageCount(dataCount, size);
+    
+        if (pageCount == 0) {
+            pageCount = 1;
+        }
+        
         if(currentPage > pageCount) {
         	currentPage = pageCount;
         }
@@ -275,6 +278,11 @@ public class MyPageController {
         }
         
         int pageCount = util.pageCount(dataCount, size);
+        
+        if (pageCount == 0) {
+            pageCount = 1;
+        }
+        
         if(currentPage > pageCount) {
         	currentPage = pageCount;
         }

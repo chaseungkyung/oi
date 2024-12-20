@@ -7,6 +7,8 @@ public class MyPageGoodsDTO {
     private String goodsExp;
     private String goodsDate;
     private String goodsMemberId;
+    private String categoryName;
+    private String postCateName;
    
     private int gcNum;              // 댓글 번호
     private String commentMemberId; // 댓글 작성자 ID
@@ -92,5 +94,21 @@ public class MyPageGoodsDTO {
 
 	public void setGoodsMemberId(String goodsMemberId) {
 		this.goodsMemberId = goodsMemberId;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getPostCateName() {
+		return postCateName;
+	}
+
+	public void setPostCateName(String postCateName) {
+		this.postCateName = postCateName;
 	}
 }
