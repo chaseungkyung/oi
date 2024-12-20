@@ -72,6 +72,8 @@ public class LoginFilter implements Filter {
 			"/index.jsp","/access/logout",
 			"/uploads/photo/**",
 			"/resources/**",
+			"/notice/list", "/notice/article",
+			"/faq/**",
 			"/QnA/main",
 			"/findGymController/**",
 			"/access/register",

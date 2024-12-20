@@ -45,7 +45,7 @@ public class FaqManageController {
 	@RequestMapping(value = "/admin/faq/list", method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ModelAndView mav = new ModelAndView("admin/faq/list");
-		
+		//oi/admin/faq/list
 		MyUtil util = new MyUtilBootstrap();
 		FaqDAO dao = new FaqDAO();
 		
@@ -59,7 +59,6 @@ public class FaqManageController {
 			if(pageNo != null) {
 				current_page = Integer.parseInt(pageNo);
 			}
-			
 			long faqCateNum = 0;
 			String strFaqCateNum = req.getParameter("faqCateNum");
 			if(strFaqCateNum != null) {
@@ -103,10 +102,10 @@ public class FaqManageController {
 				dto.setFaqContent(dto.getFaqContent().replaceAll("\n", "<br>"));
 			}
 			
-			String paging = util.paging(current_page, total_page, "listPage");
+			String paging = util.pagingMethod(current_page, total_page, "listPage");
 	
 			mav.addObject("list", list);
-			mav.addObject("current_page", current_page);
+			mav.addObject("pageNo", current_page);
 			mav.addObject("dataCount", dataCount);
 			mav.addObject("total_page", total_page);
 			mav.addObject("paging", paging);
