@@ -42,7 +42,7 @@
            <main class="col-md-9">
                 <h2 class="mb-4">찜한 중고거래 게시물 목록</h2>
 				<c:set var="currentPage" value="${empty param.page ? 1 : param.page}" />
-                <c:forEach var="goods" items="${boardLikeMap.likedGoods}">
+                <c:forEach var="goods" items="${boardLikeMap}">
                     <div class="border p-3 mb-3 rounded">
                         <a href="${pageContext.request.contextPath}/marketplace/article?goodsListNum=${goods.goodsListNum}" 
                            class="text-decoration-none fw-bold fs-5">${goods.goodsName}</a>
@@ -50,7 +50,7 @@
                     </div>
                 </c:forEach>
 
-                <c:if test="${empty boardLikeMap.likedGoods}">
+                <c:if test="${empty boardLikeMap}">
                     <p class="text-center text-muted">찜한 게시물이 없습니다.</p>
                 </c:if>
 

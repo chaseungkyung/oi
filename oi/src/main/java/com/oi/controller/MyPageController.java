@@ -238,7 +238,8 @@ public class MyPageController {
         int offset = (currentPage - 1) * size;
         
         List<MyPageGoodsDTO> myGoodsList = myPageDAO.getMyGoodsList(memberId, offset, size);
-         // 페이징
+
+        // 페이징
         String paging = util.paging(currentPage, pageCount, req.getContextPath() + "/mypage/mygoods");
         
         ModelAndView mav = new ModelAndView("mypage/mygoods");
@@ -292,13 +293,9 @@ public class MyPageController {
         // 페이징
         String paging = util.paging(currentPage, pageCount, req.getContextPath() + "/mypage/boardlike");
         
-        // Map에 찜한 게시물 목록 저장
-        Map<String, List<MyPageGoodsDTO>> boardLikeMap = new HashMap<>();
-        boardLikeMap.put("likedGoods", likedGoods);
-
         // ModelAndView에 데이터와 뷰 이름 설정
         ModelAndView mav = new ModelAndView("mypage/boardlike");
-        mav.addObject("boardLikeMap", boardLikeMap);
+        mav.addObject("boardLikeMap", likedGoods);
         mav.addObject("pageCount", pageCount);
         mav.addObject("size", size);
         mav.addObject("paging", paging); // 페이징 객체 추가
