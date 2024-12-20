@@ -141,12 +141,15 @@ $(function() {
 		let spec = 'http://apis.data.go.kr/1390802/AgriFood/MzenFoodCode/getKoreanFoodList';
 		let key = '7aZjzRKyMraXhRyx91Pdw%2Fgec2y9eFWM8gPnrUVz5jg706DLS3hAESkz4xFMXyLLA%2BSA%2FM0aD1yQyVDsQ0ZbkQ%3D%3D';
 		let Page_No = 1;
-		let Page_Size = 5;
+		let Page_Size = 10;
+		let food_Group_Code = 10;
+
 
 		let qs = "serviceKey=" + encodeURIComponent(key);
 		qs += "&Page_No=" + Page_No;
 		qs += "&Page_Size=" + Page_Size;
 		//		qs += "&keyword=" + encodeURIComponent(keyword);
+		qs += "&food_Group_Code=" + food_Group_Code;
 		qs += "&food_Name=" + food_Name;
 
 		const fn = function(data) {

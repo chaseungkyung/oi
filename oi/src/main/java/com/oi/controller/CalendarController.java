@@ -20,7 +20,7 @@ public class CalendarController {
 			
 		// 메인에 달력 띄우기
 		ModelAndView mav = new ModelAndView("calendar/calendarmain");
-			
+	
 		try {
 			Calendar cal = Calendar.getInstance();
 			int ty = cal.get(Calendar.YEAR);
@@ -53,6 +53,8 @@ public class CalendarController {
 			Calendar preCal = (Calendar) cal.clone();
 			preCal.add(Calendar.DATE, -(week - 1));
 			int preDate = preCal.get(Calendar.DATE);
+			
+			
 
 			mav.addObject("ty", ty);
 			mav.addObject("tm", tm);
