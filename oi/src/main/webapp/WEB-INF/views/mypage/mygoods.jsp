@@ -55,7 +55,7 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="goods" items="${goodsListMap.myGoodsList}">
+            <c:forEach var="goods" items="${myGoodsList}">
                 <tr>
                     <td>${goods.goodsListNum}</td>
                     <td>${goods.goodsName}</td>
@@ -71,7 +71,7 @@
                     </td>
                 </tr>
             </c:forEach>
-            <c:if test="${empty goodsListMap.myGoodsList}">
+            <c:if test="${empty myGoodsList}">
                 <tr>
                     <td colspan="7" class="text-center">작성한 중고거래 게시물이 없습니다.</td>
                 </tr>
